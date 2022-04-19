@@ -6,4 +6,8 @@ public class ServerRunner {
 
     }
 
+    public boolean testCasePassingTest() {
+        return true;
+    }
+
 }
