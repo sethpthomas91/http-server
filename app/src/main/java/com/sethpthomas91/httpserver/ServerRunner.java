@@ -7,7 +7,10 @@ public class ServerRunner {
     ServerSocketWrapperInterface serverSocketWrapper = null;
 
     public static void main(String[] args) throws IOException {
+        int newPort = 5100;
+        ServerSocketWrapper serverSocketWrapper = new ServerSocketWrapper(newPort);
         ServerRunner serverRunner = new ServerRunner();
+        serverRunner.setServerSocketWrapper(serverSocketWrapper);
         serverRunner.startServer();
     }
 
@@ -20,7 +23,12 @@ public class ServerRunner {
     }
 
     public void startServer() throws IOException {
-        serverSocketWrapper.createServerSocket(this.port);
+        try {
+            serverSocketWrapper.listen();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(String.format("[Server at port: %s encountered an error]",this.port));
+        }
     }
 
     public void setServerSocketWrapper(ServerSocketWrapperInterface injectedServerSocketWrapper) {

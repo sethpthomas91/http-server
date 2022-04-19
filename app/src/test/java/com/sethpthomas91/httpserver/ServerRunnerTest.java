@@ -25,10 +25,28 @@ public class ServerRunnerTest {
     @Test
     public void testsRunServerStartStartsSocketInsideServerSocketWrapper() throws IOException {
         ServerRunner serverRunner = new ServerRunner();
-        MockServerSocket mockServerSocketWrapper = new MockServerSocket();
+        MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
         serverRunner.startServer();
         Assert.assertTrue(mockServerSocketWrapper.createSocketWasCalled());
+    }
+
+    @Test
+    public void testsRunServerStartStartsSocketReaderInsideServerSocketWrapper() throws IOException {
+        ServerRunner serverRunner = new ServerRunner();
+        MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
+        serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
+        serverRunner.startServer();
+        Assert.assertTrue(mockServerSocketWrapper.createReaderWasCalled());
+    }
+
+    @Test
+    public void testsRunServerStartStartsSocketWriterInsideServerSocketWrapper() throws IOException {
+        ServerRunner serverRunner = new ServerRunner();
+        MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
+        serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
+        serverRunner.startServer();
+        Assert.assertTrue(mockServerSocketWrapper.createWriterWasCalled());
     }
 
 
