@@ -12,4 +12,5 @@ public class ServerRunnerTest {
         ServerRunner newServer = new ServerRunner();
         Assert.assertTrue(newServer.testCasePassingTest());
     }
+
 }
