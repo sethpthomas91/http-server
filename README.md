@@ -32,25 +32,22 @@ Place instructions here on how to get the project running locally.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
-1Clone the repo
+1 Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+git clone git@github.com:sethpthomas91/http-server.git
    ```
-2Install NPM packages
+
+2 Build the project with gradle
    ```sh
-   npm install
+./gradlew build   
    ```
-3Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+
+3 Run the server
+```sh
+Place running instructions here
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -59,7 +56,7 @@ This is an example of how to list things you need to use the software and how to
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
+Place example usage here
 
 
 
