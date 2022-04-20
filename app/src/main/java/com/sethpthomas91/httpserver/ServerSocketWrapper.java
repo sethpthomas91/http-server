@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.Format;
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     ServerSocket serverSocket = null;
@@ -13,10 +14,10 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     BufferedReader clientReader = null;
     PrintWriter clientWriter = null;
     boolean isListening = false;
-    int port = 0;
+    int port;
 
     public ServerSocketWrapper(int newPort){
-        port = newPort;
+        this.port = newPort;
     }
 
     private void createWriter() throws IOException {
@@ -32,6 +33,7 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     private void createClientSocket() {
         try {
             clientSocket = serverSocket.accept();
+            System.out.println("[Connected to Client]");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("[Failed to Create Client]");
@@ -52,8 +54,23 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
             createClientSocket();
             createReader();
             createWriter();
+            displayIncomingMessage();
         }
+    }
 
+    public void disconnect() throws IOException {
+        System.out.println(String.format("[Client Socket at %s Disconnected]", clientSocket.getPort()));
+        clientSocket.close();
+    }
 
+    public void displayIncomingMessage() throws IOException {
+        System.out.println(clientReader.readLine());
+        sendHardCodedMessage();
+        disconnect();
+    }
+    public void sendHardCodedMessage() {
+        String CRLF = "\r\n";
+        String newMessage = "HTTP/1.1 200 OK" + CRLF;
+        clientWriter.println(newMessage);
     }
 }

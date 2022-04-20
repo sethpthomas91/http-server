@@ -3,15 +3,22 @@ package com.sethpthomas91.httpserver;
 import java.io.IOException;
 
 public class ServerRunner {
-    int port = 5000;
+    int port;
     ServerSocketWrapperInterface serverSocketWrapper = null;
 
     public static void main(String[] args) throws IOException {
-        int newPort = 5100;
-        ServerSocketWrapper serverSocketWrapper = new ServerSocketWrapper(newPort);
         ServerRunner serverRunner = new ServerRunner();
+        ServerSocketWrapper serverSocketWrapper = new ServerSocketWrapper(serverRunner.getPort());
         serverRunner.setServerSocketWrapper(serverSocketWrapper);
         serverRunner.startServer();
+    }
+
+    public ServerRunner() {
+        this(5000);
+    }
+
+    ServerRunner(int newPort) {
+        this.port = newPort;
     }
 
     public int getPort() {
