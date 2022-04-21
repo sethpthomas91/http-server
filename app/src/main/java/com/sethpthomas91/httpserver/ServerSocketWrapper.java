@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.Format;
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     ServerSocket serverSocket = null;
@@ -18,6 +17,10 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
 
     public ServerSocketWrapper(int newPort){
         this.port = newPort;
+    }
+
+    public int getPort(){
+        return port;
     }
 
     private void createWriter() throws IOException {
@@ -58,17 +61,17 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
         }
     }
 
-    public void disconnect() throws IOException {
+    private void disconnect() throws IOException {
         System.out.println(String.format("[Client Socket at %s Disconnected]", clientSocket.getPort()));
         clientSocket.close();
     }
 
-    public void displayIncomingMessage() throws IOException {
+    private void displayIncomingMessage() throws IOException {
         System.out.println(clientReader.readLine());
         sendHardCodedMessage();
         disconnect();
     }
-    public void sendHardCodedMessage() {
+    private void sendHardCodedMessage() {
         String CRLF = "\r\n";
         String newMessage = "HTTP/1.1 200 OK" + CRLF;
         clientWriter.println(newMessage);
