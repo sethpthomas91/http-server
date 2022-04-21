@@ -1,9 +1,13 @@
 package com.sethpthomas91.httpserver;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class ServerLogic implements ServerLogicInterface{
     String httpResponse;
     String statusLine;
-    String statusCode = "200";
+    String statusCode;
     String reasonPhrase = "OK";
 //    String body;
 
@@ -20,6 +24,7 @@ public class ServerLogic implements ServerLogicInterface{
     public String processString(String request) {
         disassembleRequest(request);
         splitRequestLine(requestLine);
+        processUniformResourceIdentifier();
         assembleStatusLine();
         buildHttpResponse();
         return this.httpResponse;
@@ -45,6 +50,18 @@ public class ServerLogic implements ServerLogicInterface{
 
     private void buildHttpResponse() {
         this.httpResponse = statusLine + CRLF;
+    }
+
+    private void processUniformResourceIdentifier() {
+        Path publicDirFile = Paths.get("public" + uniformResourceIdentifier);
+        System.out.println(publicDirFile);
+
+        if (Files.exists(publicDirFile)) {
+            System.out.println(String.format("File at %s does exist.", publicDirFile));
+            statusCode = "200";
+        }
+
+
     }
 
 }

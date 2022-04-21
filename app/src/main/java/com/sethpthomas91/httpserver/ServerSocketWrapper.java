@@ -14,6 +14,7 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     PrintWriter clientWriter = null;
     boolean isListening = false;
     int port;
+    private String incomingMessage;
 
     public ServerSocketWrapper(int newPort){
         this.port = newPort;
@@ -57,7 +58,9 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
             createClientSocket();
             createReader();
             createWriter();
-            displayIncomingMessage();
+            setIncomingMessage();
+            handleIncomingMessage();
+            disconnect();
         }
     }
 
@@ -66,14 +69,18 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
         clientSocket.close();
     }
 
-    private void displayIncomingMessage() throws IOException {
-        System.out.println(clientReader.readLine());
-        sendHardCodedMessage();
-        disconnect();
+    private void setIncomingMessage() throws IOException {
+        this.incomingMessage = clientReader.readLine();
     }
-    private void sendHardCodedMessage() {
-        String CRLF = "\r\n";
-        String newMessage = "HTTP/1.1 200 OK" + CRLF;
+
+    private void handleIncomingMessage() throws IOException {
+        ServerLogic serverLogic = new ServerLogic();
+        String outgoingMessage = serverLogic.processString(incomingMessage);
+        System.out.println(outgoingMessage);
+        sendMessage(outgoingMessage);
+    }
+
+    private void sendMessage(String newMessage) {
         clientWriter.println(newMessage);
     }
 }
