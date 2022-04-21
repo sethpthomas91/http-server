@@ -3,6 +3,7 @@ package com.sethpthomas91.httpserver;
 import java.io.IOException;
 
 public interface ServerSocketWrapperInterface {
-    public void createServerSocket(int port) throws IOException;
-    public void listen() throws IOException;
+    void createServerSocket(int port) throws IOException;
+    void listen() throws IOException;
+    int getPort();
 }

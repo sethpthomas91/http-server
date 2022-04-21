@@ -27,6 +27,7 @@ public class ServerRunnerTest {
         ServerRunner serverRunner = new ServerRunner();
         MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
+        serverRunner.createServer();
         serverRunner.startServer();
         Assert.assertTrue(mockServerSocketWrapper.createSocketWasCalled());
     }
@@ -36,6 +37,7 @@ public class ServerRunnerTest {
         ServerRunner serverRunner = new ServerRunner();
         MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
+        serverRunner.createServer();
         serverRunner.startServer();
         Assert.assertTrue(mockServerSocketWrapper.createReaderWasCalled());
     }
@@ -45,10 +47,18 @@ public class ServerRunnerTest {
         ServerRunner serverRunner = new ServerRunner();
         MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
+        serverRunner.createServer();
         serverRunner.startServer();
         Assert.assertTrue(mockServerSocketWrapper.createWriterWasCalled());
     }
 
-
+    @Test
+    public void testsServerLogicReturnsCorrectlyFormattedGetResponse() {
+        ServerLogic serverLogic = new ServerLogic();
+        String request = "GET / HTTP/1.1";
+        String expectedResponse = "HTTP/1.1 200 OK\r\n";
+        String actualResponse = serverLogic.processString(request);
+        Assert.assertEquals(expectedResponse, actualResponse);
+    }
 
 }

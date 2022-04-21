@@ -4,12 +4,15 @@ import java.io.IOException;
 
 public class ServerRunner {
     int port;
-    ServerSocketWrapperInterface serverSocketWrapper = null;
+    ServerSocketWrapperInterface serverSocketWrapper;
+    ServerLogicInterface serverLogic;
+    Server server;
 
     public static void main(String[] args) throws IOException {
         ServerRunner serverRunner = new ServerRunner();
         ServerSocketWrapper serverSocketWrapper = new ServerSocketWrapper(serverRunner.getPort());
         serverRunner.setServerSocketWrapper(serverSocketWrapper);
+        serverRunner.createServer();
         serverRunner.startServer();
     }
 
@@ -29,16 +32,19 @@ public class ServerRunner {
         this.port = customPort;
     }
 
-    public void startServer() throws IOException {
-        try {
-            serverSocketWrapper.listen();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(String.format("[Server at port: %s encountered an error]",this.port));
-        }
+    public void createServer() {
+        this.server = new Server(this.serverSocketWrapper, this.serverLogic);
+    }
+
+    public void startServer() {
+        server.start();
     }
 
     public void setServerSocketWrapper(ServerSocketWrapperInterface serverSocketWrapper) {
         this.serverSocketWrapper = serverSocketWrapper;
+    }
+
+    public void setServerLogic(ServerLogicInterface injectedServerLogic) {
+        this.serverLogic = injectedServerLogic;
     }
 }
