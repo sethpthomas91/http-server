@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.http.HttpClient;
 
 import static org.junit.Assert.*;
 
@@ -53,9 +54,18 @@ public class ServerRunnerTest {
     }
 
     @Test
-    public void testsServerLogicReturnsCorrectlyFormattedGetResponse() {
+    public void testsServerLogicHandlesASimpleGetRequest() {
         ServerLogic serverLogic = new ServerLogic();
         String request = "GET / HTTP/1.1";
+        String expectedResponse = "HTTP/1.1 200 OK\r\n";
+        String actualResponse = serverLogic.processString(request);
+        Assert.assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void testsServerLogicHandlesASimpleGetRequestToAvailableResource() {
+        ServerLogic serverLogic = new ServerLogic();
+        String request = "GET /simple_get HTTP/1.1";
         String expectedResponse = "HTTP/1.1 200 OK\r\n";
         String actualResponse = serverLogic.processString(request);
         Assert.assertEquals(expectedResponse, actualResponse);
