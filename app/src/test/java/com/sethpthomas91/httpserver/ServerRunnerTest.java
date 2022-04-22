@@ -56,6 +56,7 @@ public class ServerRunnerTest {
     @Test
     public void testsServerLogicHandlesASimpleGetRequest() {
         ServerLogic serverLogic = new ServerLogic();
+        serverLogic.setToTestingObject();
         String request = "GET / HTTP/1.1";
         String expectedResponse = "HTTP/1.1 200 OK\r\n";
         String actualResponse = serverLogic.processString(request);
@@ -65,6 +66,7 @@ public class ServerRunnerTest {
     @Test
     public void testsServerLogicHandlesASimpleGetRequestToAvailableResource() {
         ServerLogic serverLogic = new ServerLogic();
+        serverLogic.setToTestingObject();
         String request = "GET /simple_get HTTP/1.1";
         String expectedResponse = "HTTP/1.1 200 OK\r\n";
         String actualResponse = serverLogic.processString(request);

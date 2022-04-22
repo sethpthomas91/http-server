@@ -74,6 +74,7 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     }
 
     private void handleIncomingMessage() throws IOException {
+        System.out.println(incomingMessage);
         ServerLogic serverLogic = new ServerLogic();
         String outgoingMessage = serverLogic.processString(incomingMessage);
         System.out.println(outgoingMessage);
