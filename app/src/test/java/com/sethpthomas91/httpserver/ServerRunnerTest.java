@@ -32,7 +32,7 @@ public class ServerRunnerTest {
     }
 
     @Test
-    public void testsRunServerStartStartsSocketReaderInsideServerSocketWrapper() throws IOException {
+    public void testStartServerCreatesReader() throws IOException {
         ServerRunner serverRunner = new ServerRunner();
         MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
