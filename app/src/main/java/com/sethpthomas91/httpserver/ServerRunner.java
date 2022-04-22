@@ -38,7 +38,7 @@ public class ServerRunner {
         }
     }
 
-    public void setServerSocketWrapper(ServerSocketWrapperInterface injectedServerSocketWrapper) {
-        this.serverSocketWrapper = injectedServerSocketWrapper;
+    public void setServerSocketWrapper(ServerSocketWrapperInterface serverSocketWrapper) {
+        this.serverSocketWrapper = serverSocketWrapper;
     }
 }
