@@ -16,7 +16,7 @@ public class ServerRunnerTest {
     }
 
     @Test
-    public void testsRunServerCanAcceptCustomPort() {
+    public void testSetPort() {
         ServerRunner serverRunner = new ServerRunner();
         serverRunner.setPort(5010);
         Assert.assertEquals(5010, serverRunner.getPort());
