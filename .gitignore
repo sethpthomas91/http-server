@@ -206,6 +206,8 @@ $RECYCLE.BIN/
 .gradle
 **/build/
 !src/**/build/
+.idea/gradle.xml
+.idea/uiDesigner.xml
 
 # Ignore Gradle GUI config
 gradle-app.setting

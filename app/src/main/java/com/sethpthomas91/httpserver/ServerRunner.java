@@ -3,10 +3,10 @@ package com.sethpthomas91.httpserver;
 import java.io.IOException;
 
 public class ServerRunner {
-    int port;
-    ServerSocketWrapperInterface serverSocketWrapper;
-    ServerLogicInterface serverLogic;
-    Server server;
+    private int port;
+    private ServerSocketWrapperInterface serverSocketWrapper;
+    private ServerLogicInterface serverLogic;
+    private Server server;
 
     public static void main(String[] args) throws IOException {
         ServerRunner serverRunner = new ServerRunner();

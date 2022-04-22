@@ -73,4 +73,24 @@ public class ServerRunnerTest {
         Assert.assertEquals(expectedResponse, actualResponse);
     }
 
+    @Test
+    public void testsServerLogicHandlesReturns404IfURIDoesNotExist() {
+        ServerLogic serverLogic = new ServerLogic();
+        serverLogic.setToTestingObject();
+        String request = "GET /non_existent_uri HTTP/1.1";
+        String expectedResponse = "HTTP/1.1 404 Resource not found\r\n";
+        String actualResponse = serverLogic.processString(request);
+        Assert.assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void testsServerLogicHandlesGetRequestForHeadersAtMethodOptions1() {
+        ServerLogic serverLogic = new ServerLogic();
+        serverLogic.setToTestingObject();
+        String request = "GET /method_options HTTP/1.1";
+        String expectedResponse = "HTTP/1.1 200 OK\r\n";
+        String actualResponse = serverLogic.processString(request);
+        Assert.assertEquals(expectedResponse, actualResponse);
+    }
+
 }
