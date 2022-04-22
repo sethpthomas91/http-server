@@ -54,7 +54,8 @@ public class ServerLogic implements ServerLogicInterface{
     }
 
     private void buildHttpResponse() {
-        this.httpResponse = statusLine + CRLF + responseHeaders + CRLF;
+        this.httpResponse = statusLine + CRLF;
+//              + responseHeaders + CRLF;
     }
 
     public void setToTestingObject() {
@@ -71,9 +72,9 @@ public class ServerLogic implements ServerLogicInterface{
             System.out.println(String.format("File at %s does exist.", publicDirFile));
             statusCode = "200";
             reasonPhrase = "OK";
-            if (uniformResourceIdentifier.equals("/method_options")) {
-                this.responseHeaders = "Allowed Headers : GET, HEAD, OPTIONS";
-            }
+//            if (uniformResourceIdentifier.equals("/method_options")) {
+//                this.responseHeaders = "Allowed Headers : GET, HEAD, OPTIONS";
+//            }
         }
     }
 
