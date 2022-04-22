@@ -7,8 +7,9 @@ import java.nio.file.Paths;
 public class ServerLogic implements ServerLogicInterface{
     String httpResponse;
     String statusLine;
-    String statusCode;
-    String reasonPhrase = "OK";
+    String statusCode = "404";
+    String reasonPhrase = "Resource not found";
+    boolean testing = false;
 //    String body;
 
     String CRLF = "\r\n";
@@ -23,7 +24,11 @@ public class ServerLogic implements ServerLogicInterface{
 
     public String processString(String request) {
         disassembleRequest(request);
+        System.out.println(requestLine);
         splitRequestLine(requestLine);
+        System.out.println(typeOfRequest);
+        System.out.println(uniformResourceIdentifier);
+        System.out.println(httpVersion);
         processUniformResourceIdentifier();
         assembleStatusLine();
         buildHttpResponse();
@@ -52,13 +57,20 @@ public class ServerLogic implements ServerLogicInterface{
         this.httpResponse = statusLine + CRLF;
     }
 
-    private void processUniformResourceIdentifier() {
-        Path publicDirFile = Paths.get("public" + uniformResourceIdentifier);
-        System.out.println(publicDirFile);
+    public void setToTestingObject() {
+        testing = true;
+    }
 
+    private void processUniformResourceIdentifier() {
+        String publicDirectory = testing ? "Public" : "app/Public";
+        Path publicDirFile = Paths.get(publicDirectory + uniformResourceIdentifier);
+        System.out.println(String.format("PATH: [%s] equals [%s] ?", publicDirFile, uniformResourceIdentifier));
+        System.out.println(Files.exists(publicDirFile));
+        System.out.println(publicDirFile.toAbsolutePath());
         if (Files.exists(publicDirFile)) {
             System.out.println(String.format("File at %s does exist.", publicDirFile));
             statusCode = "200";
+            reasonPhrase = "OK";
         }
 
 
