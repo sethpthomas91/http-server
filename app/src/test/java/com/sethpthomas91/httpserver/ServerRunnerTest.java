@@ -23,7 +23,7 @@ public class ServerRunnerTest {
     }
 
     @Test
-    public void testsRunServerStartStartsSocketInsideServerSocketWrapper() throws IOException {
+    public void testStartServerCreatesSocket() throws IOException {
         ServerRunner serverRunner = new ServerRunner();
         MockServerSocket mockServerSocketWrapper = new MockServerSocket(5050);
         serverRunner.setServerSocketWrapper(mockServerSocketWrapper);
