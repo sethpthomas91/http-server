@@ -64,6 +64,8 @@ public class ServerLogic implements ServerLogicInterface{
 
     private void processUniformResourceIdentifier() {
         String publicDirectory = testing ? "Public" : "app/Public";
+//        way to look from root
+
         Path publicDirFile = Paths.get(publicDirectory + uniformResourceIdentifier);
         System.out.println(String.format("PATH: [%s] equals [%s] ?", publicDirFile, uniformResourceIdentifier));
         System.out.println(Files.exists(publicDirFile));
