@@ -62,6 +62,7 @@ public class ServerRunnerTest {
         String actualResponse = serverLogic.processString(request);
         Assert.assertEquals(expectedResponse, actualResponse);
     }
+<<<<<<< HEAD
 
     @Test
     public void testsServerLogicHandlesASimpleGetRequestToAvailableResource() {
@@ -88,6 +89,14 @@ public class ServerRunnerTest {
         ServerLogic serverLogic = new ServerLogic();
         serverLogic.setToTestingObject();
         String request = "GET /method_options HTTP/1.1";
+=======
+
+    @Test
+    public void testsServerLogicHandlesASimpleGetRequestToAvailableResource() {
+        ServerLogic serverLogic = new ServerLogic();
+        serverLogic.setToTestingObject();
+        String request = "GET /simple_get HTTP/1.1";
+>>>>>>> 0fcd0182064db79ce1d9b5f563a490542222feb7
         String expectedResponse = "HTTP/1.1 200 OK\r\n";
         String actualResponse = serverLogic.processString(request);
         Assert.assertEquals(expectedResponse, actualResponse);

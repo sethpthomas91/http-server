@@ -10,7 +10,11 @@ public class ServerLogic implements ServerLogicInterface{
     String statusCode = "404";
     String reasonPhrase = "Resource not found";
     boolean testing = false;
+<<<<<<< HEAD
     String responseHeaders = "";
+=======
+//    String body;
+>>>>>>> 0fcd0182064db79ce1d9b5f563a490542222feb7
 
     String CRLF = "\r\n";
     String SPACE = " ";
@@ -55,7 +59,10 @@ public class ServerLogic implements ServerLogicInterface{
 
     private void buildHttpResponse() {
         this.httpResponse = statusLine + CRLF;
+<<<<<<< HEAD
 //              + responseHeaders + CRLF;
+=======
+>>>>>>> 0fcd0182064db79ce1d9b5f563a490542222feb7
     }
 
     public void setToTestingObject() {
@@ -64,8 +71,11 @@ public class ServerLogic implements ServerLogicInterface{
 
     private void processUniformResourceIdentifier() {
         String publicDirectory = testing ? "Public" : "app/Public";
+<<<<<<< HEAD
 //        way to look from root
 
+=======
+>>>>>>> 0fcd0182064db79ce1d9b5f563a490542222feb7
         Path publicDirFile = Paths.get(publicDirectory + uniformResourceIdentifier);
         System.out.println(String.format("PATH: [%s] equals [%s] ?", publicDirFile, uniformResourceIdentifier));
         System.out.println(Files.exists(publicDirFile));
@@ -74,10 +84,16 @@ public class ServerLogic implements ServerLogicInterface{
             System.out.println(String.format("File at %s does exist.", publicDirFile));
             statusCode = "200";
             reasonPhrase = "OK";
+<<<<<<< HEAD
 //            if (uniformResourceIdentifier.equals("/method_options")) {
 //                this.responseHeaders = "Allowed Headers : GET, HEAD, OPTIONS";
 //            }
         }
+=======
+        }
+
+
+>>>>>>> 0fcd0182064db79ce1d9b5f563a490542222feb7
     }
 
 }
