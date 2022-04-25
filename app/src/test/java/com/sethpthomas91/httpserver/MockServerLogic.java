@@ -10,4 +10,9 @@ public class MockServerLogic implements ServerLogicInterface{
     public void processIncomingMessage() {
         receivedMessage = true;
     }
+
+    @Override
+    public HttpResponseWrapper processRequest(HttpRequestWrapper httpRequest) {
+        return null;
+    }
 }

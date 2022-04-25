@@ -1,11 +1,10 @@
 package com.sethpthomas91.httpserver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.http.HttpRequest;
+import java.util.stream.Collectors;
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     ServerSocket serverSocket = null;
@@ -13,8 +12,8 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     BufferedReader clientReader = null;
     PrintWriter clientWriter = null;
     boolean isListening = false;
+    boolean connectedToClient = false;
     int port;
-    private String incomingMessage;
 
     public ServerSocketWrapper(int newPort){
         this.port = newPort;
@@ -37,10 +36,11 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     private void createClientSocket() {
         try {
             clientSocket = serverSocket.accept();
+            connectedToClient = true;
             System.out.println("[Connected to Client]");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("[Failed to Create Client]");
+            System.out.println("[Failed to connect to Client]");
         }
     }
 
@@ -52,36 +52,41 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
 
     @Override
     public void listen() throws IOException {
-        isListening = true;
         createServerSocket(this.port);
-        while (isListening) {
-            createClientSocket();
-            createReader();
-            createWriter();
-            setIncomingMessage();
-            handleIncomingMessage();
-            disconnect();
-        }
     }
 
-    private void disconnect() throws IOException {
+    public void handleConnectedClient() throws IOException {
+        createClientSocket();
+        createReader();
+        createWriter();
+    }
+
+    public void disconnectFromClient() throws IOException {
         System.out.println(String.format("[Client Socket at %s Disconnected]", clientSocket.getPort()));
         clientSocket.close();
+        connectedToClient = false;
     }
 
-    private void setIncomingMessage() throws IOException {
-        this.incomingMessage = clientReader.readLine();
+    @Override
+    public boolean isConnectedToClient() {
+        return connectedToClient;
     }
 
-    private void handleIncomingMessage() throws IOException {
-        System.out.println(incomingMessage);
-        ServerLogic serverLogic = new ServerLogic();
-        String outgoingMessage = serverLogic.processString(incomingMessage);
-        System.out.println(outgoingMessage);
-        sendMessage(outgoingMessage);
+    public void disconnectServerSocket() throws IOException {
+        System.out.println("[Shutting down server]");
+        serverSocket.close();
     }
 
-    private void sendMessage(String newMessage) {
+    public String incomingRequest() throws IOException {
+        String incomingRequest = clientReader.readLine();
+        return incomingRequest;
+    }
+
+    public void sendResponse(String newMessage) {
         clientWriter.println(newMessage);
+    }
+
+    public boolean getListeningStatus() {
+        return this.isListening;
     }
 }
