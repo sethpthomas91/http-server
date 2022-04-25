@@ -34,6 +34,26 @@ public class MockServerSocket implements ServerSocketWrapperInterface{
         return port;
     }
 
+    @Override
+    public void disconnect() throws IOException {
+
+    }
+
+    @Override
+    public String incomingRequest() throws IOException {
+        return null;
+    }
+
+    @Override
+    public void sendResponse(String stringifyHttpResponse) {
+
+    }
+
+    @Override
+    public boolean getListeningStatus() {
+        return false;
+    }
+
     private void createWriter() {
         createWriterCalled = true;
     }

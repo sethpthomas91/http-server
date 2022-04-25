@@ -14,7 +14,6 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
     PrintWriter clientWriter = null;
     boolean isListening = false;
     int port;
-    private String incomingMessage;
 
     public ServerSocketWrapper(int newPort){
         this.port = newPort;
@@ -40,7 +39,7 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
             System.out.println("[Connected to Client]");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("[Failed to Create Client]");
+            System.out.println("[Failed to connect to Client]");
         }
     }
 
@@ -52,36 +51,32 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface{
 
     @Override
     public void listen() throws IOException {
-        isListening = true;
+        this.isListening = true;
         createServerSocket(this.port);
-        while (isListening) {
-            createClientSocket();
-            createReader();
-            createWriter();
-            setIncomingMessage();
-            handleIncomingMessage();
+        try {
+                createClientSocket();
+                createReader();
+                createWriter();
+        } catch (IOException error) {
+            this.isListening = false;
             disconnect();
         }
     }
 
-    private void disconnect() throws IOException {
+    public void disconnect() throws IOException {
         System.out.println(String.format("[Client Socket at %s Disconnected]", clientSocket.getPort()));
         clientSocket.close();
     }
 
-    private void setIncomingMessage() throws IOException {
-        this.incomingMessage = clientReader.readLine();
+    public String incomingRequest() throws IOException {
+        return clientReader.readLine();
     }
 
-    private void handleIncomingMessage() throws IOException {
-        System.out.println(incomingMessage);
-        ServerLogic serverLogic = new ServerLogic();
-        String outgoingMessage = serverLogic.processString(incomingMessage);
-        System.out.println(outgoingMessage);
-        sendMessage(outgoingMessage);
-    }
-
-    private void sendMessage(String newMessage) {
+    public void sendResponse(String newMessage) {
         clientWriter.println(newMessage);
+    }
+
+    public boolean getListeningStatus() {
+        return this.isListening;
     }
 }
