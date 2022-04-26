@@ -1,6 +1,9 @@
 package com.sethpthomas91.httpserver;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Server {
     ServerSocketWrapperInterface serverSocketWrapper;
@@ -13,15 +16,25 @@ public class Server {
 
     public void start() throws IOException {
         try {
-           serverSocketWrapper.listen();
-           String incomingRequest = serverSocketWrapper.incomingRequest();
-           HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequest);
-           HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
-           serverSocketWrapper.sendResponse(httpResponse.stringifyHttpResponse());
-        } catch (Exception e) {
-            serverSocketWrapper.disconnect();
-            e.printStackTrace();
-            System.out.println(String.format("[Server at port: %s encountered an error]",serverSocketWrapper.getPort()));
+        serverSocketWrapper.listen();
+        } catch (IOException error) {
+            System.out.println("[Error creating server socket]");
+        }
+
+        while (true) {
+            try {
+
+                serverSocketWrapper.handleConnectedClient();
+                String incomingRequest = serverSocketWrapper.incomingRequest();
+                HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequest);
+                HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
+                String outgoingResponse = httpResponse.stringifyHttpResponse();
+                serverSocketWrapper.sendResponse(outgoingResponse);
+                serverSocketWrapper.disconnectFromClient();
+
+            } catch (Exception error) {
+                error.printStackTrace();
+            }
         }
     }
 }

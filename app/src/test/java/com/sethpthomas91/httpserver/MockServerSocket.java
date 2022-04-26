@@ -35,11 +35,6 @@ public class MockServerSocket implements ServerSocketWrapperInterface{
     }
 
     @Override
-    public void disconnect() throws IOException {
-
-    }
-
-    @Override
     public String incomingRequest() throws IOException {
         return null;
     }
@@ -52,6 +47,16 @@ public class MockServerSocket implements ServerSocketWrapperInterface{
     @Override
     public boolean getListeningStatus() {
         return false;
+    }
+
+    @Override
+    public void disconnectServerSocket() throws IOException {
+
+    }
+
+    @Override
+    public void disconnectFromClient() throws IOException {
+
     }
 
     private void createWriter() {

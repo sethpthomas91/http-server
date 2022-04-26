@@ -35,7 +35,6 @@ public class HttpRequestWrapper {
     }
 
     private void splitRequestLine(String requestLine) {
-        System.out.println(requestLine);
         String[] splitRequestLine = requestLine.split(SPACE);
         this.typeOfRequest = splitRequestLine[0];
         this.uniformResourceIdentifier = splitRequestLine[1];
