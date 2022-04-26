@@ -1,6 +1,10 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.mocks;
 
-public class MockServerLogic implements ServerLogicInterface{
+import com.sethpthomas91.httpserver.HttpRequestWrapper;
+import com.sethpthomas91.httpserver.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
+
+public class MockServerLogic implements ServerLogicInterface {
     boolean receivedMessage = false;
 
     public boolean receivedMessageWasCalled() {

@@ -1,6 +1,8 @@
 package com.sethpthomas91.httpserver;
 
-public class ServerLogic implements ServerLogicInterface{
+import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
+
+public class ServerLogic implements ServerLogicInterface {
     HttpRequestWrapper httpRequest;
     HttpResponseWrapper httpResponse;
 
