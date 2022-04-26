@@ -1,12 +1,12 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.http.HttpRequest;
-import java.util.stream.Collectors;
 
-public class ServerSocketWrapper implements ServerSocketWrapperInterface{
+public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     ServerSocket serverSocket = null;
     Socket clientSocket = null;
     BufferedReader clientReader = null;

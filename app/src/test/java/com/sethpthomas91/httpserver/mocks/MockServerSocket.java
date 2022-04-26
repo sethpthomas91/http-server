@@ -1,21 +1,15 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.mocks;
+
+import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
 
 import java.io.IOException;
 
-public class MockServerSocket implements ServerSocketWrapperInterface{
+public class MockServerSocket implements ServerSocketWrapperInterface {
     boolean createSocketCalled = false;
     boolean createReaderCalled = false;
     boolean createWriterCalled = false;
     int port;
-    String lastMessageReceived;
 
-    public MockServerSocket(int newPort) {
-        port = newPort;
-    }
-
-    public boolean createSocketWasCalled() {
-        return createSocketCalled;
-    }
 
     @Override
     public void createServerSocket(int port) throws IOException {
@@ -59,6 +53,16 @@ public class MockServerSocket implements ServerSocketWrapperInterface{
 
     }
 
+    @Override
+    public boolean isConnectedToClient() {
+        return false;
+    }
+
+    @Override
+    public void handleConnectedClient() throws IOException {
+
+    }
+
     private void createWriter() {
         createWriterCalled = true;
     }
@@ -67,15 +71,4 @@ public class MockServerSocket implements ServerSocketWrapperInterface{
         createReaderCalled = true;
     }
 
-    public boolean createReaderWasCalled() {
-        return createReaderCalled;
-    }
-
-    public boolean createWriterWasCalled() {
-        return createWriterCalled;
-    }
-
-    public void setLastReceivedMessage(String lastMessageReceived) {
-        this.lastMessageReceived = lastMessageReceived;
-    }
 }

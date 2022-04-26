@@ -1,4 +1,4 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.interfaces;
 
 import java.io.IOException;
 import java.io.InputStream;

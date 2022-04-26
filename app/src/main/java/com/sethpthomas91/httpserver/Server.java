@@ -1,9 +1,9 @@
 package com.sethpthomas91.httpserver;
 
-import java.io.BufferedReader;
+import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
+import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Server {
     ServerSocketWrapperInterface serverSocketWrapper;
