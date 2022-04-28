@@ -2,6 +2,7 @@ package com.sethpthomas91.httpserver.mocks;
 
 import com.sethpthomas91.httpserver.HttpRequestWrapper;
 import com.sethpthomas91.httpserver.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 
 public class MockServerLogic implements ServerLogicInterface {
@@ -16,7 +17,7 @@ public class MockServerLogic implements ServerLogicInterface {
     }
 
     @Override
-    public HttpResponseWrapper processRequest(HttpRequestWrapper httpRequest) {
+    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         return null;
     }
 }
