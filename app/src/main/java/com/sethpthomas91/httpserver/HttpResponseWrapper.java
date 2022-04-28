@@ -4,10 +4,15 @@ public class HttpResponseWrapper {
     String CRLF = "\r\n";
     String SPACE = " ";
 
+    String stringHttpResponse;
+
     String statusLine;
     String httpVersion;
     String statusCode;
     String responseText;
+
+    Header header;
+    boolean hasHeaders;
 
     public void setHttpVersion(String httpVersion) {
         this.httpVersion = httpVersion;
@@ -23,7 +28,10 @@ public class HttpResponseWrapper {
 
     public String stringifyHttpResponse() {
         assembleStatusLine();
-        String stringHttpResponse = statusLine;
+        stringHttpResponse = statusLine;
+        if (hasHeaders) {
+            this.stringHttpResponse += header.getHeaders();
+        }
         return stringHttpResponse;
     }
 
@@ -31,4 +39,12 @@ public class HttpResponseWrapper {
         this.statusLine =  httpVersion + SPACE + statusCode + SPACE + responseText + CRLF;
     }
 
+    public void setHeaders(Header header) {
+        hasHeaders = true;
+        this.header = header;
+    }
+
+    public Header getHeaders() {
+        return this.header;
+    }
 }
