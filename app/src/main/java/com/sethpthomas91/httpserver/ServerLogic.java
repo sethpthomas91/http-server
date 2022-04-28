@@ -7,6 +7,9 @@ public class ServerLogic implements ServerLogicInterface {
     HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
 
+    String statusCode200 = "200";
+    String responseText200 = "OK";
+
 
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         this.httpRequest = httpRequest;
@@ -25,10 +28,19 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handleRequestType () {
-        if (this.httpRequest.getTypeOfRequest().equals("GET")) {
-            this.httpResponse.setStatusCode("200");
-            this.httpResponse.setResponseText("OK");
-        } else {
+        String typeOfRequest = httpRequest.getTypeOfRequest();
+        String uniformResourceIdentifier = httpRequest.getUniformResourceIdentifier();
+        if (typeOfRequest.equals("GET")) {
+            this.httpResponse.setStatusCode(statusCode200);
+            this.httpResponse.setResponseText(responseText200);
+        }
+        else if (typeOfRequest.equals("OPTIONS")) {
+            this.httpResponse.setStatusCode(statusCode200);
+            this.httpResponse.setResponseText(responseText200);
+            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+            this.httpResponse.setHeaders(header);
+        }
+        else {
 //            Handle errors here
         }
     }
