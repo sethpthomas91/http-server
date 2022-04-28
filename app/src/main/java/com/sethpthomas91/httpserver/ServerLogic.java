@@ -1,13 +1,14 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 
 public class ServerLogic implements ServerLogicInterface {
-    HttpRequestWrapper httpRequest;
+    HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
 
 
-    public HttpResponseWrapper processRequest(HttpRequestWrapper httpRequest) {
+    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
         setHttpVersion();

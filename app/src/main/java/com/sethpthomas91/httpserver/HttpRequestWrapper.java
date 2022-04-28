@@ -1,9 +1,11 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 
-public class HttpRequestWrapper {
+public class HttpRequestWrapper implements HttpRequestInterface {
     String CRLF = "\r\n";
     String SPACE = " ";
 
