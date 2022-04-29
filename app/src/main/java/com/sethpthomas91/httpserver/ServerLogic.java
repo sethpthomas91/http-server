@@ -3,20 +3,23 @@ package com.sethpthomas91.httpserver;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
 public class ServerLogic implements ServerLogicInterface {
     HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
     StatusLine statusLine;
 
-    String statusCode200 = "200";
-    String responseText200 = "OK";
-
-
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
         this.statusLine = new StatusLine();
-
         setHttpVersion();
         handleRequestType();
         httpResponse.setStatusLine(statusLine);
@@ -34,19 +37,69 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getUniformResourceIdentifier();
-        if (typeOfRequest.equals("GET")) {
-            this.statusLine.setStatusCode(statusCode200);
-            this.statusLine.setResponseText(responseText200);
+        if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
+            if (uniformResourceIdentifier.equals("/head_request")) {
+                set405AndResponse();
+                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                this.httpResponse.setHeaders(header);
+            }
+            else if (uniformResourceIdentifier.equals("/simple_get_with_body")){
+                set200AndOKResponse();
+                Body body = new Body(uniformResourceIdentifier);
+                this.httpResponse.setBody(body);
+                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                this.httpResponse.setHeaders(header);
+            }
+            else if (uniformResourceIdentifier.equals("/redirect")){
+                set301AndResponse();
+                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                this.httpResponse.setHeaders(header);
+            }
+            else {
+                set200AndOKResponse();
+            }
         }
         else if (typeOfRequest.equals("OPTIONS")) {
-            this.statusLine.setStatusCode(statusCode200);
-            this.statusLine.setResponseText(responseText200);
+            set200AndOKResponse();
             Header header = new Header(typeOfRequest, uniformResourceIdentifier);
             this.httpResponse.setHeaders(header);
         }
-        else {
-//            Handle errors here
+        else if (typeOfRequest.equals("HEAD") && checkIfResourceExists(uniformResourceIdentifier)) {
+            set200AndOKResponse();
         }
+        else {
+            set404AndResponse();
+        }
+    }
+
+    private boolean checkIfResourceExists(String uniformResourceIdentifier) {
+        List<String> resourceList = new ArrayList<>();
+        resourceList.add("/");
+        resourceList.add("/simple_get");
+        resourceList.add("/simple_get_with_body");
+        resourceList.add("/head_request");
+        resourceList.add("/redirect");
+        return resourceList.contains(uniformResourceIdentifier);
+    }
+
+    private void set200AndOKResponse() {
+        this.statusLine.setStatusCode("200");
+        this.statusLine.setResponseText("OK");
+    }
+
+    private void set301AndResponse() {
+        this.statusLine.setStatusCode("301");
+        this.statusLine.setResponseText("Moved Permanently");
+    }
+
+    private void set404AndResponse() {
+        this.statusLine.setStatusCode("404");
+        this.statusLine.setResponseText("Resource Does Not Exist");
+    }
+
+    private void set405AndResponse() {
+        this.statusLine.setStatusCode("405");
+        this.statusLine.setResponseText("Method Not Allowed");
     }
 
 //    private void processUniformResourceIdentifier() {
