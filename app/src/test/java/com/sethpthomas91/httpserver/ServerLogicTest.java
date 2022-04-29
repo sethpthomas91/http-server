@@ -27,4 +27,14 @@ public class ServerLogicTest {
         Assert.assertEquals("GET, HEAD, OPTIONS, PUT, POST", options);
     }
 
+    @Test
+    public void testGetRequestToPageThatDoesNotExistReturns404() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /unknown_page HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("404", statusCode);
+    }
+
 }
