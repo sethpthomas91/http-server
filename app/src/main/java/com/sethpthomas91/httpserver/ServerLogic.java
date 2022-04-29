@@ -6,6 +6,7 @@ import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 public class ServerLogic implements ServerLogicInterface {
     HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
+    StatusLine statusLine;
 
     String statusCode200 = "200";
     String responseText200 = "OK";
@@ -14,14 +15,17 @@ public class ServerLogic implements ServerLogicInterface {
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
+        this.statusLine = new StatusLine();
+
         setHttpVersion();
         handleRequestType();
+        httpResponse.setStatusLine(statusLine);
         return httpResponse;
     }
 
     private void setHttpVersion () {
         if (httpRequest.getHttpVersion().equals("HTTP/1.1")) {
-            this.httpResponse.setHttpVersion("HTTP/1.1");
+            this.statusLine.setHttpVersion("HTTP/1.1");
         } else {
 //            Error handling
         }
@@ -31,12 +35,12 @@ public class ServerLogic implements ServerLogicInterface {
         String typeOfRequest = httpRequest.getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getUniformResourceIdentifier();
         if (typeOfRequest.equals("GET")) {
-            this.httpResponse.setStatusCode(statusCode200);
-            this.httpResponse.setResponseText(responseText200);
+            this.statusLine.setStatusCode(statusCode200);
+            this.statusLine.setResponseText(responseText200);
         }
         else if (typeOfRequest.equals("OPTIONS")) {
-            this.httpResponse.setStatusCode(statusCode200);
-            this.httpResponse.setResponseText(responseText200);
+            this.statusLine.setStatusCode(statusCode200);
+            this.statusLine.setResponseText(responseText200);
             Header header = new Header(typeOfRequest, uniformResourceIdentifier);
             this.httpResponse.setHeaders(header);
         }
