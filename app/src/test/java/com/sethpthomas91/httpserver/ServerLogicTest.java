@@ -37,4 +37,74 @@ public class ServerLogicTest {
         Assert.assertEquals("404", statusCode);
     }
 
+    @Test
+    public void testHeadRequestToPageThatDoesExistReturns200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("HEAD /simple_get HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToHeadRequestResponseShouldBe405() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /head_request HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String options = header.options();
+        Assert.assertEquals("HEAD, OPTIONS", options);
+    }
+
+    @Test
+    public void testHeadRequestToHeadRequestTheStatusCodeShouldBe200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("HEAD /head_request HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToSimpleGetWithBodyTheStatusCodeShouldBe200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("HEAD /simple_get_with_body HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToSimpleGetWithBodyTheBodyShouldBeHelloWorld() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /simple_get_with_body HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getText();
+        Assert.assertEquals("Hello world", bodyText);
+    }
+
+    @Test
+    public void testGetRequestToRedirectShouldHaveStatusCode301() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /redirect HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("301", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToRedirectShouldHaveHeaderWithNewLocation() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /redirect HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String location = header.location();
+        Assert.assertEquals("http://127.0.0.1:5000/simple_get", location);
+    }
+
 }
