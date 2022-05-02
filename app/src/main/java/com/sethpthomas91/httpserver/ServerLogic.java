@@ -66,11 +66,14 @@ public class ServerLogic implements ServerLogicInterface {
         }
         else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
-            Body body = new Body(uniformResourceIdentifier);
             if (uniformResourceIdentifier.equals("/echo_body")) {
-                body.setBodyText(httpRequest.getBody());
+                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                this.httpResponse.setHeaders(header);
+                Body body = new Body(uniformResourceIdentifier);
+                String httpRequestBody = httpRequest.getBody();
+                body.setBodyText(httpRequestBody);
+                this.httpResponse.setBody(body);
             }
-            this.httpResponse.setBody(body);
         }
         else {
             set404AndResponse();
@@ -107,18 +110,4 @@ public class ServerLogic implements ServerLogicInterface {
         this.statusLine.setStatusCode("405");
         this.statusLine.setResponseText("Method Not Allowed");
     }
-
-//    private void processUniformResourceIdentifier() {
-//        String publicDirectory = testing ? "Public" : "app/Public";
-////        way to look from root
-//        Path publicDirFile = Paths.get(publicDirectory + uniformResourceIdentifier);
-//        System.out.println(String.format("PATH: [%s] equals [%s] ?", publicDirFile, uniformResourceIdentifier));
-//        System.out.println(Files.exists(publicDirFile));
-//        System.out.println(publicDirFile.toAbsolutePath());
-//        if (Files.exists(publicDirFile)) {
-//            System.out.println(String.format("File at %s does exist.", publicDirFile));
-//            statusCode = "200";
-//            reasonPhrase = "OK";
-//        }
-//    }
 }
