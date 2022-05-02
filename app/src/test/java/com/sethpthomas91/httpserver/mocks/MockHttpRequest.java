@@ -26,4 +26,14 @@ public class MockHttpRequest implements HttpRequestInterface {
     public RequestLine getRequestLine() {
         return null;
     }
+
+    @Override
+    public String getBody() {
+        return null;
+    }
+
+    @Override
+    public boolean requestHasBody() {
+        return false;
+    }
 }

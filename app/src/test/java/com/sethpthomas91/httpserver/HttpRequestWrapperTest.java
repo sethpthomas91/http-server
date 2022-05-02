@@ -8,7 +8,7 @@ public class HttpRequestWrapperTest {
 
     @Test
     public void testsForCorrectGetHttpMethod() {
-        String incomingRequestString = "GET / HTTP/1.1" + CRLF;
+        String incomingRequestString = "GET / HTTP/1.1" + CRLF + CRLF;
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
         RequestLine requestLine = httpRequest.getRequestLine();
         String typeOfRequest = requestLine.getTypeOfRequest();
@@ -17,7 +17,7 @@ public class HttpRequestWrapperTest {
 
     @Test
     public void testsForCorrectPostHttpMethod() {
-        String incomingRequestString = "POST / HTTP/1.1" + CRLF;
+        String incomingRequestString = "POST / HTTP/1.1" + CRLF + CRLF;
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
         RequestLine requestLine = httpRequest.getRequestLine();
         String typeOfRequest = requestLine.getTypeOfRequest();
@@ -26,7 +26,7 @@ public class HttpRequestWrapperTest {
 
     @Test
     public void testsHandlesBaseUriCall() {
-        String incomingRequestString = "GET / HTTP/1.1" + CRLF;
+        String incomingRequestString = "GET / HTTP/1.1" + CRLF + CRLF;
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
         RequestLine requestLine = httpRequest.getRequestLine();
         String uri = requestLine.getUniformResourceIdentifier();
@@ -35,7 +35,7 @@ public class HttpRequestWrapperTest {
 
     @Test
     public void testsHandlesComplexUriCall() {
-        String incomingRequestString = "GET simple_get/ HTTP/1.1" + CRLF;
+        String incomingRequestString = "GET simple_get/ HTTP/1.1" + CRLF + CRLF;
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
         RequestLine requestLine = httpRequest.getRequestLine();
         String uri = requestLine.getUniformResourceIdentifier();
@@ -44,10 +44,18 @@ public class HttpRequestWrapperTest {
 
     @Test
     public void testsHandlesHttpVersion() {
-        String incomingRequestString = "GET simple_get/ HTTP/1.1" + CRLF;
+        String incomingRequestString = "GET simple_get/ HTTP/1.1" + CRLF + CRLF;
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
         RequestLine requestLine = httpRequest.getRequestLine();
         String httpVersion = requestLine.getHttpVersion();
         Assert.assertEquals("HTTP/1.1", httpVersion);
+    }
+
+    @Test
+    public void testsSetRequestBody() {
+        String incomingRequestString = "GET simple_get/ HTTP/1.1" + CRLF + CRLF + "This is the body";
+        HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequestString);
+        String body = httpRequest.getBody();
+        Assert.assertEquals("This is the body", body);
     }
 }
