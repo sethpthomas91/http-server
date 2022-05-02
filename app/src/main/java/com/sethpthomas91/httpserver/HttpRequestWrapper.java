@@ -29,6 +29,7 @@ public class HttpRequestWrapper implements HttpRequestInterface {
     }
 
     private void splitHttpRequest(String request) {
+        System.out.println(request);
         String[] splitRequest = request.split(CRLF);
         requestLine = splitRequest[0];
     }

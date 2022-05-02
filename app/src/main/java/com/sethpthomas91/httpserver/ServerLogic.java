@@ -67,6 +67,9 @@ public class ServerLogic implements ServerLogicInterface {
         else if (typeOfRequest.equals("HEAD") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
         }
+        else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
+            set200AndOKResponse();
+        }
         else {
             set404AndResponse();
         }
@@ -79,6 +82,7 @@ public class ServerLogic implements ServerLogicInterface {
         resourceList.add("/simple_get_with_body");
         resourceList.add("/head_request");
         resourceList.add("/redirect");
+        resourceList.add("/echo_body");
         return resourceList.contains(uniformResourceIdentifier);
     }
 
