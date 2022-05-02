@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver.mocks;
 
+import com.sethpthomas91.httpserver.RequestLine;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 
 public class MockHttpRequest implements HttpRequestInterface {
@@ -12,26 +13,27 @@ public class MockHttpRequest implements HttpRequestInterface {
         this.typeOfRequest = typeOfRequest;
     }
 
-    @Override
-    public String getTypeOfRequest() {
-        return null;
-    }
-
     public void setUniformResourceIdentifier(String uniformResourceIdentifier) {
         this.uniformResourceIdentifier = uniformResourceIdentifier;
     }
 
-    @Override
-    public String getUniformResourceIdentifier() {
-        return null;
-    }
 
     public void setHttpVersion(String httpVersion) {
         this.httpVersion = httpVersion;
     }
 
     @Override
-    public String getHttpVersion() {
+    public RequestLine getRequestLine() {
         return null;
+    }
+
+    @Override
+    public String getBody() {
+        return null;
+    }
+
+    @Override
+    public boolean requestHasBody() {
+        return false;
     }
 }

@@ -12,7 +12,7 @@ public class Body {
 
     public String getBody() {
         if (!bodyText.isEmpty()) {
-            return this.bodyText + CRLF;
+            return this.bodyText;
         } else {
             return "";
         }
@@ -20,6 +20,10 @@ public class Body {
 
     public String getText() {
         return this.bodyText;
+    }
+
+    public void setBodyText(String bodyText) {
+        this.bodyText = bodyText;
     }
 
 

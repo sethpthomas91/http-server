@@ -32,6 +32,9 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/redirect")) {
             newLocation = "http://127.0.0.1:5000/simple_get";
         }
+        else if (uniformResourceIdentifier.equals("/echo_body")) {
+            contentLength = "9";
+        }
     }
 
     public String options() {

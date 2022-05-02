@@ -3,11 +3,7 @@ package com.sethpthomas91.httpserver;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,7 +23,8 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void setHttpVersion () {
-        if (httpRequest.getHttpVersion().equals("HTTP/1.1")) {
+        String httpVersion = httpRequest.getRequestLine().getHttpVersion();
+        if (httpVersion.equals("HTTP/1.1")) {
             this.statusLine.setHttpVersion("HTTP/1.1");
         } else {
 //            Error handling
@@ -35,8 +32,8 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handleRequestType () {
-        String typeOfRequest = httpRequest.getTypeOfRequest();
-        String uniformResourceIdentifier = httpRequest.getUniformResourceIdentifier();
+        String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
+        String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
         if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
             if (uniformResourceIdentifier.equals("/head_request")) {
                 set405AndResponse();
@@ -69,6 +66,14 @@ public class ServerLogic implements ServerLogicInterface {
         }
         else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
+            if (uniformResourceIdentifier.equals("/echo_body")) {
+                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                this.httpResponse.setHeaders(header);
+                Body body = new Body(uniformResourceIdentifier);
+                String httpRequestBody = httpRequest.getBody();
+                body.setBodyText(httpRequestBody);
+                this.httpResponse.setBody(body);
+            }
         }
         else {
             set404AndResponse();
@@ -105,18 +110,4 @@ public class ServerLogic implements ServerLogicInterface {
         this.statusLine.setStatusCode("405");
         this.statusLine.setResponseText("Method Not Allowed");
     }
-
-//    private void processUniformResourceIdentifier() {
-//        String publicDirectory = testing ? "Public" : "app/Public";
-////        way to look from root
-//        Path publicDirFile = Paths.get(publicDirectory + uniformResourceIdentifier);
-//        System.out.println(String.format("PATH: [%s] equals [%s] ?", publicDirFile, uniformResourceIdentifier));
-//        System.out.println(Files.exists(publicDirFile));
-//        System.out.println(publicDirFile.toAbsolutePath());
-//        if (Files.exists(publicDirFile)) {
-//            System.out.println(String.format("File at %s does exist.", publicDirFile));
-//            statusCode = "200";
-//            reasonPhrase = "OK";
-//        }
-//    }
 }

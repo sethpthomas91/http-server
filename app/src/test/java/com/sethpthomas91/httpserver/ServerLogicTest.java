@@ -3,8 +3,6 @@ package com.sethpthomas91.httpserver;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class ServerLogicTest {
 
     @Test
@@ -125,6 +123,17 @@ public class ServerLogicTest {
         StatusLine statusLine = response.getStatusLine();
         String statusCode = statusLine.getStatusCode();
         Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testPostRequestWithBodyShouldEchoTheBody() {
+        String requestBody = "echo it back yall";
+        HttpRequestWrapper request = new HttpRequestWrapper("POST /echo_body HTTP/1.1\r\n\r\n" + requestBody);
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals(requestBody, bodyText);
     }
 
 }
