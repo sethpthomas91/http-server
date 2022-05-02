@@ -18,6 +18,7 @@ public class HttpResponseWrapper {
         if (hasBody) {
             stringHttpResponse += CRLF + body.getBody();
         }
+        System.out.println(stringHttpResponse);
         return stringHttpResponse;
     }
 

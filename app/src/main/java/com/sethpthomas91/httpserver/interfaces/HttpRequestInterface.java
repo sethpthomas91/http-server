@@ -4,4 +4,6 @@ import com.sethpthomas91.httpserver.RequestLine;
 
 public interface HttpRequestInterface {
     RequestLine getRequestLine();
+    String getBody();
+    boolean requestHasBody();
 }

@@ -3,11 +3,7 @@ package com.sethpthomas91.httpserver;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -70,6 +66,11 @@ public class ServerLogic implements ServerLogicInterface {
         }
         else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
+            Body body = new Body(uniformResourceIdentifier);
+            if (uniformResourceIdentifier.equals("/echo_body")) {
+                body.setBodyText(httpRequest.getBody());
+            }
+            this.httpResponse.setBody(body);
         }
         else {
             set404AndResponse();
