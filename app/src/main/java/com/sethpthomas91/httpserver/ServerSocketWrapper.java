@@ -5,6 +5,7 @@ import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.stream.Stream;
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     ServerSocket serverSocket = null;
@@ -78,8 +79,11 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     }
 
     public String incomingRequest() throws IOException {
-        String incomingRequest = clientReader.readLine();
-        return incomingRequest;
+        StringBuilder result = new StringBuilder();
+        do {
+            result.append((char) clientSocket.getInputStream().read());
+        } while (clientSocket.getInputStream().available() > 0);
+        return result.toString();
     }
 
     public void sendResponse(String newMessage) {
