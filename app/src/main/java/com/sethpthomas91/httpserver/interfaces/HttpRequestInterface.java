@@ -1,8 +1,7 @@
 package com.sethpthomas91.httpserver.interfaces;
 
-public interface HttpRequestInterface {
-    String getTypeOfRequest();
-    String getUniformResourceIdentifier();
-    String getHttpVersion();
+import com.sethpthomas91.httpserver.RequestLine;
 
+public interface HttpRequestInterface {
+    RequestLine getRequestLine();
 }

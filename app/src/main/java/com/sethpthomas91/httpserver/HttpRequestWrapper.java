@@ -6,39 +6,18 @@ public class HttpRequestWrapper implements HttpRequestInterface {
     String CRLF = "\r\n";
     String SPACE = " ";
 
-    String requestLine;
-    String typeOfRequest;
-    String uniformResourceIdentifier;
-    String httpVersion;
+    RequestLine requestLine;
 
     public HttpRequestWrapper(String incomingRequest) {
         splitHttpRequest(incomingRequest);
-        splitRequestLine(requestLine);
-    }
-
-    public String getTypeOfRequest() {
-        return typeOfRequest;
-    }
-
-    public String getUniformResourceIdentifier() {
-        return uniformResourceIdentifier;
-    }
-
-    public String getHttpVersion() {
-        return httpVersion;
     }
 
     private void splitHttpRequest(String request) {
-        System.out.println(request);
         String[] splitRequest = request.split(CRLF);
-        requestLine = splitRequest[0];
+        requestLine = new RequestLine(splitRequest[0]);
     }
 
-    private void splitRequestLine(String requestLine) {
-        String[] splitRequestLine = requestLine.split(SPACE);
-        this.typeOfRequest = splitRequestLine[0];
-        this.uniformResourceIdentifier = splitRequestLine[1];
-        this.httpVersion = splitRequestLine[2];
+    public RequestLine getRequestLine() {
+        return requestLine;
     }
-
 }

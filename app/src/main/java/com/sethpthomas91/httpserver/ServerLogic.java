@@ -27,7 +27,8 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void setHttpVersion () {
-        if (httpRequest.getHttpVersion().equals("HTTP/1.1")) {
+        String httpVersion = httpRequest.getRequestLine().getHttpVersion();
+        if (httpVersion.equals("HTTP/1.1")) {
             this.statusLine.setHttpVersion("HTTP/1.1");
         } else {
 //            Error handling
@@ -35,8 +36,8 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handleRequestType () {
-        String typeOfRequest = httpRequest.getTypeOfRequest();
-        String uniformResourceIdentifier = httpRequest.getUniformResourceIdentifier();
+        String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
+        String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
         if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
             if (uniformResourceIdentifier.equals("/head_request")) {
                 set405AndResponse();
