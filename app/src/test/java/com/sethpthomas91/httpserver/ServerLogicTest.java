@@ -127,4 +127,14 @@ public class ServerLogicTest {
         Assert.assertEquals("200", statusCode);
     }
 
+//    @Test
+//    public void testPostRequestWithBodyShouldEchoTheBody() {
+//        HttpRequestWrapper request = new HttpRequestWrapper("POST /echo_body HTTP/1.1\r\n");
+//        ServerLogic serverLogic = new ServerLogic();
+//        HttpResponseWrapper response = serverLogic.processRequest(request);
+//        StatusLine statusLine = response.getStatusLine();
+//        String statusCode = statusLine.getStatusCode();
+//        Assert.assertEquals("200", statusCode);
+//    }
+
 }
