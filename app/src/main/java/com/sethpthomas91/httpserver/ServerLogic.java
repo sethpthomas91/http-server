@@ -38,12 +38,13 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
+
         if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
             handleGetRequest(typeOfRequest, uniformResourceIdentifier);
         }
         else if (typeOfRequest.equals("OPTIONS")) {
             set200AndOKResponse();
-            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+            Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
             this.httpResponse.setHeaders(header);
         }
         else if (typeOfRequest.equals("HEAD") && checkIfResourceExists(uniformResourceIdentifier)) {
@@ -52,9 +53,9 @@ public class ServerLogic implements ServerLogicInterface {
         else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
             if (uniformResourceIdentifier.equals("/echo_body")) {
-                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+                Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
                 this.httpResponse.setHeaders(header);
-                Body body = new Body(uniformResourceIdentifier);
+                Body body = createBody(uniformResourceIdentifier);
                 String httpRequestBody = httpRequest.getBody();
                 body.setBodyText(httpRequestBody);
                 this.httpResponse.setBody(body);
@@ -66,26 +67,31 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
+        Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
+        this.httpResponse.setHeaders(header);
+
         if (uniformResourceIdentifier.equals("/head_request")) {
             set405AndResponse();
-            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-            this.httpResponse.setHeaders(header);
         }
         else if (uniformResourceIdentifier.equals("/simple_get_with_body")){
             set200AndOKResponse();
-            Body body = new Body(uniformResourceIdentifier);
+            Body body = createBody(uniformResourceIdentifier);
             this.httpResponse.setBody(body);
-            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-            this.httpResponse.setHeaders(header);
         }
         else if (uniformResourceIdentifier.equals("/redirect")){
             set301AndResponse();
-            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-            this.httpResponse.setHeaders(header);
         }
         else {
             set200AndOKResponse();
         }
+    }
+
+    private Body createBody(String uniformResourceIdentifier) {
+        return new Body(uniformResourceIdentifier);
+    }
+
+    private Header createHeader(String typeOfRequest, String uniformResourceIdentifier) {
+        return new Header(typeOfRequest, uniformResourceIdentifier);
     }
 
     private boolean checkIfResourceExists(String uniformResourceIdentifier) {
