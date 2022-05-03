@@ -39,26 +39,7 @@ public class ServerLogic implements ServerLogicInterface {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
         if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
-            if (uniformResourceIdentifier.equals("/head_request")) {
-                set405AndResponse();
-                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-                this.httpResponse.setHeaders(header);
-            }
-            else if (uniformResourceIdentifier.equals("/simple_get_with_body")){
-                set200AndOKResponse();
-                Body body = new Body(uniformResourceIdentifier);
-                this.httpResponse.setBody(body);
-                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-                this.httpResponse.setHeaders(header);
-            }
-            else if (uniformResourceIdentifier.equals("/redirect")){
-                set301AndResponse();
-                Header header = new Header(typeOfRequest, uniformResourceIdentifier);
-                this.httpResponse.setHeaders(header);
-            }
-            else {
-                set200AndOKResponse();
-            }
+            handleGetRequest(typeOfRequest, uniformResourceIdentifier);
         }
         else if (typeOfRequest.equals("OPTIONS")) {
             set200AndOKResponse();
@@ -81,6 +62,29 @@ public class ServerLogic implements ServerLogicInterface {
         }
         else {
             set404AndResponse();
+        }
+    }
+
+    private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
+        if (uniformResourceIdentifier.equals("/head_request")) {
+            set405AndResponse();
+            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+            this.httpResponse.setHeaders(header);
+        }
+        else if (uniformResourceIdentifier.equals("/simple_get_with_body")){
+            set200AndOKResponse();
+            Body body = new Body(uniformResourceIdentifier);
+            this.httpResponse.setBody(body);
+            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+            this.httpResponse.setHeaders(header);
+        }
+        else if (uniformResourceIdentifier.equals("/redirect")){
+            set301AndResponse();
+            Header header = new Header(typeOfRequest, uniformResourceIdentifier);
+            this.httpResponse.setHeaders(header);
+        }
+        else {
+            set200AndOKResponse();
         }
     }
 
