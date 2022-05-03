@@ -38,14 +38,13 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
+        handleHeaders(typeOfRequest, uniformResourceIdentifier);
 
         if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
             handleGetRequest(typeOfRequest, uniformResourceIdentifier);
         }
         else if (typeOfRequest.equals("OPTIONS")) {
             set200AndOKResponse();
-            Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
-            this.httpResponse.setHeaders(header);
         }
         else if (typeOfRequest.equals("HEAD") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
@@ -53,8 +52,6 @@ public class ServerLogic implements ServerLogicInterface {
         else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
             set200AndOKResponse();
             if (uniformResourceIdentifier.equals("/echo_body")) {
-                Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
-                this.httpResponse.setHeaders(header);
                 Body body = createBody(uniformResourceIdentifier);
                 String httpRequestBody = httpRequest.getBody();
                 body.setBodyText(httpRequestBody);
@@ -67,8 +64,6 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
-        Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
-        this.httpResponse.setHeaders(header);
 
         if (uniformResourceIdentifier.equals("/head_request")) {
             set405AndResponse();
@@ -92,6 +87,11 @@ public class ServerLogic implements ServerLogicInterface {
 
     private Header createHeader(String typeOfRequest, String uniformResourceIdentifier) {
         return new Header(typeOfRequest, uniformResourceIdentifier);
+    }
+
+    private void handleHeaders(String typeOfRequest, String uniformResourceIdentifier) {
+        Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
+        this.httpResponse.setHeaders(header);
     }
 
     private boolean checkIfResourceExists(String uniformResourceIdentifier) {
