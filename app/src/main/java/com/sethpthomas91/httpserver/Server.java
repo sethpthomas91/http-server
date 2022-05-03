@@ -2,6 +2,8 @@ package com.sethpthomas91.httpserver;
 
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
+import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
+import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 
 import java.io.IOException;
 

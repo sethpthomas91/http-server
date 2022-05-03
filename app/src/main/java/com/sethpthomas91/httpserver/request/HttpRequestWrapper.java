@@ -1,8 +1,7 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.request;
 
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
-
-import java.security.cert.CRL;
+import com.sethpthomas91.httpserver.request.RequestLine;
 
 public class HttpRequestWrapper implements HttpRequestInterface {
     String CRLF = "\r\n";

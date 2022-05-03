@@ -1,4 +1,4 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.response;
 
 public class StatusLine {
     String CRLF = "\r\n";

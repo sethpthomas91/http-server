@@ -1,7 +1,6 @@
 package com.sethpthomas91.httpserver.interfaces;
 
-import com.sethpthomas91.httpserver.HttpRequestWrapper;
-import com.sethpthomas91.httpserver.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 
 public interface ServerLogicInterface {
 

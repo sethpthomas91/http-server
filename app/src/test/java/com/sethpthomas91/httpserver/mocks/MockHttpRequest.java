@@ -1,6 +1,6 @@
 package com.sethpthomas91.httpserver.mocks;
 
-import com.sethpthomas91.httpserver.RequestLine;
+import com.sethpthomas91.httpserver.request.RequestLine;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 
 public class MockHttpRequest implements HttpRequestInterface {

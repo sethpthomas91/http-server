@@ -1,5 +1,10 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
+import com.sethpthomas91.httpserver.response.Body;
+import com.sethpthomas91.httpserver.response.Header;
+import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.response.StatusLine;
 import org.junit.Assert;
 import org.junit.Test;
 

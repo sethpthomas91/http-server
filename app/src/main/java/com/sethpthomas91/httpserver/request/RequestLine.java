@@ -1,4 +1,4 @@
-package com.sethpthomas91.httpserver;
+package com.sethpthomas91.httpserver.request;
 
 public class RequestLine {
     public String getTypeOfRequest;

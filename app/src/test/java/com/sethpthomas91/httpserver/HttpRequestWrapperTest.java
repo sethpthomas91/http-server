@@ -1,5 +1,7 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
+import com.sethpthomas91.httpserver.request.RequestLine;
 import org.junit.Assert;
 import org.junit.Test;
 
