@@ -26,7 +26,7 @@ public class ServerLogic implements ServerLogicInterface {
         return httpResponse;
     }
 
-    private void setHttpVersion ( String httpVersion) {
+    private void setHttpVersion (String httpVersion) {
         if (httpVersion.equals("HTTP/1.1")) {
             this.statusLine.setHttpVersion("HTTP/1.1");
         } else {
@@ -38,28 +38,29 @@ public class ServerLogic implements ServerLogicInterface {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
         handleHeaders(typeOfRequest, uniformResourceIdentifier);
-
-        if (typeOfRequest.equals("GET") && checkIfResourceExists(uniformResourceIdentifier)) {
-            handleGetRequest(typeOfRequest, uniformResourceIdentifier);
-        }
-        else if (typeOfRequest.equals("OPTIONS")) {
-            set200AndOKResponse();
-        }
-        else if (typeOfRequest.equals("HEAD") && checkIfResourceExists(uniformResourceIdentifier)) {
-            set200AndOKResponse();
-        }
-        else if (typeOfRequest.equals("POST") && checkIfResourceExists(uniformResourceIdentifier)) {
-            set200AndOKResponse();
-            if (uniformResourceIdentifier.equals("/echo_body")) {
-                Body body = createBody(uniformResourceIdentifier);
-                String httpRequestBody = httpRequest.getBody();
-                body.setBodyText(httpRequestBody);
-                this.httpResponse.setBody(body);
+        if (checkIfResourceExists(uniformResourceIdentifier)) {
+            if (typeOfRequest.equals("GET")) {
+                handleGetRequest(typeOfRequest, uniformResourceIdentifier);
             }
-        }
-        else {
+            else if (typeOfRequest.equals("OPTIONS")) {
+                set200AndOKResponse();
+            }
+            else if (typeOfRequest.equals("HEAD")) {
+                set200AndOKResponse();
+            }
+            else if (typeOfRequest.equals("POST")) {
+                set200AndOKResponse();
+                if (uniformResourceIdentifier.equals("/echo_body")) {
+                    Body body = createBody(uniformResourceIdentifier);
+                    String httpRequestBody = httpRequest.getBody();
+                    body.setBodyText(httpRequestBody);
+                    this.httpResponse.setBody(body);
+                }
+            }
+        } else {
             set404AndResponse();
         }
+
     }
 
     private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
@@ -101,6 +102,8 @@ public class ServerLogic implements ServerLogicInterface {
         resourceList.add("/head_request");
         resourceList.add("/redirect");
         resourceList.add("/echo_body");
+        resourceList.add("/method_options");
+        resourceList.add("/method_options2");
         return resourceList.contains(uniformResourceIdentifier);
     }
 
