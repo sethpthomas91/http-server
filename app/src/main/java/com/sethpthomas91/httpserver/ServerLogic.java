@@ -38,30 +38,15 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
-//        if (checkIfResourceExists(uniformResourceIdentifier)) {
-//            switch(typeOfRequest) {
-//                case "GET": handleGetRequest(typeOfRequest, uniformResourceIdentifier);
-//                break;
-//                case "OPTIONS": set200AndOKResponse();
-//                break;
-//                case "HEAD": set200AndOKResponse();
-//                break;
-//                case "POST": set200AndOKResponse();
-//            }
-//        }
         if (checkIfResourceExists(uniformResourceIdentifier)) {
-            if (typeOfRequest.equals("GET")) {
-                handleGetRequest(typeOfRequest, uniformResourceIdentifier);
-            }
-            else if (typeOfRequest.equals("OPTIONS")) {
-                set200AndOKResponse();
-            }
-            else if (typeOfRequest.equals("HEAD")) {
-                set200AndOKResponse();
-            }
-            else if (typeOfRequest.equals("POST")) {
-                set200AndOKResponse();
-                handlePostRequest(uniformResourceIdentifier);
+            switch(typeOfRequest) {
+                case "GET": handleGetRequest(typeOfRequest, uniformResourceIdentifier);
+                break;
+                case "OPTIONS": set200AndOKResponse();
+                break;
+                case "HEAD": set200AndOKResponse();
+                break;
+                case "POST": handlePostRequest(uniformResourceIdentifier);
             }
         } else {
             set404AndResponse();
@@ -69,6 +54,7 @@ public class ServerLogic implements ServerLogicInterface {
     }
 
     private void handlePostRequest(String uniformResourceIdentifier) {
+        set200AndOKResponse();
         if (uniformResourceIdentifier.equals("/echo_body")) {
             Body body = createBody(uniformResourceIdentifier);
             String httpRequestBody = httpRequest.getBody();
