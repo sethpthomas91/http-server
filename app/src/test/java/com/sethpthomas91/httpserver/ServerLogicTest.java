@@ -86,7 +86,7 @@ public class ServerLogicTest {
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
         Body body = response.getBody();
-        String bodyText = body.getText();
+        String bodyText = body.getBody();
         Assert.assertEquals("Hello world", bodyText);
     }
 
@@ -132,7 +132,7 @@ public class ServerLogicTest {
 
     @Test
     public void testPostRequestWithBodyShouldEchoTheBody() {
-        String requestBody = "echo it back yall";
+        String requestBody = "some body";
         HttpRequestWrapper request = new HttpRequestWrapper("POST /echo_body HTTP/1.1\r\n\r\n" + requestBody);
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);

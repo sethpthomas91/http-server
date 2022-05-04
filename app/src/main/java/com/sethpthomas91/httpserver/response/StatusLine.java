@@ -1,5 +1,7 @@
 package com.sethpthomas91.httpserver.response;
 
+import com.sethpthomas91.httpserver.request.RequestLine;
+
 public class StatusLine {
     String CRLF = "\r\n";
     String SPACE = " ";
@@ -7,6 +9,7 @@ public class StatusLine {
     String httpVersion;
     String statusCode;
     String responseText;
+
 
     public String getStatusCode() {
         return statusCode;

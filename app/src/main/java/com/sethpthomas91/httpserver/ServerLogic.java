@@ -2,128 +2,80 @@ package com.sethpthomas91.httpserver;
 
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
+import com.sethpthomas91.httpserver.request.RequestLine;
 import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ServerLogic implements ServerLogicInterface {
+    Router router = new Router();
     HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
-    StatusLine statusLine;
 
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
-        this.statusLine = new StatusLine();
-        setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
-        handleHeaders(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier());
-        handleRequestType();
+
+        StatusLine statusLine = createStatusLine(httpRequest.getRequestLine());
         httpResponse.setStatusLine(statusLine);
+
+        Body body = createBody(httpRequest);
+        httpResponse.setBody(body);
+
+        Header header = createHeader(httpRequest, httpResponse);
+        httpResponse.setHeaders(header);
+
+
         return httpResponse;
     }
 
-    private void setHttpVersion (String httpVersion) {
-        if (httpVersion.equals("HTTP/1.1")) {
-            this.statusLine.setHttpVersion("HTTP/1.1");
+
+    private StatusLine createStatusLine(RequestLine requestLine) {
+        StatusLine statusLine = new StatusLine();
+        statusLine.setHttpVersion(requestLine.getHttpVersion());
+        if (router.resourceExists(requestLine.getUniformResourceIdentifier())) {
+            handleRequestType(statusLine, requestLine);
         } else {
-//            Error handling
+            statusLine.setStatusCode("404");
+            statusLine.setResponseText("Resource Does Not Exist");
         }
+        return statusLine;
     }
 
-    private void handleRequestType () {
-        String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
-        String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
-        if (checkIfResourceExists(uniformResourceIdentifier)) {
-            switch(typeOfRequest) {
-                case "GET": handleGetRequest(typeOfRequest, uniformResourceIdentifier);
-                break;
-                case "OPTIONS": set200AndOKResponse();
-                break;
-                case "HEAD": set200AndOKResponse();
-                break;
-                case "POST": handlePostRequest(uniformResourceIdentifier);
+    private StatusLine handleRequestType(StatusLine statusLine, RequestLine requestLine) {
+        switch (requestLine.getTypeOfRequest()) {
+            case "GET" -> createStatusLineForGetRequest(statusLine, requestLine.getUniformResourceIdentifier());
+            case "OPTIONS", "HEAD", "POST" -> {
+                statusLine.setStatusCode("200");
+                statusLine.setResponseText("OK");
             }
-        } else {
-            set404AndResponse();
         }
+        return statusLine;
     }
 
-    private void handlePostRequest(String uniformResourceIdentifier) {
-        set200AndOKResponse();
-        if (uniformResourceIdentifier.equals("/echo_body")) {
-            Body body = createBody(uniformResourceIdentifier);
-            String httpRequestBody = httpRequest.getBody();
-            body.setBodyText(httpRequestBody);
-            this.httpResponse.setBody(body);
+    private StatusLine createStatusLineForGetRequest(StatusLine statusLine, String uniformResourceIdentifier) {
+        switch (uniformResourceIdentifier) {
+            case "/head_request": statusLine.setStatusCode("405");
+            statusLine.setResponseText("Method Not Allowed");
+            break;
+            case "/redirect": statusLine.setStatusCode("301");
+            statusLine.setResponseText("Moved Permanently");
+            break;
+            default: statusLine.setStatusCode("200");
+            statusLine.setResponseText("OK");
         }
+        return statusLine;
     }
 
-    private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
-
-        if (uniformResourceIdentifier.equals("/head_request")) {
-            set405AndResponse();
-        }
-        else if (uniformResourceIdentifier.equals("/simple_get_with_body")){
-            set200AndOKResponse();
-            Body body = createBody(uniformResourceIdentifier);
-            this.httpResponse.setBody(body);
-        }
-        else if (uniformResourceIdentifier.equals("/redirect")){
-            set301AndResponse();
-        }
-        else {
-            set200AndOKResponse();
-        }
+    private Body createBody(HttpRequestInterface httpRequest) {
+        return new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
     }
 
-    private Body createBody(String uniformResourceIdentifier) {
-        return new Body(uniformResourceIdentifier);
+    private Header createHeader(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
+        return new Header(httpRequest, httpResponse);
     }
 
-    private Header createHeader(String typeOfRequest, String uniformResourceIdentifier) {
-        return new Header(typeOfRequest, uniformResourceIdentifier);
-    }
-
-    private void handleHeaders(String typeOfRequest, String uniformResourceIdentifier) {
-        Header header = createHeader(typeOfRequest, uniformResourceIdentifier);
-        this.httpResponse.setHeaders(header);
-    }
-
-    private boolean checkIfResourceExists(String uniformResourceIdentifier) {
-        List<String> resourceList = new ArrayList<>();
-        resourceList.add("/");
-        resourceList.add("/simple_get");
-        resourceList.add("/simple_get_with_body");
-        resourceList.add("/head_request");
-        resourceList.add("/redirect");
-        resourceList.add("/echo_body");
-        resourceList.add("/method_options");
-        resourceList.add("/method_options2");
-        return resourceList.contains(uniformResourceIdentifier);
-    }
-
-    private void set200AndOKResponse() {
-        this.statusLine.setStatusCode("200");
-        this.statusLine.setResponseText("OK");
-    }
-
-    private void set301AndResponse() {
-        this.statusLine.setStatusCode("301");
-        this.statusLine.setResponseText("Moved Permanently");
-    }
-
-    private void set404AndResponse() {
-        this.statusLine.setStatusCode("404");
-        this.statusLine.setResponseText("Resource Does Not Exist");
-    }
-
-    private void set405AndResponse() {
-        this.statusLine.setStatusCode("405");
-        this.statusLine.setResponseText("Method Not Allowed");
-    }
 }

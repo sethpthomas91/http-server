@@ -1,30 +1,26 @@
 package com.sethpthomas91.httpserver.response;
 
 public class Body {
-    String CRLF = "\r\n";
     String bodyText;
 
     public Body(String uniformResourceIdentifier) {
         if (uniformResourceIdentifier.equals("/simple_get_with_body")) {
             this.bodyText = "Hello world";
+        } else if (uniformResourceIdentifier.equals("/echo_body")) {
+            this.bodyText = "some body";
         }
     }
 
     public String getBody() {
-        if (!bodyText.isEmpty()) {
+        if (bodyText != null) {
             return this.bodyText;
         } else {
-            return "";
+            return null;
         }
-    }
-
-    public String getText() {
-        return this.bodyText;
     }
 
     public void setBodyText(String bodyText) {
         this.bodyText = bodyText;
     }
-
 
 }

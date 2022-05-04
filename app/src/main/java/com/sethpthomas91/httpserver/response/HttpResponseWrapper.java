@@ -11,15 +11,16 @@ public class HttpResponseWrapper {
     boolean hasBody;
 
     public String stringifyHttpResponse() {
-        stringHttpResponse = statusLine.getStatusLine();
+        StringBuilder sb = new StringBuilder();
+        sb.append(statusLine.getStatusLine());
         if (hasHeaders) {
-            stringHttpResponse += header.getHeaders();
+            sb.append(header.getHeaders());
         }
-        if (hasBody) {
-            stringHttpResponse += CRLF + body.getBody();
+        if (body.getBody() != null) {
+            sb.append(CRLF);
+            sb.append(body.getBody());
         }
-        System.out.println(stringHttpResponse);
-        return stringHttpResponse;
+        return sb.toString();
     }
 
 

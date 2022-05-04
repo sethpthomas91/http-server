@@ -1,5 +1,7 @@
 package com.sethpthomas91.httpserver.response;
 
+import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
+
 public class Header {
     String CRLF = "\r\n";
 
@@ -12,8 +14,9 @@ public class Header {
 
     String newLocation;
 
-    public Header(String typeOfRequest, String uniformResourceIdentifier) {
-        processUri(uniformResourceIdentifier);
+    public Header(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
+        processUri(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        setContentLengthHeader(httpResponse.getBody());
     }
 
     private void processUri(String uniformResourceIdentifier){
@@ -26,14 +29,8 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/head_request")) {
             allowedHeaders = headRequestAllowedHeaders;
         }
-        else if (uniformResourceIdentifier.equals("/simple_get_with_body")) {
-            contentLength = "11";
-        }
         else if (uniformResourceIdentifier.equals("/redirect")) {
             newLocation = "http://127.0.0.1:5000/simple_get";
-        }
-        else if (uniformResourceIdentifier.equals("/echo_body")) {
-            contentLength = "9";
         }
     }
 
@@ -54,6 +51,13 @@ public class Header {
         else {
             return "";
         }
+    }
+
+    private void setContentLengthHeader(Body body) {
+        if (body.getBody() != null) {
+            contentLength = String.valueOf(body.getBody().length());
+        }
+
     }
 
     public String location() {
