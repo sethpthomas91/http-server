@@ -21,6 +21,7 @@ public class ServerLogic implements ServerLogicInterface {
         this.httpResponse = new HttpResponseWrapper();
         this.statusLine = new StatusLine();
         setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
+        handleHeaders(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier());
         handleRequestType();
         httpResponse.setStatusLine(statusLine);
         return httpResponse;
@@ -37,7 +38,6 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
-        handleHeaders(typeOfRequest, uniformResourceIdentifier);
         if (checkIfResourceExists(uniformResourceIdentifier)) {
             if (typeOfRequest.equals("GET")) {
                 handleGetRequest(typeOfRequest, uniformResourceIdentifier);
