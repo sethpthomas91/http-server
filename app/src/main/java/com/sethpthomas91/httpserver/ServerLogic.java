@@ -38,6 +38,17 @@ public class ServerLogic implements ServerLogicInterface {
     private void handleRequestType () {
         String typeOfRequest = httpRequest.getRequestLine().getTypeOfRequest();
         String uniformResourceIdentifier = httpRequest.getRequestLine().getUniformResourceIdentifier();
+//        if (checkIfResourceExists(uniformResourceIdentifier)) {
+//            switch(typeOfRequest) {
+//                case "GET": handleGetRequest(typeOfRequest, uniformResourceIdentifier);
+//                break;
+//                case "OPTIONS": set200AndOKResponse();
+//                break;
+//                case "HEAD": set200AndOKResponse();
+//                break;
+//                case "POST": set200AndOKResponse();
+//            }
+//        }
         if (checkIfResourceExists(uniformResourceIdentifier)) {
             if (typeOfRequest.equals("GET")) {
                 handleGetRequest(typeOfRequest, uniformResourceIdentifier);
@@ -50,17 +61,20 @@ public class ServerLogic implements ServerLogicInterface {
             }
             else if (typeOfRequest.equals("POST")) {
                 set200AndOKResponse();
-                if (uniformResourceIdentifier.equals("/echo_body")) {
-                    Body body = createBody(uniformResourceIdentifier);
-                    String httpRequestBody = httpRequest.getBody();
-                    body.setBodyText(httpRequestBody);
-                    this.httpResponse.setBody(body);
-                }
+                handlePostRequest(uniformResourceIdentifier);
             }
         } else {
             set404AndResponse();
         }
+    }
 
+    private void handlePostRequest(String uniformResourceIdentifier) {
+        if (uniformResourceIdentifier.equals("/echo_body")) {
+            Body body = createBody(uniformResourceIdentifier);
+            String httpRequestBody = httpRequest.getBody();
+            body.setBodyText(httpRequestBody);
+            this.httpResponse.setBody(body);
+        }
     }
 
     private void handleGetRequest(String typeOfRequest, String uniformResourceIdentifier) {
