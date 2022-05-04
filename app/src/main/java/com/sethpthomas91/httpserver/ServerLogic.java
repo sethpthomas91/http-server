@@ -20,14 +20,13 @@ public class ServerLogic implements ServerLogicInterface {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
         this.statusLine = new StatusLine();
-        setHttpVersion();
+        setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
         handleRequestType();
         httpResponse.setStatusLine(statusLine);
         return httpResponse;
     }
 
-    private void setHttpVersion () {
-        String httpVersion = httpRequest.getRequestLine().getHttpVersion();
+    private void setHttpVersion ( String httpVersion) {
         if (httpVersion.equals("HTTP/1.1")) {
             this.statusLine.setHttpVersion("HTTP/1.1");
         } else {
