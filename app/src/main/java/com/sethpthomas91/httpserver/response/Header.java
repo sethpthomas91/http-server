@@ -36,7 +36,7 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/text_response")) {
             contentType = "text/plain;charset=utf-8";
         }
-        else if (uniformResourceIdentifier.equals("/html_response")) {
+        else if (uniformResourceIdentifier.equals("/html_response") || uniformResourceIdentifier.equals("/health-check.html")) {
             contentType = "text/html;charset=utf-8";
         }
         else if (uniformResourceIdentifier.equals("/json_response")) {
