@@ -5,6 +5,7 @@ import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
+import com.sun.net.httpserver.Headers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -289,6 +290,26 @@ public class ServerLogicTest {
         Body body = response.getBody();
         String bodyText = body.getBody();
         Assert.assertEquals("<strong>Status:</strong> pass", bodyText);
+    }
+
+    @Test
+    public void testGetRequestToKittehJpgShouldBe200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /kitteh.jpg HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToKittehJpgHeaderContentTypeShouldBeImageJpeg() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /kitteh.jpg HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("image/jpeg", contentType);
     }
 
 }

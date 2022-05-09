@@ -45,6 +45,9 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/xml_response")) {
             contentType = "application/xml;charset=utf-8";
         }
+        else if (uniformResourceIdentifier.equals("/kitteh.jpg")) {
+            contentType = "image/jpeg";
+        }
     }
 
     public String options() {

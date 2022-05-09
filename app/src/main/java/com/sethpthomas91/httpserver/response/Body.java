@@ -1,5 +1,10 @@
 package com.sethpthomas91.httpserver.response;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Body {
     String bodyText;
 
@@ -18,7 +23,13 @@ public class Body {
             this.bodyText = "<note><body>XML Response</body></note>";
         } else if (uniformResourceIdentifier.equals("/health-check.html")) {
             this.bodyText = "<strong>Status:</strong> pass";
+        } else if (uniformResourceIdentifier.equals("/kitteh.jpg")) {
+            System.out.println("Print the kitty");
         }
+    }
+
+    private Byte[] convertImageToBytes(File imageFile) {
+
     }
 
     public String getBody() {
