@@ -1,15 +1,23 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.interfaces.ServerLogicInterface;
+import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
+
 import java.io.IOException;
 
 public class ServerRunner {
-    int port;
-    ServerSocketWrapperInterface serverSocketWrapper = null;
+    private int port;
+    private ServerSocketWrapperInterface serverSocketWrapper;
+    private ServerLogicInterface serverLogic;
+    private Server server;
 
     public static void main(String[] args) throws IOException {
         ServerRunner serverRunner = new ServerRunner();
         ServerSocketWrapper serverSocketWrapper = new ServerSocketWrapper(serverRunner.getPort());
+        ServerLogic serverLogic = new ServerLogic();
         serverRunner.setServerSocketWrapper(serverSocketWrapper);
+        serverRunner.setServerLogic(serverLogic);
+        serverRunner.createServer();
         serverRunner.startServer();
     }
 
@@ -22,23 +30,27 @@ public class ServerRunner {
     }
 
     public int getPort() {
-    return port;
+        return port;
     }
 
     public void setPort(int customPort) {
         this.port = customPort;
     }
 
-    public void startServer() throws IOException {
-        try {
-            serverSocketWrapper.listen();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(String.format("[Server at port: %s encountered an error]",this.port));
-        }
+    public void createServer() {
+        this.server = new Server(this.serverSocketWrapper, this.serverLogic);
     }
 
-    public void setServerSocketWrapper(ServerSocketWrapperInterface serverSocketWrapper) {
-        this.serverSocketWrapper = serverSocketWrapper;
+    public void startServer () throws IOException {
+            server.start();
+    }
+
+    public void setServerSocketWrapper (ServerSocketWrapperInterface serverSocketWrapper){
+            this.serverSocketWrapper = serverSocketWrapper;
+    }
+
+    public void setServerLogic (ServerLogicInterface injectedServerLogic){
+            this.serverLogic = injectedServerLogic;
     }
 }
+
