@@ -25,6 +25,10 @@ public class Router {
         resources.put("/echo_body", new String[]{"POST"});
         resources.put("/method_options", new String[]{"OPTIONS"});
         resources.put("/method_options2", new String[]{"OPTIONS"});
+        resources.put("/text_response", new String[]{"GET"});
+        resources.put("/html_response", new String[]{"GET"});
+        resources.put("/json_response", new String[]{"GET"});
+        resources.put("/xml_response", new String[]{"GET"});
         return resources;
     }
 

@@ -8,7 +8,6 @@ public class HttpResponseWrapper {
     Header header;
     boolean hasHeaders;
     Body body;
-    boolean hasBody;
 
     public String stringifyHttpResponse() {
         StringBuilder sb = new StringBuilder();
@@ -42,7 +41,6 @@ public class HttpResponseWrapper {
     }
 
     public void setBody(Body body) {
-        this.hasBody = true;
         this.body = body;
     }
 

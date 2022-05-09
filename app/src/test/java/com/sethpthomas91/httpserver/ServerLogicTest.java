@@ -141,4 +141,123 @@ public class ServerLogicTest {
         Assert.assertEquals(requestBody, bodyText);
     }
 
+    @Test
+    public void testGetRequestToTextResponseShouldRespondWith200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToTextResponseShouldRespondWithTextInBody() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("text response", bodyText);
+    }
+
+    @Test
+    public void testGetRequestToTextResponseShouldRespondWithContentTypeHeader() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("text/plain;charset=utf-8", contentType);
+    }
+
+    @Test
+    public void testGetRequestToHtmlResponseShouldResponseWith200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToHtmlResponseShouldRespondWithContentTypeHeader() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("text/html;charset=utf-8", contentType);
+    }
+
+    @Test
+    public void testGetRequestToHtmlResponseShouldRespondWithHtmlInBody() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("<html><body><p>HTML Response</p></body></html>", bodyText);
+    }
+
+    @Test
+    public void testGetRequestToJsonResponseShouldResponseWith200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToJsonResponseShouldRespondWithContentTypeHeader() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("application/json;charset=utf-8", contentType);
+    }
+
+    @Test
+    public void testGetRequestToJsonResponseShouldRespondWithJsonInBody() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("{\"key1\":\"value1\",\"key2\":\"value2\"}", bodyText);
+    }
+
+    @Test
+    public void testGetRequestToXmlResponseShouldResponseWith200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToXmlResponseShouldRespondWithContentTypeHeader() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("application/xml;charset=utf-8", contentType);
+    }
+
+    @Test
+    public void testGetRequestToXmlResponseShouldRespondWithXmlInBody() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("<note><body>XML Response</body></note>", bodyText);
+    }
 }
