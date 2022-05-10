@@ -2,8 +2,10 @@ package com.sethpthomas91.httpserver.response;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
 public class Body {
     String bodyText;
@@ -28,8 +30,13 @@ public class Body {
         }
     }
 
-    private Byte[] convertImageToBytes(File imageFile) {
-
+    public byte[] convertImageToBytes() throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(new File("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg"));
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+        byte[] rawImageBytes = byteArrayOutputStream.toByteArray();
+        System.out.println(rawImageBytes);
+        return rawImageBytes;
     }
 
     public String getBody() {
