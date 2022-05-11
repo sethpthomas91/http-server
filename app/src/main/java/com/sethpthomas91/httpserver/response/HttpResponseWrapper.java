@@ -1,5 +1,9 @@
 package com.sethpthomas91.httpserver.response;
 
+import com.sethpthomas91.httpserver.utils.ByteArrayGenerator;
+
+import java.nio.charset.StandardCharsets;
+
 public class HttpResponseWrapper {
 
     String CRLF = "\r\n";
@@ -46,5 +50,9 @@ public class HttpResponseWrapper {
 
     public Body getBody() {
         return this.body;
+    }
+
+    public byte[] getBytes() {
+        return ByteArrayGenerator.convertStringToBytes(this.stringifyHttpResponse());
     }
 }

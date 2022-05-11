@@ -2,15 +2,13 @@ package com.sethpthomas91.httpserver.response;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Base64;
 
 public class Body {
     String bodyText;
 
-    public Body(String uniformResourceIdentifier) {
+    public Body(String uniformResourceIdentifier) throws IOException {
         if (uniformResourceIdentifier.equals("/simple_get_with_body")) {
             this.bodyText = "Hello world";
         } else if (uniformResourceIdentifier.equals("/echo_body")) {
@@ -26,17 +24,22 @@ public class Body {
         } else if (uniformResourceIdentifier.equals("/health-check.html")) {
             this.bodyText = "<strong>Status:</strong> pass";
         } else if (uniformResourceIdentifier.equals("/kitteh.jpg")) {
-            System.out.println("Print the kitty");
+            this.bodyText = convertImageToBytes();
         }
     }
 
-    public byte[] convertImageToBytes() throws IOException {
+    public String convertImageToBytes() throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg"));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
-        byte[] rawImageBytes = byteArrayOutputStream.toByteArray();
-        System.out.println(rawImageBytes);
-        return rawImageBytes;
+        byte[] imageByteArray = byteArrayOutputStream.toByteArray();
+        System.out.println(byteArrayOutputStream);
+        String base64 = Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+        return byteArrayOutputStream.toString();
+
+//        byte[] imageData = Files.readAllBytes(new File("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg").toPath());
+////        String base64 = Base64.getEncoder().encodeToString(imageData);
+//        return imageData.toString();
     }
 
     public String getBody() {

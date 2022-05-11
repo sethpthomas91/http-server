@@ -8,6 +8,7 @@ import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 
+import java.io.IOException;
 
 
 public class ServerLogic implements ServerLogicInterface {
@@ -15,7 +16,7 @@ public class ServerLogic implements ServerLogicInterface {
     HttpRequestInterface httpRequest;
     HttpResponseWrapper httpResponse;
 
-    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
+    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException {
         this.httpRequest = httpRequest;
         this.httpResponse = new HttpResponseWrapper();
 
@@ -70,7 +71,7 @@ public class ServerLogic implements ServerLogicInterface {
         return statusLine;
     }
 
-    private Body createBody(HttpRequestInterface httpRequest) {
+    private Body createBody(HttpRequestInterface httpRequest) throws IOException {
         return new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
     }
 
