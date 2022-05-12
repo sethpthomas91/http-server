@@ -1,6 +1,8 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.handlers.DefaultHandler;
 import com.sethpthomas91.httpserver.handlers.Handler;
+import com.sethpthomas91.httpserver.handlers.HealthCheckHandler;
 import com.sethpthomas91.httpserver.handlers.ImageHandler;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
@@ -45,7 +47,9 @@ public class Router {
 
     private Map<String, Handler> createResourcesWithHandlers() {
         Map<String, Handler> resources = new HashMap<>();
-        resources.put("/health-check.html", new ImageHandler());
+        resources.put("/", new DefaultHandler());
+        resources.put("/simple_get", new DefaultHandler());
+        resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         return resources;
     }
@@ -58,5 +62,9 @@ public class Router {
     public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
         Handler imageHandler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
         return imageHandler.handle(httpRequest);
+    }
+
+    public boolean availableRoute(String uri) {
+        return resourcesWithHandlers.containsKey(uri);
     }
 }

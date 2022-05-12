@@ -17,7 +17,7 @@ public class ServerLogic implements ServerLogicInterface {
     HttpResponseWrapper httpResponse;
 
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException {
-        if (httpRequest.getRequestLine().equals("/kitteh.jpg") || httpRequest.getRequestLine().equals("/health-check.html")) {
+        if (router.availableRoute(httpRequest.getRequestLine().getUniformResourceIdentifier())) {
             return router.route(httpRequest);
         } else {
             this.httpRequest = httpRequest;

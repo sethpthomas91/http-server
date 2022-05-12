@@ -21,10 +21,6 @@ public class Body {
             this.bodyText = "{\"key1\":\"value1\",\"key2\":\"value2\"}";
         } else if (uniformResourceIdentifier.equals("/xml_response")) {
             this.bodyText = "<note><body>XML Response</body></note>";
-        } else if (uniformResourceIdentifier.equals("/health-check.html")) {
-            this.bodyText = "<strong>Status:</strong> pass";
-        } else if (uniformResourceIdentifier.equals("/kitteh.jpg")) {
-            this.bodyBytes = ByteArrayGenerator.convertFileToBytes("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg");
         }
     }
 
