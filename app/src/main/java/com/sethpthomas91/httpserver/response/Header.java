@@ -58,6 +58,10 @@ public class Header {
         return contentType;
     }
 
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
 
     public String getHeaders() {
         buildStringifiedHeaders();

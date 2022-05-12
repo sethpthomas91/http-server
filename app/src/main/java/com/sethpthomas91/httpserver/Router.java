@@ -1,14 +1,22 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.handlers.ImageHandler;
+import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
+import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
+import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Router {
     public Map<String, String[]> resources;
+    private Map<String, ImageHandler> resourcesWithHandlers;
 
     public Router() {
         this.resources = createResources();
+        this.resourcesWithHandlers = createResourcesWithHandlers();
     }
 
     public boolean resourceExists(String uniformResourceIdentifier) {
@@ -34,8 +42,19 @@ public class Router {
         return resources;
     }
 
+    private Map<String, ImageHandler> createResourcesWithHandlers() {
+        Map<String, ImageHandler> resources = new HashMap<>();
+        resources.put("/kitteh.jpg", new ImageHandler());
+        return resources;
+    }
+
     public boolean methodAllowed(String typeOfRequest, String uniformResourceIdentifier) {
         String[] resourceMethods = resources.get(uniformResourceIdentifier);
         return Arrays.stream(resourceMethods).toList().contains(typeOfRequest);
+    }
+
+    public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
+        ImageHandler imageHandler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        return imageHandler.handle(httpRequest);
     }
 }

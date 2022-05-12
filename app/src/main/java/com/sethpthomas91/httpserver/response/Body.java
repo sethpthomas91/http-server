@@ -43,4 +43,8 @@ public class Body {
         return this.bodyBytes;
     }
 
+    public void setBodyBytes(byte[] bytes) {
+        bodyBytes = bytes;
+    }
+
 }

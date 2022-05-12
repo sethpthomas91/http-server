@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 public class HttpResponseWrapper {
 
     String CRLF = "\r\n";
-    String stringHttpResponse;
     StatusLine statusLine;
     Header header;
     boolean hasHeaders;

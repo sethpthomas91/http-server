@@ -17,20 +17,24 @@ public class ServerLogic implements ServerLogicInterface {
     HttpResponseWrapper httpResponse;
 
     public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException {
-        this.httpRequest = httpRequest;
-        this.httpResponse = new HttpResponseWrapper();
+        if (httpRequest.getRequestLine().equals("/kitteh.jpg")) {
+            return router.route(httpRequest);
+        } else {
+            this.httpRequest = httpRequest;
+            this.httpResponse = new HttpResponseWrapper();
 
-        StatusLine statusLine = createStatusLine(httpRequest.getRequestLine());
-        httpResponse.setStatusLine(statusLine);
+            StatusLine statusLine = createStatusLine(httpRequest.getRequestLine());
+            httpResponse.setStatusLine(statusLine);
 
-        Body body = createBody(httpRequest);
-        httpResponse.setBody(body);
+            Body body = createBody(httpRequest);
+            httpResponse.setBody(body);
 
-        Header header = createHeader(httpRequest, httpResponse);
-        httpResponse.setHeaders(header);
+            Header header = createHeader(httpRequest, httpResponse);
+            httpResponse.setHeaders(header);
 
 
-        return httpResponse;
+            return httpResponse;
+        }
     }
 
 
