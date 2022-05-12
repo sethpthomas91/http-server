@@ -48,6 +48,14 @@ public class Router {
         resources.put("/simple_get", new DefaultHandler());
         resources.put("/simple_get_with_body", new DefaultHandler());
         resources.put("/head_request", new DefaultHandler());
+        resources.put("/redirect", new DefaultHandler());
+        resources.put("/echo_body", new DefaultHandler());
+        resources.put("/method_options", new DefaultHandler());
+        resources.put("/method_options2", new DefaultHandler());
+        resources.put("/text_response", new DefaultHandler());
+        resources.put("/html_response", new DefaultHandler());
+        resources.put("/json_response", new DefaultHandler());
+        resources.put("/xml_response", new DefaultHandler());
         resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         return resources;
@@ -78,6 +86,11 @@ public class Router {
             Handler handler = new MethodNotAllowedHandler();
             return handler.handle(httpRequest);
         }
+    }
+
+    public HttpResponseWrapper routeNoResource(HttpRequestInterface httpRequest) throws IOException {
+        NoResourceHandler handler = new NoResourceHandler();
+        return handler.handle(httpRequest);
     }
 
     public boolean availableRoute(String uri) {

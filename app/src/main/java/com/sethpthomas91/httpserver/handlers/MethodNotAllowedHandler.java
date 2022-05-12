@@ -30,7 +30,7 @@ public class MethodNotAllowedHandler implements Handler{
     }
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
-        Body body = new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        Body body = new Body();
         httpResponse.setBody(body);
         return httpResponse;
     }

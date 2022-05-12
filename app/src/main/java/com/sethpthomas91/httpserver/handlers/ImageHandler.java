@@ -30,7 +30,7 @@ public class ImageHandler implements Handler{
     }
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
-        Body body = new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        Body body = new Body();
         byte[] imageBytes = ByteArrayGenerator.convertFileToBytes("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg");
         body.setBodyBytes(imageBytes);
         httpResponse.setBody(body);
