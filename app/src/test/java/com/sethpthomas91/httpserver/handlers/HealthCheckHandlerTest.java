@@ -36,15 +36,4 @@ public class HealthCheckHandlerTest {
         Assert.assertEquals("text/html;charset=utf-8", contentType);
     }
 
-    @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWithBody() throws IOException {
-        String requestString = "GET /health-check.html HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        HealthCheckHandler healthCheckHandler = new HealthCheckHandler();
-        HttpResponseWrapper httpResponse = healthCheckHandler.handle(httpRequest);
-        Body body = httpResponse.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("<strong>Status:</strong> pass", bodyText);
-    }
-
 }

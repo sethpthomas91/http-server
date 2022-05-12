@@ -285,16 +285,6 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWithBody() throws IOException {
-        HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
-        ServerLogic serverLogic = new ServerLogic();
-        HttpResponseWrapper response = serverLogic.processRequest(request);
-        Body body = response.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("<strong>Status:</strong> pass", bodyText);
-    }
-
-    @Test
     public void testGetRequestToKittehJpgShouldBe200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /kitteh.jpg HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
