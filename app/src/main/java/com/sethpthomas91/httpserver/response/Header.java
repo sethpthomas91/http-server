@@ -8,7 +8,6 @@ public class Header {
     String allowedHeaders;
     String methodOptionsAllowedHeaders = "GET, HEAD, OPTIONS";
     String methodOptions2AllowedHeaders = "GET, HEAD, OPTIONS, PUT, POST";
-    String headRequestAllowedHeaders = "HEAD, OPTIONS";
 
     String contentLength;
     String newLocation;
@@ -27,9 +26,6 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/method_options2")) {
             allowedHeaders = methodOptions2AllowedHeaders;
         }
-        else if (uniformResourceIdentifier.equals("/head_request")) {
-            allowedHeaders = headRequestAllowedHeaders;
-        }
         else if (uniformResourceIdentifier.equals("/redirect")) {
             newLocation = "http://127.0.0.1:5000/simple_get";
         }
@@ -45,9 +41,6 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/xml_response")) {
             contentType = "application/xml;charset=utf-8";
         }
-        else if (uniformResourceIdentifier.equals("/kitteh.jpg")) {
-            contentType = "image/jpeg";
-        }
     }
 
     public String options() {
@@ -60,6 +53,10 @@ public class Header {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public void setAllowedHeaders(String allowedHeaders) {
+        this.allowedHeaders = allowedHeaders;
     }
 
 

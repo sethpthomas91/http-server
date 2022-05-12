@@ -1,9 +1,6 @@
 package com.sethpthomas91.httpserver;
 
-import com.sethpthomas91.httpserver.handlers.DefaultHandler;
-import com.sethpthomas91.httpserver.handlers.Handler;
-import com.sethpthomas91.httpserver.handlers.HealthCheckHandler;
-import com.sethpthomas91.httpserver.handlers.ImageHandler;
+import com.sethpthomas91.httpserver.handlers.*;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
@@ -31,7 +28,7 @@ public class Router {
         resources.put("/", new String[]{"GET"});
         resources.put("/simple_get", new String[]{"GET", "HEAD"});
         resources.put("/simple_get_with_body", new String[]{"GET"});
-        resources.put("/head_request", new String[]{"GET", "HEAD"});
+        resources.put("/head_request", new String[]{"HEAD", "OPTIONS"});
         resources.put("/redirect", new String[]{"GET"});
         resources.put("/echo_body", new String[]{"POST"});
         resources.put("/method_options", new String[]{"OPTIONS"});
@@ -50,6 +47,7 @@ public class Router {
         resources.put("/", new DefaultHandler());
         resources.put("/simple_get", new DefaultHandler());
         resources.put("/simple_get_with_body", new DefaultHandler());
+        resources.put("/head_request", new DefaultHandler());
         resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         return resources;
@@ -60,9 +58,26 @@ public class Router {
         return Arrays.stream(resourceMethods).toList().contains(typeOfRequest);
     }
 
+    public String getAllowedMethodsForUri(String uniformResourceIdentifier) {
+        String[] allowedMethods = resources.get(uniformResourceIdentifier);
+        StringBuilder allowedMethodsFormatted = new StringBuilder();
+        for (int i = 0; i <= allowedMethods.length - 1; i++) {
+            allowedMethodsFormatted.append(String.valueOf(allowedMethods[i]));
+            if (i != allowedMethods.length - 1) {
+                allowedMethodsFormatted.append(", ");
+            }
+        }
+        return allowedMethodsFormatted.toString();
+    }
+
     public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
-        Handler imageHandler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
-        return imageHandler.handle(httpRequest);
+        if (methodAllowed(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier())) {
+            Handler handler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
+            return handler.handle(httpRequest);
+        } else {
+            Handler handler = new MethodNotAllowedHandler();
+            return handler.handle(httpRequest);
+        }
     }
 
     public boolean availableRoute(String uri) {

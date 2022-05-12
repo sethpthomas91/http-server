@@ -18,8 +18,8 @@ public class DefaultHandlerTest {
     public void testGetRequestToSimpleGetShouldRespondWith200() throws IOException {
         String requestString = "GET /simple_get HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler healthCheckHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = healthCheckHandler.handle(httpRequest);
+        DefaultHandler defaultHandler = new DefaultHandler();
+        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
         StatusLine statusLine = httpResponse.getStatusLine();
         String statusCode = statusLine.getStatusCode();
         Assert.assertEquals("200", statusCode);
@@ -29,12 +29,13 @@ public class DefaultHandlerTest {
     public void testGetRequestToSimpleGetWithBodyShouldRespondWith200() throws IOException {
         String requestString = "GET /simple_get_with_body HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler healthCheckHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = healthCheckHandler.handle(httpRequest);
+        DefaultHandler defaultHandler = new DefaultHandler();
+        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
         StatusLine statusLine = httpResponse.getStatusLine();
         String statusCode = statusLine.getStatusCode();
         Assert.assertEquals("200", statusCode);
     }
+
     @Test
     public void testGetRequestToSimpleGetWithBodyShouldRespondWithHelloWorldInBody() throws IOException {
         String requestString = "GET /simple_get_with_body HTTP/1.1\r\n";
