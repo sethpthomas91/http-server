@@ -1,7 +1,6 @@
 package com.sethpthomas91.httpserver.handlers;
 
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
-import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
 import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
@@ -31,15 +30,26 @@ public class ImageHandler implements Handler{
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        byte[] imageBytes = ByteArrayGenerator.convertFileToBytes("/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg");
-        body.setBodyBytes(imageBytes);
+        String stringPath = "/Users/sthomas/Learning/Java/http-server/app/Public/" + httpRequest.getRequestLine().getUniformResourceIdentifier();
+        body.setBodyBytes(ByteArrayGenerator.convertFileToBytes(stringPath));
         httpResponse.setBody(body);
         return httpResponse;
     }
 
+    private String getFileType (HttpRequestInterface httpRequest) {
+        return httpRequest.getRequestLine().getUniformResourceIdentifier().split("[.]")[1];
+    }
+
     private HttpResponseWrapper handleHeaders(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Header header = new Header(httpRequest, httpResponse);
-        header.setContentType("image/jpeg");
+        switch (getFileType(httpRequest)) {
+            case "jpg": header.setContentType("image/jpeg");
+            break;
+            case "png": header.setContentType("image/png");
+            break;
+            case "gif": header.setContentType("image/gif");
+            break;
+        }
         httpResponse.setHeaders(header);
         return httpResponse;
     }

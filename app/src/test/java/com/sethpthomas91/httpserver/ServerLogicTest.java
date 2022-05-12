@@ -75,7 +75,7 @@ public class ServerLogicTest {
 
     @Test
     public void testGetRequestToSimpleGetWithBodyTheStatusCodeShouldBe200() throws IOException {
-        HttpRequestWrapper request = new HttpRequestWrapper("HEAD /simple_get_with_body HTTP/1.1\r\n");
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /simple_get_with_body HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
         StatusLine statusLine = response.getStatusLine();

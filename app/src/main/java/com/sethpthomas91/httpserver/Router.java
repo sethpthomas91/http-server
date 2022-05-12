@@ -31,14 +31,16 @@ public class Router {
         resources.put("/head_request", new String[]{"HEAD", "OPTIONS"});
         resources.put("/redirect", new String[]{"GET"});
         resources.put("/echo_body", new String[]{"POST"});
-        resources.put("/method_options", new String[]{"OPTIONS"});
-        resources.put("/method_options2", new String[]{"OPTIONS"});
+        resources.put("/method_options", new String[]{"GET", "HEAD", "OPTIONS"});
+        resources.put("/method_options2", new String[]{"GET", "HEAD", "OPTIONS", "PUT", "POST"});
         resources.put("/text_response", new String[]{"GET"});
         resources.put("/html_response", new String[]{"GET"});
         resources.put("/json_response", new String[]{"GET"});
         resources.put("/xml_response", new String[]{"GET"});
         resources.put("/health-check.html", new String[]{"GET"});
         resources.put("/kitteh.jpg", new String[]{"GET"});
+        resources.put("/doggo.png", new String[]{"GET"});
+        resources.put("/kisses.gif", new String[]{"GET"});
         return resources;
     }
 
@@ -58,6 +60,8 @@ public class Router {
         resources.put("/xml_response", new DefaultHandler());
         resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
+        resources.put("/doggo.png", new ImageHandler());
+        resources.put("/kisses.gif", new ImageHandler());
         return resources;
     }
 
@@ -70,7 +74,7 @@ public class Router {
         String[] allowedMethods = resources.get(uniformResourceIdentifier);
         StringBuilder allowedMethodsFormatted = new StringBuilder();
         for (int i = 0; i <= allowedMethods.length - 1; i++) {
-            allowedMethodsFormatted.append(String.valueOf(allowedMethods[i]));
+            allowedMethodsFormatted.append(allowedMethods[i]);
             if (i != allowedMethods.length - 1) {
                 allowedMethodsFormatted.append(", ");
             }

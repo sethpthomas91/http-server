@@ -6,6 +6,7 @@ import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 import com.sethpthomas91.httpserver.utils.ByteArrayGenerator;
+import com.sethpthomas91.httpserver.utils.HtmlFileReader;
 
 import java.io.IOException;
 
@@ -30,7 +31,8 @@ public class HealthCheckHandler implements Handler{
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        body.setBodyText("<strong>Status:</strong> pass");
+        String fileContent = HtmlFileReader.readHtmlFile("/Users/sthomas/Learning/Java/http-server/app/Public/health-check.html");
+        body.setBodyText(fileContent);
         httpResponse.setBody(body);
         return httpResponse;
     }

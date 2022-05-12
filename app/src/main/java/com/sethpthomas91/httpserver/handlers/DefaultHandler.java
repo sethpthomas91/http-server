@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver.handlers;
 
+import com.sethpthomas91.httpserver.Router;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
@@ -56,12 +57,13 @@ public class DefaultHandler implements Handler{
 
     private HttpResponseWrapper handleHeaders(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Header header = new Header(httpRequest, httpResponse);
+        Router router = new Router();
         switch (httpRequest.getRequestLine().getUniformResourceIdentifier()) {
             case "/head_request": header.setAllowedHeaders("HEAD, OPTIONS");
             break;
-            case "/method_options": header.setAllowedHeaders("GET, HEAD, OPTIONS");
-            break;
-            case "/method_options2": header.setAllowedHeaders("GET, HEAD, OPTIONS, PUT, POST");
+            case "/method_options":
+            case "/method_options2":
+                header.setAllowedHeaders(router.getAllowedMethodsForUri(httpRequest.getRequestLine().getUniformResourceIdentifier()));
             break;
             case "/text_response": header.setContentType("text/plain;charset=utf-8");
             break;
