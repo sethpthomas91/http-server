@@ -13,8 +13,9 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class DefaultHandlerTest {
+
     @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWith200() throws IOException {
+    public void testGetRequestToSimpleGetShouldRespondWith200() throws IOException {
         String requestString = "GET /simple_get HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
         DefaultHandler healthCheckHandler = new DefaultHandler();
@@ -22,6 +23,27 @@ public class DefaultHandlerTest {
         StatusLine statusLine = httpResponse.getStatusLine();
         String statusCode = statusLine.getStatusCode();
         Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToSimpleGetWithBodyShouldRespondWith200() throws IOException {
+        String requestString = "GET /simple_get_with_body HTTP/1.1\r\n";
+        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
+        DefaultHandler healthCheckHandler = new DefaultHandler();
+        HttpResponseWrapper httpResponse = healthCheckHandler.handle(httpRequest);
+        StatusLine statusLine = httpResponse.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+    @Test
+    public void testGetRequestToSimpleGetWithBodyShouldRespondWithHelloWorldInBody() throws IOException {
+        String requestString = "GET /simple_get_with_body HTTP/1.1\r\n";
+        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
+        DefaultHandler healthCheckHandler = new DefaultHandler();
+        HttpResponseWrapper httpResponse = healthCheckHandler.handle(httpRequest);
+        Body body = httpResponse.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("Hello world", bodyText);
     }
 
 }

@@ -30,6 +30,10 @@ public class DefaultHandler implements Handler{
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        switch (httpRequest.getRequestLine().getUniformResourceIdentifier()) {
+            case "/simple_get_with_body": body.setBodyText("Hello world");
+            break;
+        }
         httpResponse.setBody(body);
         return httpResponse;
     }

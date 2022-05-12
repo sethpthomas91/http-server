@@ -9,9 +9,7 @@ public class Body {
     byte[] bodyBytes;
 
     public Body(String uniformResourceIdentifier) throws IOException {
-        if (uniformResourceIdentifier.equals("/simple_get_with_body")) {
-            this.bodyText = "Hello world";
-        } else if (uniformResourceIdentifier.equals("/echo_body")) {
+        if (uniformResourceIdentifier.equals("/echo_body")) {
             this.bodyText = "some body";
         } else if (uniformResourceIdentifier.equals("/text_response")) {
             this.bodyText = "text response";

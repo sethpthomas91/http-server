@@ -49,6 +49,7 @@ public class Router {
         Map<String, Handler> resources = new HashMap<>();
         resources.put("/", new DefaultHandler());
         resources.put("/simple_get", new DefaultHandler());
+        resources.put("/simple_get_with_body", new DefaultHandler());
         resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         return resources;
