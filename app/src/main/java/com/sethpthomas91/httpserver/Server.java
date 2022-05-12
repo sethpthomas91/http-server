@@ -32,6 +32,7 @@ public class Server {
                 HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
                 String outgoingResponse = httpResponse.stringifyHttpResponse();
                 serverSocketWrapper.sendResponse(outgoingResponse);
+                System.out.println(outgoingResponse);
                 serverSocketWrapper.disconnectFromClient();
 
             } catch (Exception error) {

@@ -11,8 +11,9 @@ public class Header {
     String headRequestAllowedHeaders = "HEAD, OPTIONS";
 
     String contentLength;
-
     String newLocation;
+    String contentType;
+    String stringifiedHeaders = "";
 
     public Header(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
         processUri(httpRequest.getRequestLine().getUniformResourceIdentifier());
@@ -32,24 +33,45 @@ public class Header {
         else if (uniformResourceIdentifier.equals("/redirect")) {
             newLocation = "http://127.0.0.1:5000/simple_get";
         }
+        else if (uniformResourceIdentifier.equals("/text_response")) {
+            contentType = "text/plain;charset=utf-8";
+        }
+        else if (uniformResourceIdentifier.equals("/html_response")) {
+            contentType = "text/html;charset=utf-8";
+        }
+        else if (uniformResourceIdentifier.equals("/json_response")) {
+            contentType = "application/json;charset=utf-8";
+        }
+        else if (uniformResourceIdentifier.equals("/xml_response")) {
+            contentType = "application/xml;charset=utf-8";
+        }
     }
 
     public String options() {
         return allowedHeaders;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
     public String getHeaders() {
+        buildStringifiedHeaders();
+        return stringifiedHeaders;
+    }
+
+    private void buildStringifiedHeaders() {
         if (allowedHeaders != null) {
-            return "Allow: " + allowedHeaders + CRLF;
+            stringifiedHeaders += "Allow: " + allowedHeaders + CRLF;
         }
         if (contentLength != null) {
-            return "Content-Length: " + contentLength + CRLF;
+            stringifiedHeaders += "Content-Length: " + contentLength + CRLF;
         }
         if (newLocation != null) {
-            return "Location: " + newLocation + CRLF;
+            stringifiedHeaders += "Location: " + newLocation + CRLF;
         }
-        else {
-            return "";
+        if (contentType != null) {
+            stringifiedHeaders += "Content-Type: " + contentType + CRLF;
         }
     }
 
