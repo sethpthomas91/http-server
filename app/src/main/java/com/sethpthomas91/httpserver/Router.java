@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver;
 
+import com.sethpthomas91.httpserver.handlers.Handler;
 import com.sethpthomas91.httpserver.handlers.ImageHandler;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class Router {
     public Map<String, String[]> resources;
-    private Map<String, ImageHandler> resourcesWithHandlers;
+    private Map<String, Handler> resourcesWithHandlers;
 
     public Router() {
         this.resources = createResources();
@@ -42,8 +43,9 @@ public class Router {
         return resources;
     }
 
-    private Map<String, ImageHandler> createResourcesWithHandlers() {
-        Map<String, ImageHandler> resources = new HashMap<>();
+    private Map<String, Handler> createResourcesWithHandlers() {
+        Map<String, Handler> resources = new HashMap<>();
+        resources.put("/health-check.html", new ImageHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         return resources;
     }
@@ -54,7 +56,7 @@ public class Router {
     }
 
     public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
-        ImageHandler imageHandler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
+        Handler imageHandler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
         return imageHandler.handle(httpRequest);
     }
 }

@@ -36,6 +36,10 @@ public class Body {
         }
     }
 
+    public void setBodyText(String bodyText) {
+        this.bodyText = bodyText;
+    }
+
     public byte[] getBodyBytes() {
         if (bodyText != null) {
             bodyBytes = ByteArrayGenerator.convertStringToBytes(bodyText);
