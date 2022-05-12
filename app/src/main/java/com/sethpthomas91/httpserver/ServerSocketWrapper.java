@@ -1,14 +1,13 @@
 package com.sethpthomas91.httpserver;
 
+import com.google.common.primitives.Bytes;
 import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Stream;
+
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     ServerSocket serverSocket = null;
@@ -91,11 +90,6 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     }
 
     public void sendResponse(byte[] responseBytes) throws IOException {
-//        clientWriter.println(newMessage);
-        sendByteResponse(responseBytes);
-    }
-
-    private void sendByteResponse(byte[] responseBytes ) throws IOException {
         OutputStream toClientOutputStream = clientSocket.getOutputStream();
         toClientOutputStream.write(responseBytes);
         toClientOutputStream.flush();

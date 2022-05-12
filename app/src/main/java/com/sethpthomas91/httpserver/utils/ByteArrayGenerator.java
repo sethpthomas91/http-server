@@ -10,7 +10,7 @@ public class ByteArrayGenerator {
         return message.getBytes();
     }
 
-    public byte[] convertFileToBytes(String pathString) throws IOException {
+    public static byte[] convertFileToBytes(String pathString) throws IOException {
         return Files.readAllBytes(new File(pathString).toPath());
     }
 }

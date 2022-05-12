@@ -83,6 +83,9 @@ public class Header {
         if (body.getBody() != null) {
             contentLength = String.valueOf(body.getBody().length());
         }
+        if (body.getBodyBytes() != null) {
+            contentLength = String.valueOf(body.getBodyBytes().length);
+        }
 
     }
 
