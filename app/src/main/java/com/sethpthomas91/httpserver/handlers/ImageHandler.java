@@ -8,6 +8,8 @@ import com.sethpthomas91.httpserver.response.StatusLine;
 import com.sethpthomas91.httpserver.utils.ByteArrayGenerator;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ImageHandler implements Handler{
 
@@ -30,7 +32,13 @@ public class ImageHandler implements Handler{
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        String stringPath = "/Users/sthomas/Learning/Java/http-server/app/Public/" + httpRequest.getRequestLine().getUniformResourceIdentifier();
+
+        Path publicDirectory1 = Path.of("");
+        System.out.println("IMAGE HANDLER INTERNAL PATH");
+        System.out.println(publicDirectory1.toAbsolutePath());
+
+        String publicDirectory = "/Users/sthomas/Learning/Java/http-server/app/Public";
+        String stringPath = publicDirectory + httpRequest.getRequestLine().getUniformResourceIdentifier();
         body.setBodyBytes(ByteArrayGenerator.convertFileToBytes(stringPath));
         httpResponse.setBody(body);
         return httpResponse;

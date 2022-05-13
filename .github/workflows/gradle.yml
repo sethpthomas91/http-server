@@ -19,3 +19,5 @@ jobs:
           distribution: 'adopt'
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Get Working Directory
+        run: pwd
