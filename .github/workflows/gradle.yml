@@ -17,8 +17,6 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
-      - name: Get Working Directory
-        run: pwd
       - name: Build with Gradle
         run: ./gradlew build
 
