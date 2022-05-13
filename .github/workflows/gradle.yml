@@ -20,5 +20,5 @@ jobs:
       - name: Get Working Directory
         run: pwd
       - name: Build with Gradle
-        run: ./gradlew build
+        run: PUBLIC_DIR="$(pwd)/Public/" ./gradlew build
 
