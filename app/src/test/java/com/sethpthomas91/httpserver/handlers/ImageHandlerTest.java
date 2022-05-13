@@ -1,6 +1,5 @@
 package com.sethpthomas91.httpserver.handlers;
 
-import com.sethpthomas91.httpserver.handlers.ImageHandler;
 import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
 import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
@@ -9,13 +8,10 @@ import com.sethpthomas91.httpserver.response.StatusLine;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.Assert.*;
 
 public class ImageHandlerTest {
 
@@ -38,13 +34,8 @@ public class ImageHandlerTest {
         HttpResponseWrapper httpResponse = imageHandler.handle(httpRequest);
         Body body = httpResponse.getBody();
         byte[] bodyBytes = body.getBodyBytes();
-        String pathString = "/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg";
+        String pathString = System.getenv("PUBLIC_DIR") + "/kitteh.jpg";
         byte[] imageData = Files.readAllBytes(new File(pathString).toPath());
-
-        Path publicDirectory1 = Path.of("");
-        System.out.println("TEST INTERNAL PATH");
-        System.out.println(publicDirectory1.toAbsolutePath());
-
         Assert.assertArrayEquals(imageData, bodyBytes);
     }
 
@@ -58,6 +49,4 @@ public class ImageHandlerTest {
         String contentType = header.getContentType();
         Assert.assertEquals("image/jpeg", contentType);
     }
-
-
 }
