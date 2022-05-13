@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get Working Directory
+          run: pwd
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
@@ -19,5 +21,4 @@ jobs:
           distribution: 'adopt'
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Get Working Directory
-        run: pwd
+
