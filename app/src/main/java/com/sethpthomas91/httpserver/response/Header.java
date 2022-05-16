@@ -31,8 +31,6 @@ public class Header {
     public void setAllowedHeaders(String allowedHeaders) {
         this.allowedHeaders = allowedHeaders;
     }
-
-
     public String getHeaders() {
         buildStringifiedHeaders();
         return stringifiedHeaders;

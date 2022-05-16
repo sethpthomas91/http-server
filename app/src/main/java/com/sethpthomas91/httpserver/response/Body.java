@@ -8,7 +8,6 @@ public class Body {
     String bodyText;
     byte[] bodyBytes;
 
-
     public String getBody() {
         if (bodyText != null) {
             return this.bodyText;

@@ -303,5 +303,4 @@ public class ServerLogicTest {
         String contentType = header.getContentType();
         Assert.assertEquals("image/jpeg", contentType);
     }
-
 }
