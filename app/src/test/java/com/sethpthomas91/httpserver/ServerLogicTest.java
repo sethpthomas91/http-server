@@ -260,4 +260,35 @@ public class ServerLogicTest {
         String bodyText = body.getBody();
         Assert.assertEquals("<note><body>XML Response</body></note>", bodyText);
     }
+
+    @Test
+    public void testGetRequestToHealthCheckResponseShouldRespondWith200() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testGetRequestToHealthCheckResponseShouldRespondWithContentTypeHeader() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("text/html;charset=utf-8", contentType);
+    }
+
+    @Test
+    public void testGetRequestToHealthCheckResponseShouldRespondWithBody() {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Body body = response.getBody();
+        String bodyText = body.getBody();
+        Assert.assertEquals("<strong>Status:</strong> pass", bodyText);
+    }
+
 }
