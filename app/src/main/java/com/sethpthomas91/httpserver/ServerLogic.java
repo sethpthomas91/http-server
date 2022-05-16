@@ -8,74 +8,17 @@ import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 
+import java.io.IOException;
 
 
 public class ServerLogic implements ServerLogicInterface {
     Router router = new Router();
-    HttpRequestInterface httpRequest;
-    HttpResponseWrapper httpResponse;
 
-    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) {
-        this.httpRequest = httpRequest;
-        this.httpResponse = new HttpResponseWrapper();
-
-        StatusLine statusLine = createStatusLine(httpRequest.getRequestLine());
-        httpResponse.setStatusLine(statusLine);
-
-        Body body = createBody(httpRequest);
-        httpResponse.setBody(body);
-
-        Header header = createHeader(httpRequest, httpResponse);
-        httpResponse.setHeaders(header);
-
-
-        return httpResponse;
-    }
-
-
-    private StatusLine createStatusLine(RequestLine requestLine) {
-        StatusLine statusLine = new StatusLine();
-        statusLine.setHttpVersion(requestLine.getHttpVersion());
-        if (router.resourceExists(requestLine.getUniformResourceIdentifier())) {
-            handleRequestType(statusLine, requestLine);
+    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException {
+        if (router.availableRoute(httpRequest.getRequestLine().getUniformResourceIdentifier())) {
+            return router.route(httpRequest);
         } else {
-            statusLine.setStatusCode("404");
-            statusLine.setResponseText("Resource Does Not Exist");
+            return router.routeNoResource(httpRequest);
         }
-        return statusLine;
     }
-
-    private StatusLine handleRequestType(StatusLine statusLine, RequestLine requestLine) {
-        switch (requestLine.getTypeOfRequest()) {
-            case "GET" -> createStatusLineForGetRequest(statusLine, requestLine.getUniformResourceIdentifier());
-            case "OPTIONS", "HEAD", "POST" -> {
-                statusLine.setStatusCode("200");
-                statusLine.setResponseText("OK");
-            }
-        }
-        return statusLine;
-    }
-
-    private StatusLine createStatusLineForGetRequest(StatusLine statusLine, String uniformResourceIdentifier) {
-        switch (uniformResourceIdentifier) {
-            case "/head_request": statusLine.setStatusCode("405");
-            statusLine.setResponseText("Method Not Allowed");
-            break;
-            case "/redirect": statusLine.setStatusCode("301");
-            statusLine.setResponseText("Moved Permanently");
-            break;
-            default: statusLine.setStatusCode("200");
-            statusLine.setResponseText("OK");
-        }
-        return statusLine;
-    }
-
-    private Body createBody(HttpRequestInterface httpRequest) {
-        return new Body(httpRequest.getRequestLine().getUniformResourceIdentifier());
-    }
-
-    private Header createHeader(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
-        return new Header(httpRequest, httpResponse);
-    }
-
 }

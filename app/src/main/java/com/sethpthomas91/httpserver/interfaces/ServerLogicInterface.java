@@ -2,7 +2,8 @@ package com.sethpthomas91.httpserver.interfaces;
 
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 
-public interface ServerLogicInterface {
+import java.io.IOException;
 
-    HttpResponseWrapper processRequest(HttpRequestInterface httpRequest);
+public interface ServerLogicInterface {
+    HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException;
 }

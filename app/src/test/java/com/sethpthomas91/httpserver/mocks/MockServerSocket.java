@@ -34,7 +34,7 @@ public class MockServerSocket implements ServerSocketWrapperInterface {
     }
 
     @Override
-    public void sendResponse(String stringifyHttpResponse) {
+    public void sendResponse(byte[] stringifyHttpResponse) {
 
     }
 

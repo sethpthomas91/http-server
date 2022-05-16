@@ -1,11 +1,13 @@
 package com.sethpthomas91.httpserver;
 
+import com.google.common.primitives.Bytes;
 import com.sethpthomas91.httpserver.interfaces.ServerSocketWrapperInterface;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.stream.Stream;
+import java.nio.charset.StandardCharsets;
+
 
 public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     ServerSocket serverSocket = null;
@@ -30,6 +32,7 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     }
 
     private void createReader() throws IOException {
+//        BufferedImage clientImageReader = new BufferedImage(new ByteArrayInputStream())
         clientReader = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()));
         System.out.println("[Client Reader Created]");
     }
@@ -86,8 +89,11 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface {
         return result.toString();
     }
 
-    public void sendResponse(String newMessage) {
-        clientWriter.println(newMessage);
+    public void sendResponse(byte[] responseBytes) throws IOException {
+        OutputStream toClientOutputStream = clientSocket.getOutputStream();
+        toClientOutputStream.write(responseBytes);
+        toClientOutputStream.flush();
+        toClientOutputStream.close();
     }
 
     public boolean getListeningStatus() {
