@@ -38,18 +38,24 @@ public class DefaultHandler implements Handler{
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
         switch (httpRequest.getRequestLine().getUniformResourceIdentifier()) {
-            case "/simple_get_with_body": body.setBodyText("Hello world");
-            break;
-            case "/echo_body": body.setBodyText("some body");
-            break;
-            case "/text_response": body.setBodyText("text response");
-            break;
-            case "/html_response": body.setBodyText("<html><body><p>HTML Response</p></body></html>");
-            break;
-            case "/json_response": body.setBodyText("{\"key1\":\"value1\",\"key2\":\"value2\"}");
-            break;
-            case "/xml_response": body.setBodyText("<note><body>XML Response</body></note>");
-            break;
+            case "/simple_get_with_body":
+                body.setBodyText("Hello world");
+                break;
+            case "/echo_body":
+                body.setBodyText("some body");
+                break;
+            case "/text_response":
+                body.setBodyText("text response");
+                break;
+            case "/html_response":
+                body.setBodyText("<html><body><p>HTML Response</p></body></html>");
+                break;
+            case "/json_response":
+                body.setBodyText("{\"key1\":\"value1\",\"key2\":\"value2\"}");
+                break;
+            case "/xml_response":
+                body.setBodyText("<note><body>XML Response</body></note>");
+                break;
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -59,22 +65,28 @@ public class DefaultHandler implements Handler{
         Header header = new Header(httpRequest, httpResponse);
         Router router = new Router();
         switch (httpRequest.getRequestLine().getUniformResourceIdentifier()) {
-            case "/head_request": header.setAllowedHeaders("HEAD, OPTIONS");
-            break;
+            case "/head_request":
+                header.setAllowedHeaders("HEAD, OPTIONS");
+                break;
             case "/method_options":
             case "/method_options2":
                 header.setAllowedHeaders(router.getAllowedMethodsForUri(httpRequest.getRequestLine().getUniformResourceIdentifier()));
-            break;
-            case "/text_response": header.setContentType("text/plain;charset=utf-8");
-            break;
-            case "/html_response": header.setContentType("text/html;charset=utf-8");
-            break;
-            case "/json_response": header.setContentType("application/json;charset=utf-8");
-            break;
-            case "/xml_response": header.setContentType("application/xml;charset=utf-8");
-            break;
-            case "/redirect": header.setLocation("http://127.0.0.1:5000/simple_get");
-            break;
+                break;
+            case "/text_response":
+                header.setContentType("text/plain;charset=utf-8");
+                break;
+            case "/html_response":
+                header.setContentType("text/html;charset=utf-8");
+                break;
+            case "/json_response":
+                header.setContentType("application/json;charset=utf-8");
+                break;
+            case "/xml_response":
+                header.setContentType("application/xml;charset=utf-8");
+                break;
+            case "/redirect":
+                header.setLocation("http://127.0.0.1:5000/simple_get");
+                break;
         }
         httpResponse.setHeaders(header);
         return httpResponse;

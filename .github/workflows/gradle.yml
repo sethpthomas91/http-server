@@ -17,6 +17,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
+      - name: Get working directory
+        run: pwd
       - name: Build with Gradle
-        run: ./gradlew build
-
+        run: PUBLIC_DIR="$(pwd)/Public ./gradlew build

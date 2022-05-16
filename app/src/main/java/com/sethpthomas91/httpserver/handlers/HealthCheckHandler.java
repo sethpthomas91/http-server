@@ -7,10 +7,11 @@ import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 import com.sethpthomas91.httpserver.utils.ByteArrayGenerator;
 import com.sethpthomas91.httpserver.utils.HtmlFileReader;
+import com.sethpthomas91.httpserver.utils.StaticVariables;
 
 import java.io.IOException;
 
-public class HealthCheckHandler implements Handler{
+public class HealthCheckHandler implements Handler {
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
         HttpResponseWrapper httpResponse = new HttpResponseWrapper();
@@ -31,7 +32,8 @@ public class HealthCheckHandler implements Handler{
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        String fileContent = HtmlFileReader.readHtmlFile("/Users/sthomas/Learning/Java/http-server/app/Public/health-check.html");
+        String fileLocation = StaticVariables.getPublicDirectory() + "health-check.html";
+        String fileContent = HtmlFileReader.readHtmlFile(fileLocation);
         body.setBodyText(fileContent);
         httpResponse.setBody(body);
         return httpResponse;
@@ -43,5 +45,4 @@ public class HealthCheckHandler implements Handler{
         httpResponse.setHeaders(header);
         return httpResponse;
     }
-
 }

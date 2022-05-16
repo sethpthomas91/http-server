@@ -23,10 +23,9 @@ public class ByteArrayGeneratorTest {
     @Test
     public void testGenerateBytesFromFile() throws IOException {
         ByteArrayGenerator byteArrayGenerator = new ByteArrayGenerator();
-        String pathString = "/Users/sthomas/Learning/Java/http-server/app/Public/kitteh.jpg";
+        String pathString = StaticVariables.getPublicDirectory() + "kitteh.jpg";
         byte[] fileBytes = byteArrayGenerator.convertFileToBytes(pathString);
         byte[] imageData = Files.readAllBytes(new File(pathString).toPath());
         Assert.assertArrayEquals(imageData, fileBytes);
     }
-
 }

@@ -42,7 +42,7 @@ git clone git@github.com:sethpthomas91/http-server.git
 
 2 Build the project with gradle
    ```sh
-./gradlew build   
+PUBLIC_DIR="$(pwd)/Public/" ./gradlew build   
    ```
 
 3 Run the server
@@ -51,6 +51,13 @@ Place running instructions here
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### Testing
+
+1 After cloning the repo run the test suite with the following command
+   ```sh
+PUBLIC_DIR="$(pwd)/Public/" ./gradlew test   
+   ```
 
 
 

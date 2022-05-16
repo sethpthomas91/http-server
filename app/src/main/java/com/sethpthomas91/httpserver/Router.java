@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Router {
     public Map<String, String[]> resources;
-    private Map<String, Handler> resourcesWithHandlers;
+    private final Map<String, Handler> resourcesWithHandlers;
 
     public Router() {
         this.resources = createResources();
@@ -67,7 +67,7 @@ public class Router {
 
     public boolean methodAllowed(String typeOfRequest, String uniformResourceIdentifier) {
         String[] resourceMethods = resources.get(uniformResourceIdentifier);
-        return Arrays.stream(resourceMethods).toList().contains(typeOfRequest);
+        return Arrays.asList(resourceMethods).contains(typeOfRequest);
     }
 
     public String getAllowedMethodsForUri(String uniformResourceIdentifier) {
