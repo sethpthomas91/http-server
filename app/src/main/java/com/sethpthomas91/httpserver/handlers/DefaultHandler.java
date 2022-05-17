@@ -9,7 +9,7 @@ import com.sethpthomas91.httpserver.response.StatusLine;
 
 import java.io.IOException;
 
-public class DefaultHandler implements Handler{
+public class DefaultHandler implements Handler {
 
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
@@ -55,9 +55,6 @@ public class DefaultHandler implements Handler{
             case "/html_response":
                 body.setBodyText("<html><body><p>HTML Response</p></body></html>");
                 break;
-            case "/json_response":
-                body.setBodyText("{\"key1\":\"value1\",\"key2\":\"value2\"}");
-                break;
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -79,9 +76,6 @@ public class DefaultHandler implements Handler{
                 break;
             case "/html_response":
                 header.setContentType("text/html;charset=utf-8");
-                break;
-            case "/json_response":
-                header.setContentType("application/json;charset=utf-8");
                 break;
             case "/redirect":
                 header.setLocation("http://127.0.0.1:5000/simple_get");

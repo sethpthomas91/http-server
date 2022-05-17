@@ -14,6 +14,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class HealthCheckHandlerTest {
+
     @Test
     public void testGetRequestToHealthCheckResponseShouldRespondWith200() throws IOException {
         String requestString = "GET /health-check.html HTTP/1.1\r\n";
