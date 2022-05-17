@@ -6,9 +6,6 @@ public class Header {
     String CRLF = "\r\n";
 
     String allowedHeaders;
-    String methodOptionsAllowedHeaders = "GET, HEAD, OPTIONS";
-    String methodOptions2AllowedHeaders = "GET, HEAD, OPTIONS, PUT, POST";
-    String headRequestAllowedHeaders = "HEAD, OPTIONS";
 
     String contentLength;
     String newLocation;
@@ -16,35 +13,7 @@ public class Header {
     String stringifiedHeaders = "";
 
     public Header(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
-        processUri(httpRequest.getRequestLine().getUniformResourceIdentifier());
         setContentLengthHeader(httpResponse.getBody());
-    }
-
-    private void processUri(String uniformResourceIdentifier){
-        if (uniformResourceIdentifier.equals("/method_options")) {
-            allowedHeaders = methodOptionsAllowedHeaders;
-        }
-        else if (uniformResourceIdentifier.equals("/method_options2")) {
-            allowedHeaders = methodOptions2AllowedHeaders;
-        }
-        else if (uniformResourceIdentifier.equals("/head_request")) {
-            allowedHeaders = headRequestAllowedHeaders;
-        }
-        else if (uniformResourceIdentifier.equals("/redirect")) {
-            newLocation = "http://127.0.0.1:5000/simple_get";
-        }
-        else if (uniformResourceIdentifier.equals("/text_response")) {
-            contentType = "text/plain;charset=utf-8";
-        }
-        else if (uniformResourceIdentifier.equals("/html_response") || uniformResourceIdentifier.equals("/health-check.html")) {
-            contentType = "text/html;charset=utf-8";
-        }
-        else if (uniformResourceIdentifier.equals("/json_response")) {
-            contentType = "application/json;charset=utf-8";
-        }
-        else if (uniformResourceIdentifier.equals("/xml_response")) {
-            contentType = "application/xml;charset=utf-8";
-        }
     }
 
     public String options() {
@@ -55,6 +24,13 @@ public class Header {
         return contentType;
     }
 
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setAllowedHeaders(String allowedHeaders) {
+        this.allowedHeaders = allowedHeaders;
+    }
     public String getHeaders() {
         buildStringifiedHeaders();
         return stringifiedHeaders;
@@ -79,10 +55,17 @@ public class Header {
         if (body.getBody() != null) {
             contentLength = String.valueOf(body.getBody().length());
         }
+        if (body.getBodyBytes() != null) {
+            contentLength = String.valueOf(body.getBodyBytes().length);
+        }
 
     }
 
     public String location() {
         return newLocation;
+    }
+
+    public void setLocation(String location) {
+        this.newLocation = location;
     }
 }

@@ -30,9 +30,9 @@ public class Server {
                 String incomingRequest = serverSocketWrapper.incomingRequest();
                 HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequest);
                 HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
-                String outgoingResponse = httpResponse.stringifyHttpResponse();
-                serverSocketWrapper.sendResponse(outgoingResponse);
-                System.out.println(outgoingResponse);
+                byte[] outgoingResponseBytes = httpResponse.getBytes();
+                System.out.println(outgoingResponseBytes);
+                serverSocketWrapper.sendResponse(outgoingResponseBytes);
                 serverSocketWrapper.disconnectFromClient();
 
             } catch (Exception error) {

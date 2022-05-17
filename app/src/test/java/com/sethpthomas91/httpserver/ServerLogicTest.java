@@ -5,13 +5,16 @@ import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
+import com.sun.net.httpserver.Headers;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
 
 public class ServerLogicTest {
 
     @Test
-    public void testReturnsOptionsToMethodOptionsRequest() {
+    public void testReturnsOptionsToMethodOptionsRequest() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("OPTIONS /method_options HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -21,7 +24,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testReturnsOptionsToMethodOptions2Request() {
+    public void testReturnsOptionsToMethodOptions2Request() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("OPTIONS /method_options2 HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -31,7 +34,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToPageThatDoesNotExistReturns404() {
+    public void testGetRequestToPageThatDoesNotExistReturns404() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /unknown_page HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -41,7 +44,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testHeadRequestToPageThatDoesExistReturns200() {
+    public void testHeadRequestToPageThatDoesExistReturns200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("HEAD /simple_get HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -51,7 +54,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHeadRequestResponseShouldBe405() {
+    public void testGetRequestToHeadRequestResponseShouldBe405() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /head_request HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -61,7 +64,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testHeadRequestToHeadRequestTheStatusCodeShouldBe200() {
+    public void testHeadRequestToHeadRequestTheStatusCodeShouldBe200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("HEAD /head_request HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -71,8 +74,8 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToSimpleGetWithBodyTheStatusCodeShouldBe200() {
-        HttpRequestWrapper request = new HttpRequestWrapper("HEAD /simple_get_with_body HTTP/1.1\r\n");
+    public void testGetRequestToSimpleGetWithBodyTheStatusCodeShouldBe200() throws IOException {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /simple_get_with_body HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
         StatusLine statusLine = response.getStatusLine();
@@ -81,7 +84,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToSimpleGetWithBodyTheBodyShouldBeHelloWorld() {
+    public void testGetRequestToSimpleGetWithBodyTheBodyShouldBeHelloWorld() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /simple_get_with_body HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -91,7 +94,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToRedirectShouldHaveStatusCode301() {
+    public void testGetRequestToRedirectShouldHaveStatusCode301() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /redirect HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -101,7 +104,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToRedirectShouldHaveHeaderWithNewLocation() {
+    public void testGetRequestToRedirectShouldHaveHeaderWithNewLocation() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /redirect HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -111,7 +114,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToRedirectShouldHaveBodySameAsRequestBody() {
+    public void testGetRequestToRedirectShouldHaveBodySameAsRequestBody() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /redirect HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -121,7 +124,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testPostRequestWithBodyShouldReturnStatusCode200() {
+    public void testPostRequestWithBodyShouldReturnStatusCode200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("POST /echo_body HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -131,7 +134,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testPostRequestWithBodyShouldEchoTheBody() {
+    public void testPostRequestWithBodyShouldEchoTheBody() throws IOException {
         String requestBody = "some body";
         HttpRequestWrapper request = new HttpRequestWrapper("POST /echo_body HTTP/1.1\r\n\r\n" + requestBody);
         ServerLogic serverLogic = new ServerLogic();
@@ -142,7 +145,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToTextResponseShouldRespondWith200() {
+    public void testGetRequestToTextResponseShouldRespondWith200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -152,7 +155,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToTextResponseShouldRespondWithTextInBody() {
+    public void testGetRequestToTextResponseShouldRespondWithTextInBody() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -162,7 +165,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToTextResponseShouldRespondWithContentTypeHeader() {
+    public void testGetRequestToTextResponseShouldRespondWithContentTypeHeader() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /text_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -172,7 +175,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHtmlResponseShouldResponseWith200() {
+    public void testGetRequestToHtmlResponseShouldResponseWith200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -182,7 +185,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHtmlResponseShouldRespondWithContentTypeHeader() {
+    public void testGetRequestToHtmlResponseShouldRespondWithContentTypeHeader() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -192,7 +195,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHtmlResponseShouldRespondWithHtmlInBody() {
+    public void testGetRequestToHtmlResponseShouldRespondWithHtmlInBody() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /html_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -202,7 +205,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToJsonResponseShouldResponseWith200() {
+    public void testGetRequestToJsonResponseShouldResponseWith200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -212,7 +215,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToJsonResponseShouldRespondWithContentTypeHeader() {
+    public void testGetRequestToJsonResponseShouldRespondWithContentTypeHeader() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -222,7 +225,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToJsonResponseShouldRespondWithJsonInBody() {
+    public void testGetRequestToJsonResponseShouldRespondWithJsonInBody() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /json_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -232,7 +235,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToXmlResponseShouldResponseWith200() {
+    public void testGetRequestToXmlResponseShouldResponseWith200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -242,7 +245,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToXmlResponseShouldRespondWithContentTypeHeader() {
+    public void testGetRequestToXmlResponseShouldRespondWithContentTypeHeader() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -252,7 +255,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToXmlResponseShouldRespondWithXmlInBody() {
+    public void testGetRequestToXmlResponseShouldRespondWithXmlInBody() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /xml_response HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -262,7 +265,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWith200() {
+    public void testGetRequestToHealthCheckResponseShouldRespondWith200() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -272,7 +275,7 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWithContentTypeHeader() {
+    public void testGetRequestToHealthCheckResponseShouldRespondWithContentTypeHeader() throws IOException {
         HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
@@ -282,13 +285,22 @@ public class ServerLogicTest {
     }
 
     @Test
-    public void testGetRequestToHealthCheckResponseShouldRespondWithBody() {
-        HttpRequestWrapper request = new HttpRequestWrapper("GET /health-check.html HTTP/1.1\r\n");
+    public void testGetRequestToKittehJpgShouldBe200() throws IOException {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /kitteh.jpg HTTP/1.1\r\n");
         ServerLogic serverLogic = new ServerLogic();
         HttpResponseWrapper response = serverLogic.processRequest(request);
-        Body body = response.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("<strong>Status:</strong> pass", bodyText);
+        StatusLine statusLine = response.getStatusLine();
+        String statusCode = statusLine.getStatusCode();
+        Assert.assertEquals("200", statusCode);
     }
 
+    @Test
+    public void testGetRequestToKittehJpgHeaderContentTypeShouldBeImageJpeg() throws IOException {
+        HttpRequestWrapper request = new HttpRequestWrapper("GET /kitteh.jpg HTTP/1.1\r\n");
+        ServerLogic serverLogic = new ServerLogic();
+        HttpResponseWrapper response = serverLogic.processRequest(request);
+        Header header = response.getHeaders();
+        String contentType = header.getContentType();
+        Assert.assertEquals("image/jpeg", contentType);
+    }
 }
