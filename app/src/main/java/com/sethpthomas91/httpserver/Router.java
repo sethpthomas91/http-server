@@ -48,10 +48,10 @@ public class Router {
         resources.put("/", new DefaultHandler());
         resources.put("/simple_get", new DefaultHandler());
         resources.put("/simple_get_with_body", new DefaultHandler());
-        resources.put("/head_request", new DefaultHandler());
+        resources.put("/head_request", new HeadRequestHandler());
         resources.put("/redirect", new DefaultHandler());
         resources.put("/echo_body", new EchoHandler());
-        resources.put("/method_options", new DefaultHandler());
+        resources.put("/method_options", new OptionsHandler1());
         resources.put("/method_options2", new DefaultHandler());
         resources.put("/text_response", new TextHandler());
         resources.put("/html_response", new HtmlHandler());
