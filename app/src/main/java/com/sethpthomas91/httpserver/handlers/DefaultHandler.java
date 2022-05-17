@@ -20,6 +20,11 @@ public class DefaultHandler implements Handler{
         return httpResponse;
     }
 
+    @Override
+    public String[] getAllowedMethods() {
+        return null;
+    }
+
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
         StatusLine statusLine = new StatusLine();
         if (httpRequest.getRequestLine().getUniformResourceIdentifier().equals("/redirect")) {

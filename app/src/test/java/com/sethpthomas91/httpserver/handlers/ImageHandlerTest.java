@@ -54,4 +54,12 @@ public class ImageHandlerTest {
         String contentType = header.getContentType();
         Assert.assertEquals("image/jpeg", contentType);
     }
+
+    @Test
+    public void testImageHandlerShouldReturnGetForAllowedMethods() throws IOException {
+        ImageHandler imageHandler = new ImageHandler();
+        String[] allowedMethods = imageHandler.getAllowedMethods();
+        String[] expected = {"GET"};
+        Assert.assertArrayEquals(expected, allowedMethods);
+    }
 }

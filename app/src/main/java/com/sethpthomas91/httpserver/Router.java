@@ -38,7 +38,6 @@ public class Router {
         resources.put("/json_response", new String[]{"GET"});
         resources.put("/xml_response", new String[]{"GET"});
         resources.put("/health-check.html", new String[]{"GET"});
-
         resources.put("/kitteh.jpg", new String[]{"GET"});
         resources.put("/doggo.png", new String[]{"GET"});
         resources.put("/kisses.gif", new String[]{"GET"});

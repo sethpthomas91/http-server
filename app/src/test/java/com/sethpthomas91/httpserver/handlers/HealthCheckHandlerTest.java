@@ -36,4 +36,11 @@ public class HealthCheckHandlerTest {
         Assert.assertEquals("text/html;charset=utf-8", contentType);
     }
 
+    @Test
+    public void testImageHandlerShouldReturnGetForAllowedMethods() throws IOException {
+        HealthCheckHandler handler = new HealthCheckHandler();
+        String[] allowedMethods = handler.getAllowedMethods();
+        String[] expected = {"GET"};
+        Assert.assertArrayEquals(expected, allowedMethods);
+    }
 }
