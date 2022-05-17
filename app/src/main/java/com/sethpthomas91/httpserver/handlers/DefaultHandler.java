@@ -49,9 +49,6 @@ public class DefaultHandler implements Handler {
             case "/echo_body":
                 body.setBodyText("some body");
                 break;
-            case "/text_response":
-                body.setBodyText("text response");
-                break;
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -67,9 +64,6 @@ public class DefaultHandler implements Handler {
             case "/method_options":
             case "/method_options2":
                 header.setAllowedHeaders(router.getAllowedMethodsForUri(httpRequest.getRequestLine().getUniformResourceIdentifier()));
-                break;
-            case "/text_response":
-                header.setContentType("text/plain;charset=utf-8");
                 break;
             case "/redirect":
                 header.setLocation("http://127.0.0.1:5000/simple_get");

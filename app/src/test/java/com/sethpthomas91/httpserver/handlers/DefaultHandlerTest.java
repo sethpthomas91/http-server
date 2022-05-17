@@ -70,50 +70,6 @@ public class DefaultHandlerTest {
     }
 
     @Test
-    public void testGetRequestToTextResponseReturns200() throws IOException {
-        String requestString = "GET /text_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        StatusLine statusLine = httpResponse.getStatusLine();
-        String statusCode = statusLine.getStatusCode();
-        Assert.assertEquals("200", statusCode);
-    }
-
-    @Test
-    public void testGetRequestToTextResponseReturnsTextInBody() throws IOException {
-        String requestString = "GET /text_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        Body body = httpResponse.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("text response", bodyText);
-    }
-
-    @Test
-    public void testGetRequestToTextResponseReturnsTextContentType() throws IOException {
-        String requestString = "GET /text_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        Header header = httpResponse.getHeaders();
-        String contentType = header.getContentType();
-        Assert.assertEquals("text/plain;charset=utf-8", contentType);
-    }
-
-    @Test
-    public void testGetRequestToHtmlResponseReturns200() throws IOException {
-        String requestString = "GET /html_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        StatusLine statusLine = httpResponse.getStatusLine();
-        String statusCode = statusLine.getStatusCode();
-        Assert.assertEquals("200", statusCode);
-    }
-
-    @Test
     public void testGetRequestToRedirectResponseReturnsStatus301() throws IOException {
         String requestString = "GET /redirect HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);

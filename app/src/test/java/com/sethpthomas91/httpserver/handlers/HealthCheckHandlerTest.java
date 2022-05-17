@@ -1,8 +1,6 @@
 package com.sethpthomas91.httpserver.handlers;
 
-import com.sethpthomas91.httpserver.ServerLogic;
 import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
-import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
@@ -11,7 +9,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 
 public class HealthCheckHandlerTest {
 
