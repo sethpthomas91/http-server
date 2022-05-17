@@ -48,28 +48,6 @@ public class DefaultHandlerTest {
     }
 
     @Test
-    public void testPostRequestToEchoBodyReturns200() throws IOException {
-        String requestString = "POST /echo_body HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        StatusLine statusLine = httpResponse.getStatusLine();
-        String statusCode = statusLine.getStatusCode();
-        Assert.assertEquals("200", statusCode);
-    }
-
-    @Test
-    public void testPostRequestToEchoBodyReturnsSomeBody() throws IOException {
-        String requestString = "POST /echo_body HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        Body body = httpResponse.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("some body", bodyText);
-    }
-
-    @Test
     public void testGetRequestToRedirectResponseReturnsStatus301() throws IOException {
         String requestString = "GET /redirect HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);

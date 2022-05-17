@@ -50,7 +50,7 @@ public class Router {
         resources.put("/simple_get_with_body", new DefaultHandler());
         resources.put("/head_request", new DefaultHandler());
         resources.put("/redirect", new DefaultHandler());
-        resources.put("/echo_body", new DefaultHandler());
+        resources.put("/echo_body", new EchoHandler());
         resources.put("/method_options", new DefaultHandler());
         resources.put("/method_options2", new DefaultHandler());
         resources.put("/text_response", new TextHandler());
