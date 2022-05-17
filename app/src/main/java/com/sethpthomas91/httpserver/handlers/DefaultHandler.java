@@ -58,9 +58,6 @@ public class DefaultHandler implements Handler{
             case "/json_response":
                 body.setBodyText("{\"key1\":\"value1\",\"key2\":\"value2\"}");
                 break;
-            case "/xml_response":
-                body.setBodyText("<note><body>XML Response</body></note>");
-                break;
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -85,9 +82,6 @@ public class DefaultHandler implements Handler{
                 break;
             case "/json_response":
                 header.setContentType("application/json;charset=utf-8");
-                break;
-            case "/xml_response":
-                header.setContentType("application/xml;charset=utf-8");
                 break;
             case "/redirect":
                 header.setLocation("http://127.0.0.1:5000/simple_get");

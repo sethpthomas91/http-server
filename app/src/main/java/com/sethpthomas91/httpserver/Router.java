@@ -2,7 +2,6 @@ package com.sethpthomas91.httpserver;
 
 import com.sethpthomas91.httpserver.handlers.*;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
-import com.sethpthomas91.httpserver.request.HttpRequestWrapper;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class Router {
         resources.put("/text_response", new DefaultHandler());
         resources.put("/html_response", new DefaultHandler());
         resources.put("/json_response", new DefaultHandler());
-        resources.put("/xml_response", new DefaultHandler());
+        resources.put("/xml_response", new XmlHandler());
         resources.put("/health-check.html", new HealthCheckHandler());
         resources.put("/kitteh.jpg", new ImageHandler());
         resources.put("/doggo.png", new ImageHandler());
