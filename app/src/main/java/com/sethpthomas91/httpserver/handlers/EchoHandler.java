@@ -31,7 +31,7 @@ public class EchoHandler implements Handler {
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        body.setBodyText("some body");
+        body.setBodyText(httpRequest.getBody());
         httpResponse.setBody(body);
         return httpResponse;
     }

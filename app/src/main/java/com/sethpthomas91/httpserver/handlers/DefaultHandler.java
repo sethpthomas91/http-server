@@ -10,6 +10,7 @@ import com.sethpthomas91.httpserver.response.StatusLine;
 import java.io.IOException;
 
 public class DefaultHandler implements Handler {
+    private String[] allowedMethods = {"GET", "HEAD"};
 
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
@@ -22,7 +23,7 @@ public class DefaultHandler implements Handler {
 
     @Override
     public String[] getAllowedMethods() {
-        return null;
+        return allowedMethods;
     }
 
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
@@ -53,7 +54,6 @@ public class DefaultHandler implements Handler {
 
     private HttpResponseWrapper handleHeaders(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Header header = new Header(httpRequest, httpResponse);
-        Router router = new Router();
         switch (httpRequest.getRequestLine().getUniformResourceIdentifier()) {
             case "/redirect":
                 header.setLocation("http://127.0.0.1:5000/simple_get");

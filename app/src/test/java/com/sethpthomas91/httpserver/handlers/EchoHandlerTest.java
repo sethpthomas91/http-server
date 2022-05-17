@@ -26,7 +26,7 @@ public class EchoHandlerTest {
 
     @Test
     public void testPostRequestToEchoBodyReturnsSomeBody() throws IOException {
-        String requestString = "POST /echo_body HTTP/1.1\r\n";
+        String requestString = "POST /echo_body HTTP/1.1\r\n\r\nsome body";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
         EchoHandler handler = new EchoHandler();
         HttpResponseWrapper httpResponse = handler.handle(httpRequest);

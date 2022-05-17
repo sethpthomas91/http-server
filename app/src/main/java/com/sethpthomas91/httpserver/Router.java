@@ -10,37 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Router {
-    public Map<String, String[]> resources;
     private final Map<String, Handler> resourcesWithHandlers;
 
     public Router() {
-        this.resources = createResources();
         this.resourcesWithHandlers = createResourcesWithHandlers();
     }
 
     public boolean resourceExists(String uniformResourceIdentifier) {
-        return resources.containsKey(uniformResourceIdentifier);
-    }
-
-    private Map<String, String[]> createResources() {
-        Map<String, String[]> resources = new HashMap<>();
-        resources.put("/", new String[]{"GET"});
-        resources.put("/simple_get", new String[]{"GET", "HEAD"});
-        resources.put("/simple_get_with_body", new String[]{"GET"});
-        resources.put("/head_request", new String[]{"HEAD", "OPTIONS"});
-        resources.put("/redirect", new String[]{"GET"});
-        resources.put("/echo_body", new String[]{"POST"});
-        resources.put("/method_options", new String[]{"GET", "HEAD", "OPTIONS"});
-        resources.put("/method_options2", new String[]{"GET", "HEAD", "OPTIONS", "PUT", "POST"});
-        resources.put("/text_response", new String[]{"GET"});
-        resources.put("/html_response", new String[]{"GET"});
-        resources.put("/json_response", new String[]{"GET"});
-        resources.put("/xml_response", new String[]{"GET"});
-        resources.put("/health-check.html", new String[]{"GET"});
-        resources.put("/kitteh.jpg", new String[]{"GET"});
-        resources.put("/doggo.png", new String[]{"GET"});
-        resources.put("/kisses.gif", new String[]{"GET"});
-        return resources;
+        return resourcesWithHandlers.containsKey(uniformResourceIdentifier);
     }
 
     private Map<String, Handler> createResourcesWithHandlers() {
@@ -65,12 +42,14 @@ public class Router {
     }
 
     public boolean methodAllowed(String typeOfRequest, String uniformResourceIdentifier) {
-        String[] resourceMethods = resources.get(uniformResourceIdentifier);
+        Handler handler = resourcesWithHandlers.get(uniformResourceIdentifier);
+        String[] resourceMethods = handler.getAllowedMethods();
         return Arrays.asList(resourceMethods).contains(typeOfRequest);
     }
 
     public String getAllowedMethodsForUri(String uniformResourceIdentifier) {
-        String[] allowedMethods = resources.get(uniformResourceIdentifier);
+        Handler handler = resourcesWithHandlers.get(uniformResourceIdentifier);
+        String[] allowedMethods = handler.getAllowedMethods();
         StringBuilder allowedMethodsFormatted = new StringBuilder();
         for (int i = 0; i <= allowedMethods.length - 1; i++) {
             allowedMethodsFormatted.append(allowedMethods[i]);

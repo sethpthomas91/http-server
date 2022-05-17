@@ -53,6 +53,6 @@ public class HeadRequestHandler implements Handler {
 
     @Override
     public String[] getAllowedMethods() {
-        return new String[0];
+        return allowedMethods;
     }
 }
