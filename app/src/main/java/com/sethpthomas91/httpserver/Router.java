@@ -52,7 +52,7 @@ public class Router {
         resources.put("/redirect", new DefaultHandler());
         resources.put("/echo_body", new EchoHandler());
         resources.put("/method_options", new OptionsHandler1());
-        resources.put("/method_options2", new DefaultHandler());
+        resources.put("/method_options2", new OptionsHandler2());
         resources.put("/text_response", new TextHandler());
         resources.put("/html_response", new HtmlHandler());
         resources.put("/json_response", new JsonHandler());
