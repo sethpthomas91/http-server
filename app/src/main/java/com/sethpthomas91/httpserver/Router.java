@@ -54,7 +54,7 @@ public class Router {
         resources.put("/method_options", new DefaultHandler());
         resources.put("/method_options2", new DefaultHandler());
         resources.put("/text_response", new DefaultHandler());
-        resources.put("/html_response", new DefaultHandler());
+        resources.put("/html_response", new HtmlHandler());
         resources.put("/json_response", new JsonHandler());
         resources.put("/xml_response", new XmlHandler());
         resources.put("/health-check.html", new HealthCheckHandler());

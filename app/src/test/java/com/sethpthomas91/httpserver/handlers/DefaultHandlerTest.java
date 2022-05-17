@@ -114,28 +114,6 @@ public class DefaultHandlerTest {
     }
 
     @Test
-    public void testGetRequestToHtmlResponseReturnsHtmlInBody() throws IOException {
-        String requestString = "GET /html_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        Body body = httpResponse.getBody();
-        String bodyText = body.getBody();
-        Assert.assertEquals("<html><body><p>HTML Response</p></body></html>", bodyText);
-    }
-
-    @Test
-    public void testGetRequestToHtmlResponseReturnsHtmlContentType() throws IOException {
-        String requestString = "GET /html_response HTTP/1.1\r\n";
-        HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);
-        DefaultHandler defaultHandler = new DefaultHandler();
-        HttpResponseWrapper httpResponse = defaultHandler.handle(httpRequest);
-        Header header = httpResponse.getHeaders();
-        String contentType = header.getContentType();
-        Assert.assertEquals("text/html;charset=utf-8", contentType);
-    }
-
-    @Test
     public void testGetRequestToRedirectResponseReturnsStatus301() throws IOException {
         String requestString = "GET /redirect HTTP/1.1\r\n";
         HttpRequestWrapper httpRequest = new HttpRequestWrapper(requestString);

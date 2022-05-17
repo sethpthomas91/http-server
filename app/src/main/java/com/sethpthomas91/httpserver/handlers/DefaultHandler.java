@@ -52,9 +52,6 @@ public class DefaultHandler implements Handler {
             case "/text_response":
                 body.setBodyText("text response");
                 break;
-            case "/html_response":
-                body.setBodyText("<html><body><p>HTML Response</p></body></html>");
-                break;
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -73,9 +70,6 @@ public class DefaultHandler implements Handler {
                 break;
             case "/text_response":
                 header.setContentType("text/plain;charset=utf-8");
-                break;
-            case "/html_response":
-                header.setContentType("text/html;charset=utf-8");
                 break;
             case "/redirect":
                 header.setLocation("http://127.0.0.1:5000/simple_get");
