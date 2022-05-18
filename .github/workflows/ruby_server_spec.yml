@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run bundle install
-        run: pwd
       - name: Print Working Directory
-        working-directory: ./http_server_spec
         run: pwd
+      - name: Install the bundle
+        working-directory: ./http_server_spec
+        run: bundle install
