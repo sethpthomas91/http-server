@@ -11,4 +11,5 @@ jobs:
       run:
         working-directory: ./http_server_spec
     steps:
-      run: pwd
+      - name: Print Working Directory
+        run: pwd
