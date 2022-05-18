@@ -7,11 +7,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./http_server_spec
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
       - name: Print Working Directory
         run: pwd
-      - name: Install the bundle
-        working-directory: ./http_server_spec
-        run: bundle install
