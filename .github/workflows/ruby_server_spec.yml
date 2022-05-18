@@ -1,0 +1,19 @@
+name: ruby-server-spec
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./http_server_spec
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        run: bundle install --path vendor/bundle
+      - name: Run Getting Started Tests
+      - run: rake test:f1 # Run all of the tests in 01_getting_started
