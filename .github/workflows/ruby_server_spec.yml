@@ -11,8 +11,4 @@ jobs:
       run:
         working-directory: ./http_server_spec
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - run: rake test:f1 # Run all of the tests in 01_getting_started
+      run: pwd
