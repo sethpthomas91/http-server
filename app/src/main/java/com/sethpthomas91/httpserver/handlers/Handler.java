@@ -7,4 +7,5 @@ import java.io.IOException;
 
 public interface Handler {
     HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException;
+    String[] getAllowedMethods();
 }

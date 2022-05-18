@@ -6,11 +6,13 @@ import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
-import com.sethpthomas91.httpserver.utils.ByteArrayGenerator;
 
 import java.io.IOException;
 
-public class MethodNotAllowedHandler implements Handler{
+public class OptionsHandler1 implements Handler {
+    private String[] allowedMethods = {"GET", "HEAD", "OPTIONS"};
+
+
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
         HttpResponseWrapper httpResponse = new HttpResponseWrapper();
@@ -20,16 +22,11 @@ public class MethodNotAllowedHandler implements Handler{
         return httpResponse;
     }
 
-    @Override
-    public String[] getAllowedMethods() {
-        return null;
-    }
-
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
         StatusLine statusLine = new StatusLine();
-        statusLine.setStatusCode("405");
+        statusLine.setStatusCode("200");
         statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
-        statusLine.setResponseText("Method not allowed");
+        statusLine.setResponseText("OK");
         httpResponse.setStatusLine(statusLine);
         return httpResponse;
     }
@@ -42,9 +39,13 @@ public class MethodNotAllowedHandler implements Handler{
 
     private HttpResponseWrapper handleHeaders(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Header header = new Header(httpRequest, httpResponse);
-        Router router = new Router();
-        header.setAllowedHeaders(router.getAllowedMethodsForUri(httpRequest.getRequestLine().getUniformResourceIdentifier()));
+        header.setAllowedHeaders("GET, HEAD, OPTIONS");
         httpResponse.setHeaders(header);
         return httpResponse;
+    }
+
+    @Override
+    public String[] getAllowedMethods() {
+        return allowedMethods;
     }
 }
