@@ -10,6 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Print Working Directory
-        run: cd http_server_spec
+        run:
+        cd http_server_spec
+        pwd
       - name: Run bundle install
         run: pwd
