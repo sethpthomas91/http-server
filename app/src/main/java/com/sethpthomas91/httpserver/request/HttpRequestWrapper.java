@@ -5,40 +5,47 @@ import com.sethpthomas91.httpserver.request.RequestLine;
 
 public class HttpRequestWrapper implements HttpRequestInterface {
     String CRLF = "\r\n";
-    String SPACE = " ";
 
     RequestLine requestLine;
-    Boolean hasBody;
+    RequestHeaders headers;
     String body;
-    String requestLineAndHeaders;
 
     public HttpRequestWrapper(String incomingRequest) {
-        splitTopFromBody(incomingRequest);
-        splitRequestLineAndHeaders(requestLineAndHeaders);
-    }
-
-    private void splitRequestLineAndHeaders(String requestLineAndHeaders) {
-        String[] splitRequestLineAndHeaders = requestLineAndHeaders.split(CRLF);
-        requestLine = new RequestLine(splitRequestLineAndHeaders[0]);
-    }
-
-    private void splitTopFromBody(String request) {
-        System.out.println(request);
-        String[] splitTopFromBody = request.split(CRLF+CRLF);
-        requestLineAndHeaders = splitTopFromBody[0];
-        if (checkRequestForBody(splitTopFromBody)) {
-            setBody(splitTopFromBody[1]);
+        String[] splitRequest = incomingRequest.split(CRLF+CRLF);
+        String top = splitRequest[0];
+        this.requestLine = handleRequestLine(top);
+        if (hasHeaders(top.split(CRLF))) {
+            this.headers = handleRequestHeaders(incomingRequest);
+        }
+        if (hasBody(splitRequest)) {
+            this.body = handleBody(incomingRequest);
         }
     }
 
-    private boolean checkRequestForBody(String[] splitRequest) {
-        if (splitRequest.length == 2) {
-            this.hasBody = true;
-            return true;
-        } else {
-            this.hasBody = false;
-            return false;
-        }
+    private boolean hasHeaders(String[] headersArray) {
+        return headersArray.length == 2;
+    }
+
+    private boolean hasBody(String[] splitRequest) {
+        return splitRequest.length == 2;
+    }
+
+    private RequestLine handleRequestLine(String requestLineAndHeaders) {
+        String requestLineString = requestLineAndHeaders.split(CRLF)[0];
+        return new RequestLine(requestLineString);
+    }
+
+    private RequestHeaders handleRequestHeaders(String incomingRequest) {
+        String requestLineAndHeaders = incomingRequest.split(CRLF+CRLF)[0];
+        String headersString = requestLineAndHeaders.split(CRLF, 2)[1];
+        RequestHeaders headers = new RequestHeaders();
+        headers.processHeaders(headersString);
+        return headers;
+    }
+
+    private String handleBody(String incomingRequest) {
+        String body = incomingRequest.split(CRLF+CRLF)[1];
+        return body;
     }
 
     public RequestLine getRequestLine() {
@@ -52,9 +59,5 @@ public class HttpRequestWrapper implements HttpRequestInterface {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public boolean requestHasBody() {
-        return hasBody;
     }
 }

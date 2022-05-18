@@ -31,7 +31,6 @@ public class Server {
                 HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequest);
                 HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
                 byte[] outgoingResponseBytes = httpResponse.getBytes();
-                System.out.println(outgoingResponseBytes);
                 serverSocketWrapper.sendResponse(outgoingResponseBytes);
                 serverSocketWrapper.disconnectFromClient();
 

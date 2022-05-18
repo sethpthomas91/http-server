@@ -32,8 +32,4 @@ public class MockHttpRequest implements HttpRequestInterface {
         return null;
     }
 
-    @Override
-    public boolean requestHasBody() {
-        return false;
-    }
 }
