@@ -8,5 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Run bundle install
+        run: cd http_server_spec pwd
       - name: Print Working Directory
         run: pwd
