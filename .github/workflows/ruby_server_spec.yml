@@ -12,5 +12,10 @@ jobs:
         working-directory: ./http_server_spec
     steps:
       - uses: actions/checkout@v2
+      - name: Set Up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        run: bundle install
       - name: Print Working Directory
         run: pwd
+      - name: Run Test Suite 1
+        run: rake test:f1 # Run all of the tests in 01_getting_started
