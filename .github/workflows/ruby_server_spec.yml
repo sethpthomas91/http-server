@@ -7,9 +7,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: http_server_spec
     steps:
       - name: Print Working Directory
         run: pwd
