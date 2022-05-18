@@ -29,10 +29,10 @@ public class RequestHeaders {
     }
 
     private void setContentType(String contentType) {
-        this.contentType = contentType;
+        this.contentType = contentType.trim();
     }
 
     public String getContentType() {
-        return contentType;
+        return contentType == null ? "" : contentType;
     }
 }

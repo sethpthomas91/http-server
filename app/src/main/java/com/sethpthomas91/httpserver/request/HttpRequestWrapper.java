@@ -3,6 +3,8 @@ package com.sethpthomas91.httpserver.request;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.request.RequestLine;
 
+import java.util.Arrays;
+
 public class HttpRequestWrapper implements HttpRequestInterface {
     String CRLF = "\r\n";
 
@@ -14,19 +16,23 @@ public class HttpRequestWrapper implements HttpRequestInterface {
         String[] splitRequest = incomingRequest.split(CRLF+CRLF);
         String top = splitRequest[0];
         this.requestLine = handleRequestLine(top);
-        if (hasHeaders(top.split(CRLF))) {
+        if (headersPresent(top.split(CRLF))) {
             this.headers = handleRequestHeaders(incomingRequest);
         }
-        if (hasBody(splitRequest)) {
+        if (bodyPresent(splitRequest)) {
             this.body = handleBody(incomingRequest);
         }
     }
 
-    private boolean hasHeaders(String[] headersArray) {
-        return headersArray.length == 2;
+    private boolean headersPresent(String[] headersArray) {
+        return headersArray.length >= 2;
     }
 
-    private boolean hasBody(String[] splitRequest) {
+    public boolean hasHeaders() {
+        return headers != null;
+    }
+
+    private boolean bodyPresent(String[] splitRequest) {
         return splitRequest.length == 2;
     }
 
@@ -59,5 +65,9 @@ public class HttpRequestWrapper implements HttpRequestInterface {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public RequestHeaders getHeaders() {
+        return this.headers;
     }
 }

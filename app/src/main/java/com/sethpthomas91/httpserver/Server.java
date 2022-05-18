@@ -28,6 +28,7 @@ public class Server {
 
                 serverSocketWrapper.handleConnectedClient();
                 String incomingRequest = serverSocketWrapper.incomingRequest();
+                System.out.println(incomingRequest);
                 HttpRequestWrapper httpRequest = new HttpRequestWrapper(incomingRequest);
                 HttpResponseWrapper httpResponse = serverLogic.processRequest(httpRequest);
                 byte[] outgoingResponseBytes = httpResponse.getBytes();

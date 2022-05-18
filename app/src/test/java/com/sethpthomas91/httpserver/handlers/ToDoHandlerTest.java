@@ -14,7 +14,7 @@ public class ToDoHandlerTest {
 
     @Test
     public void testPostRequestToToDoListReturnsStatusOf201IfIncomingBodyIsJson() throws IOException {
-        String stringRequest = "POST /to_do HTTP/1.1\r\nContent-Type: application/json\r\n";
+        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: application/json\r\n";
         HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
         ToDoHandler handler = new ToDoHandler();
         HttpResponseWrapper response = handler.handle(request);
@@ -25,7 +25,7 @@ public class ToDoHandlerTest {
 
     @Test
     public void testPostRequestToToDoListReturnsStatusOf415IfIncomingBodyIsNotJson() throws IOException {
-        String stringRequest = "POST /to_do HTTP/1.1\r\nContent-Type: text/xml\r\n";
+        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: text/xml\r\n";
         HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
         ToDoHandler handler = new ToDoHandler();
         HttpResponseWrapper response = handler.handle(request);

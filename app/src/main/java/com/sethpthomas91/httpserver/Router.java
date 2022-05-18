@@ -38,7 +38,7 @@ public class Router {
         resources.put("/kitteh.jpg", new ImageHandler());
         resources.put("/doggo.png", new ImageHandler());
         resources.put("/kisses.gif", new ImageHandler());
-        resources.put("/to_do", new ToDoHandler());
+        resources.put("/todo", new ToDoHandler());
         return resources;
     }
 

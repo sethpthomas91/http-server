@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver.mocks;
 
+import com.sethpthomas91.httpserver.request.RequestHeaders;
 import com.sethpthomas91.httpserver.request.RequestLine;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 
@@ -30,6 +31,16 @@ public class MockHttpRequest implements HttpRequestInterface {
     @Override
     public String getBody() {
         return null;
+    }
+
+    @Override
+    public RequestHeaders getHeaders() {
+        return null;
+    }
+
+    @Override
+    public boolean hasHeaders() {
+        return false;
     }
 
 }
