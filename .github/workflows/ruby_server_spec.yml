@@ -20,4 +20,4 @@ jobs:
       - name: Install Bundles
         run: bundle install
       - name: Run Test Suite 1
-        run: rake test:f1 # Run all of the tests in 01_getting_started
+        run: rake test:f1

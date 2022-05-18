@@ -19,3 +19,5 @@ jobs:
           distribution: 'adopt'
       - name: Build with Gradle
         run: PUBLIC_DIR="$(pwd)/Public/" ./gradlew build
+      - name: Run Server
+        run: gradle run
