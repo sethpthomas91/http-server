@@ -24,6 +24,9 @@ jobs:
         with:
           ruby-version: '2.5.1'
           working-directory: ./http_server_spec
+      - name: Bundle Ruby
+        working-directory: ./http_server_spec
+        run: bundle install
       - name: Run the server and shunt it to the background
         run: gradle run &
       - name: Run the Ruby Tests
