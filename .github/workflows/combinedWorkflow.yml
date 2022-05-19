@@ -27,4 +27,4 @@ jobs:
       - name: Run the server and shunt it to the background
         run: gradle run &
       - name: Kill the server process
-        run: kill $! & fg
+        run: kill $!

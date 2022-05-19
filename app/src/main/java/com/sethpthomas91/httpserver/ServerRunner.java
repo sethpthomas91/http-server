@@ -17,8 +17,7 @@ public class ServerRunner {
         ServerLogic serverLogic = new ServerLogic();
         serverRunner.setServerSocketWrapper(serverSocketWrapper);
         serverRunner.setServerLogic(serverLogic);
-        serverRunner.createServer();
-        serverRunner.startServer();
+        serverRunner.createServer();serverRunner.startServer();
     }
 
     public ServerRunner() {
