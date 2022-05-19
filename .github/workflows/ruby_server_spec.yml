@@ -18,6 +18,8 @@ jobs:
           ruby-version: '2.5.1'
           working-directory: ./http_server_spec
       - name: Install Bundles
+        working-directory: ./http_server_spec
         run: bundle install
       - name: Run Test Suite 1
+        working-directory: ./http_server_spec
         run: rake test:f1
