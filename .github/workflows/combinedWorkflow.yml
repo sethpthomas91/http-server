@@ -26,5 +26,6 @@ jobs:
           working-directory: ./http_server_spec
       - name: Run the server and shunt it to the background
         run: gradle run &
-      - name: Kill the server process
-        run: kill $!
+      - name: Run the Ruby Tests
+        working-directory: ./http_server_spec
+        run: bundle exec spinach
