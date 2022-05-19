@@ -10,7 +10,8 @@ This is my 8th Light Apprenticeship HTTP Server.
 <!-- BUILD STATUS -->
 ## Current Build Status
 
-![CI Java Build Status](https://github.com/sethpthomas91/http-server/actions/workflows/gradle.yml/badge.svg)
+![Java Tests](https://github.com/sethpthomas91/http-server/actions/workflows/gradle.yml/badge.svg)
+![Ruby Server Spec Tests](https://github.com/sethpthomas91/http-server/actions/workflows/combinedWorkflow.yml/badge.svg)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
