@@ -28,7 +28,7 @@ jobs:
         working-directory: ./http_server_spec
         run: bundle install
       - name: Run the server and shunt it to the background
-        run: gradle run &
+        run: PUBLIC_DIR="$(pwd)/Public/" gradle run &
       - name: Run the Ruby Tests
         working-directory: ./http_server_spec
         run: bundle exec spinach
