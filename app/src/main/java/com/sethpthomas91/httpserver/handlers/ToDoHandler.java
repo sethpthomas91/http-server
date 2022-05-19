@@ -8,12 +8,17 @@ import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class ToDoHandler implements Handler {
     private String[] allowedMethods = {"POST"};
 
     @Override
-    public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
+    public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
         HttpResponseWrapper httpResponse = new HttpResponseWrapper();
         httpResponse = handleStatusLine(httpRequest, httpResponse);
         httpResponse = handleBody(httpRequest, httpResponse);
@@ -67,6 +72,30 @@ public class ToDoHandler implements Handler {
         }
         httpResponse.setHeaders(header);
         return httpResponse;
+    }
+
+    private HttpClient createHttpClient() {
+        return HttpClient.newHttpClient();
+    }
+
+    private HttpRequest createHttpRequest(HttpRequestInterface incomingRequest) throws URISyntaxException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:3000/tasks"))
+                .headers("Content-Type", "application/json;charset=utf-8")
+                .POST(HttpRequest.BodyPublishers.ofString(incomingRequest.getBody()))
+                .build();
+        return request;
+    }
+
+    private HttpResponse<String> sendRequest(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private HttpResponse<String> actAsProxy(HttpRequestInterface incomingRequest) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = createHttpClient();
+        HttpRequest requestToJsonAPI = createHttpRequest(incomingRequest);
+        HttpResponse responseFromJsonAPI = sendRequest(client, requestToJsonAPI);
+        return responseFromJsonAPI;
     }
 
     @Override

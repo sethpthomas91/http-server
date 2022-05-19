@@ -5,6 +5,7 @@ import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class Router {
         return allowedMethodsFormatted.toString();
     }
 
-    public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
+    public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
         if (methodAllowed(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier())) {
             Handler handler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
             return handler.handle(httpRequest);
