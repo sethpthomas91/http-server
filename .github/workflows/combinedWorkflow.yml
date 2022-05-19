@@ -24,5 +24,7 @@ jobs:
         with:
           ruby-version: '2.5.1'
           working-directory: ./http_server_spec
-      - name: Say everything is alright
-        run: echo "Everything is working"
+      - name: Run the server and shunt it to the background
+        run: gradle run &
+      - name: Kill the server process
+        run: kill $! & fg
