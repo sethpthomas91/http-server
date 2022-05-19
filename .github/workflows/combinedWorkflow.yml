@@ -1,4 +1,4 @@
-name: Combined Workflow for building gradle and ruby
+name: Server Passing Ruby Server Spec
 
 on:
   push:
