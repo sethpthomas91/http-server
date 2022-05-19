@@ -28,4 +28,4 @@ jobs:
         run: gradle run &
       - name: Run the Ruby Tests
         working-directory: ./http_server_spec
-        run: ls -la & pwd
+        run: bundle exec spinach
