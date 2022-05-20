@@ -6,6 +6,7 @@ import com.sethpthomas91.httpserver.response.Body;
 import com.sethpthomas91.httpserver.response.Header;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
+import com.sethpthomas91.httpserver.utils.HttpClientWrapper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,10 +27,14 @@ public class ToDoHandler implements Handler {
         return httpResponse;
     }
 
-    private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {
+    private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws URISyntaxException, IOException, InterruptedException {
         StatusLine statusLine = new StatusLine();
         System.out.println(httpRequest.hasHeaders());
         if (httpRequest.hasHeaders() && hasJsonContentType(httpRequest.getHeaders())) {
+
+            HttpClientWrapper proxy = new HttpClientWrapper();
+            proxy.actAsProxy(httpRequest);
+
             statusLine.setStatusCode("201");
             statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
             statusLine.setResponseText("Resource created");
@@ -58,7 +63,7 @@ public class ToDoHandler implements Handler {
 
     private HttpResponseWrapper handleBody(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Body body = new Body();
-        if (httpResponse.getStatusLine().getStatusCode() == "201") {
+        if (httpResponse.getStatusLine().getStatusCode().equals("201")) {
             body.setBodyText("{\"task\":\"a new task\"}");
         }
         httpResponse.setBody(body);
@@ -72,30 +77,6 @@ public class ToDoHandler implements Handler {
         }
         httpResponse.setHeaders(header);
         return httpResponse;
-    }
-
-    private HttpClient createHttpClient() {
-        return HttpClient.newHttpClient();
-    }
-
-    private HttpRequest createHttpRequest(HttpRequestInterface incomingRequest) throws URISyntaxException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:3000/tasks"))
-                .headers("Content-Type", "application/json;charset=utf-8")
-                .POST(HttpRequest.BodyPublishers.ofString(incomingRequest.getBody()))
-                .build();
-        return request;
-    }
-
-    private HttpResponse<String> sendRequest(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
-        return client.send(request, HttpResponse.BodyHandlers.ofString());
-    }
-
-    private HttpResponse<String> actAsProxy(HttpRequestInterface incomingRequest) throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = createHttpClient();
-        HttpRequest requestToJsonAPI = createHttpRequest(incomingRequest);
-        HttpResponse responseFromJsonAPI = sendRequest(client, requestToJsonAPI);
-        return responseFromJsonAPI;
     }
 
     @Override
