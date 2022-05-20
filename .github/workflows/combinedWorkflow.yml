@@ -28,10 +28,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
-          working-directory: ./json_server
+#          working-directory: ./json_server
       - name: Set up Json Server
         working-directory: ./json_server
         run: npm install -g json-server
+      - name: Start Json Server
+        working-directory: ./json_server
+        run: json-server --watch db.json
       - name: Bundle Ruby
         working-directory: ./http_server_spec
         run: bundle install
