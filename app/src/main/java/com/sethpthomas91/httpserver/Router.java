@@ -1,16 +1,20 @@
 package com.sethpthomas91.httpserver;
 
 import com.sethpthomas91.httpserver.handlers.*;
+import com.sethpthomas91.httpserver.interfaces.ClientWrapperInterface;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.utils.HttpClientWrapper;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Router {
     private final Map<String, Handler> resourcesWithHandlers;
+    private ClientWrapperInterface httpClient = new HttpClientWrapper();
 
     public Router() {
         this.resourcesWithHandlers = createResourcesWithHandlers();
@@ -38,6 +42,7 @@ public class Router {
         resources.put("/kitteh.jpg", new ImageHandler());
         resources.put("/doggo.png", new ImageHandler());
         resources.put("/kisses.gif", new ImageHandler());
+        resources.put("/todo", new ToDoHandler());
         return resources;
     }
 
@@ -60,7 +65,7 @@ public class Router {
         return allowedMethodsFormatted.toString();
     }
 
-    public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException {
+    public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
         if (methodAllowed(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier())) {
             Handler handler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
             return handler.handle(httpRequest);
