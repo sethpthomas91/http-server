@@ -24,11 +24,19 @@ jobs:
         with:
           ruby-version: '2.5.1'
           working-directory: ./http_server_spec
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          working-directory: ./json_server
+      - name: Set up Json Server
+        working-directory: ./json_server
+        run: npm install -g json-server
       - name: Bundle Ruby
         working-directory: ./http_server_spec
         run: bundle install
-      - name: Run the server and shunt it to the background
+      - name: Run the Java Http Server and shunt it to the background
         run: PUBLIC_DIR="$(pwd)/Public/" gradle run &
-      - name: Run the Ruby Tests
-        working-directory: ./http_server_spec
-        run: bundle exec spinach
+#      - name: Run the Ruby Tests
+#        working-directory: ./http_server_spec
+#        run: bundle exec spinach

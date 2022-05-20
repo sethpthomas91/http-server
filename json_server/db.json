@@ -1,0 +1,9 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "description": "json-server",
+      "indicator": false
+    }
+  ]
+}
