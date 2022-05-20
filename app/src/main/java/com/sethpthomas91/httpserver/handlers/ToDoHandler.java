@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver.handlers;
 
+import com.sethpthomas91.httpserver.interfaces.ClientWrapperInterface;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.request.RequestHeaders;
 import com.sethpthomas91.httpserver.response.Body;
@@ -9,14 +10,19 @@ import com.sethpthomas91.httpserver.response.StatusLine;
 import com.sethpthomas91.httpserver.utils.HttpClientWrapper;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 public class ToDoHandler implements Handler {
     private String[] allowedMethods = {"POST"};
+    private ClientWrapperInterface clientWrapper;
+
+    public ToDoHandler() {
+        this(new HttpClientWrapper());
+    }
+
+    public ToDoHandler(ClientWrapperInterface clientWrapper) {
+        this.clientWrapper = clientWrapper;
+    }
 
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
@@ -30,10 +36,11 @@ public class ToDoHandler implements Handler {
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws URISyntaxException, IOException, InterruptedException {
         StatusLine statusLine = new StatusLine();
         System.out.println(httpRequest.hasHeaders());
+        System.out.println(httpRequest.getHeaders().getContentType());
+        System.out.println(hasJsonContentType(httpRequest.getHeaders()));
         if (httpRequest.hasHeaders() && hasJsonContentType(httpRequest.getHeaders())) {
 
-            HttpClientWrapper proxy = new HttpClientWrapper();
-            proxy.actAsProxy(httpRequest);
+            this.clientWrapper.actAsProxy(httpRequest);
 
             statusLine.setStatusCode("201");
             statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());

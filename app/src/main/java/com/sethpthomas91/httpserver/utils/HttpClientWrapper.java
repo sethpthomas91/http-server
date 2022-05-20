@@ -1,5 +1,6 @@
 package com.sethpthomas91.httpserver.utils;
 
+import com.sethpthomas91.httpserver.interfaces.ClientWrapperInterface;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 
 import java.io.IOException;
@@ -9,18 +10,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class HttpClientWrapper {
+public class HttpClientWrapper implements ClientWrapperInterface {
 
     private HttpClient createHttpClient() {
         return HttpClient.newHttpClient();
     }
 
     private HttpRequest createHttpRequest(HttpRequestInterface incomingRequest) throws URISyntaxException {
-
-        System.out.println("Here is the URI");
-        System.out.println(incomingRequest.getRequestLine().getUniformResourceIdentifier());
-
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:3000/tasks"))
                 .headers("Content-Type", "application/json;charset=utf-8")
@@ -30,6 +26,7 @@ public class HttpClientWrapper {
     }
 
     private HttpResponse<String> sendRequest(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
+
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 

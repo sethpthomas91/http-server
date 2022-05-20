@@ -1,8 +1,10 @@
 package com.sethpthomas91.httpserver;
 
 import com.sethpthomas91.httpserver.handlers.*;
+import com.sethpthomas91.httpserver.interfaces.ClientWrapperInterface;
 import com.sethpthomas91.httpserver.interfaces.HttpRequestInterface;
 import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
+import com.sethpthomas91.httpserver.utils.HttpClientWrapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 public class Router {
     private final Map<String, Handler> resourcesWithHandlers;
+    private ClientWrapperInterface httpClient = new HttpClientWrapper();
 
     public Router() {
         this.resourcesWithHandlers = createResourcesWithHandlers();
