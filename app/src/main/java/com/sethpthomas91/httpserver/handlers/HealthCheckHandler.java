@@ -12,6 +12,8 @@ import com.sethpthomas91.httpserver.utils.StaticVariables;
 import java.io.IOException;
 
 public class HealthCheckHandler implements Handler {
+    private String[] allowedMethods = {"GET"};
+
     @Override
     public HttpResponseWrapper handle(HttpRequestInterface httpRequest) throws IOException {
         HttpResponseWrapper httpResponse = new HttpResponseWrapper();
@@ -19,6 +21,11 @@ public class HealthCheckHandler implements Handler {
         httpResponse = handleBody(httpRequest, httpResponse);
         httpResponse = handleHeaders(httpRequest, httpResponse);
         return httpResponse;
+    }
+
+    @Override
+    public String[] getAllowedMethods() {
+        return allowedMethods;
     }
 
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) {

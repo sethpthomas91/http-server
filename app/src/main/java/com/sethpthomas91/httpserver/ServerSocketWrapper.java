@@ -32,7 +32,6 @@ public class ServerSocketWrapper implements ServerSocketWrapperInterface {
     }
 
     private void createReader() throws IOException {
-//        BufferedImage clientImageReader = new BufferedImage(new ByteArrayInputStream())
         clientReader = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()));
         System.out.println("[Client Reader Created]");
     }

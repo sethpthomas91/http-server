@@ -14,9 +14,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-
-import static org.junit.Assert.*;
 
 public class ImageHandlerTest {
 
@@ -53,5 +50,13 @@ public class ImageHandlerTest {
         Header header = httpResponse.getHeaders();
         String contentType = header.getContentType();
         Assert.assertEquals("image/jpeg", contentType);
+    }
+
+    @Test
+    public void testImageHandlerShouldReturnGetForAllowedMethods() throws IOException {
+        ImageHandler imageHandler = new ImageHandler();
+        String[] allowedMethods = imageHandler.getAllowedMethods();
+        String[] expected = {"GET"};
+        Assert.assertArrayEquals(expected, allowedMethods);
     }
 }

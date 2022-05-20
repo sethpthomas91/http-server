@@ -9,12 +9,13 @@ import com.sethpthomas91.httpserver.response.HttpResponseWrapper;
 import com.sethpthomas91.httpserver.response.StatusLine;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 
 public class ServerLogic implements ServerLogicInterface {
     Router router = new Router();
 
-    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException {
+    public HttpResponseWrapper processRequest(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
         if (router.availableRoute(httpRequest.getRequestLine().getUniformResourceIdentifier())) {
             return router.route(httpRequest);
         } else {
