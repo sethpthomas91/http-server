@@ -26,5 +26,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("com.sethpthomas91.httpserver.App")
+    mainClass.set("com.sethpthomas91.httpserver.ServerRunner")
 }

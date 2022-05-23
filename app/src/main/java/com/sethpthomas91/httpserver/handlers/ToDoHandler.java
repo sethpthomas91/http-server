@@ -11,9 +11,10 @@ import com.sethpthomas91.httpserver.utils.HttpClientWrapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.http.HttpResponse;
 
 public class ToDoHandler implements Handler {
-    private String[] allowedMethods = {"POST"};
+    private String[] allowedMethods = {"POST", "PUT", "DELETE"};
     private ClientWrapperInterface clientWrapper;
 
     public ToDoHandler() {
@@ -35,21 +36,23 @@ public class ToDoHandler implements Handler {
 
     private HttpResponseWrapper handleStatusLine(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws URISyntaxException, IOException, InterruptedException {
         StatusLine statusLine = new StatusLine();
-        System.out.println(httpRequest.hasHeaders());
-        System.out.println(httpRequest.getHeaders().getContentType());
-        System.out.println(hasJsonContentType(httpRequest.getHeaders()));
         if (httpRequest.hasHeaders() && hasJsonContentType(httpRequest.getHeaders())) {
 
-            this.clientWrapper.actAsProxy(httpRequest);
-
-            statusLine.setStatusCode("201");
+            HttpResponse responseFromServer = this.clientWrapper.actAsProxy(httpRequest);
+            String returnedStatusCode = String.valueOf(responseFromServer.statusCode());
+            statusLine.setStatusCode(returnedStatusCode);
             statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
             statusLine.setResponseText("Resource created");
+            if ((returnedStatusCode.equals("200") || returnedStatusCode.equals("404")) && httpRequest.getRequestLine().getTypeOfRequest().equals("DELETE")) {
+                statusLine.setStatusCode("204");
+            } else if (returnedStatusCode.equals("404") && httpRequest.getRequestLine().getTypeOfRequest().equals("DELETE")) {
+                statusLine.setStatusCode("204");
+            }
         } else if (httpRequest.hasHeaders() && hasXFormContentType(httpRequest.getHeaders())){
             statusLine.setStatusCode("400");
             statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
             statusLine.setResponseText("Bad request");
-        }else {
+        } else {
             statusLine.setStatusCode("415");
             statusLine.setHttpVersion(httpRequest.getRequestLine().getHttpVersion());
             statusLine.setResponseText("Unsupported media type");
@@ -72,6 +75,8 @@ public class ToDoHandler implements Handler {
         Body body = new Body();
         if (httpResponse.getStatusLine().getStatusCode().equals("201")) {
             body.setBodyText("{\"task\":\"a new task\"}");
+        } else if (httpResponse.getStatusLine().getStatusCode().equals("200")) {
+            body.setBodyText("{\"task\":\"an updated task\"}");
         }
         httpResponse.setBody(body);
         return httpResponse;
@@ -79,7 +84,7 @@ public class ToDoHandler implements Handler {
 
     private HttpResponseWrapper handleHeaders(HttpRequestInterface httpRequest, HttpResponseWrapper httpResponse) throws IOException {
         Header header = new Header(httpRequest, httpResponse);
-        if (httpResponse.getStatusLine().getStatusCode() == "201") {
+        if (httpResponse.getStatusLine().getStatusCode().equals("201") || httpResponse.getStatusLine().getStatusCode().equals("200")) {
             header.setContentType("application/json;charset=utf-8");
         }
         httpResponse.setHeaders(header);
