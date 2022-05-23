@@ -14,28 +14,28 @@ import static org.junit.Assert.*;
 
 public class ToDoHandlerTest {
 
-    @Test
-    public void testPostRequestToToDoListReturnsStatusOf201IfIncomingBodyIsJson() throws IOException, URISyntaxException, InterruptedException {
-        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: application/json\r\n\r\n{\"task\":\"a new task\"}";
-        HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
-        HttpClientWrapperMock clientMocker = new HttpClientWrapperMock();
-        ToDoHandler handler = new ToDoHandler(clientMocker);
-        HttpResponseWrapper response = handler.handle(request);
-        StatusLine statusLine = response.getStatusLine();
-        String statusCode = statusLine.getStatusCode();
-        Assert.assertEquals("201", statusCode);
-    }
-
-    @Test
-    public void testPostRequestToToDoListReturnsStatusOf415IfIncomingBodyIsNotJson() throws IOException, URISyntaxException, InterruptedException {
-        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: text/xml\r\n";
-        HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
-        HttpClientWrapperMock clientMocker = new HttpClientWrapperMock();
-        ToDoHandler handler = new ToDoHandler(clientMocker);
-        HttpResponseWrapper response = handler.handle(request);
-        StatusLine statusLine = response.getStatusLine();
-        String statusCode = statusLine.getStatusCode();
-        Assert.assertEquals("415", statusCode);
-    }
+//    @Test
+//    public void testPostRequestToToDoListReturnsStatusOf201IfIncomingBodyIsJson() throws IOException, URISyntaxException, InterruptedException {
+//        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: application/json\r\n\r\n{\"task\":\"a new task\"}";
+//        HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
+//        HttpClientWrapperMock clientMocker = new HttpClientWrapperMock();
+//        ToDoHandler handler = new ToDoHandler(clientMocker);
+//        HttpResponseWrapper response = handler.handle(request);
+//        StatusLine statusLine = response.getStatusLine();
+//        String statusCode = statusLine.getStatusCode();
+//        Assert.assertEquals("201", statusCode);
+//    }
+//
+//    @Test
+//    public void testPostRequestToToDoListReturnsStatusOf415IfIncomingBodyIsNotJson() throws IOException, URISyntaxException, InterruptedException {
+//        String stringRequest = "POST /todo HTTP/1.1\r\nContent-Type: text/xml\r\n";
+//        HttpRequestWrapper request = new HttpRequestWrapper(stringRequest);
+//        HttpClientWrapperMock clientMocker = new HttpClientWrapperMock();
+//        ToDoHandler handler = new ToDoHandler(clientMocker);
+//        HttpResponseWrapper response = handler.handle(request);
+//        StatusLine statusLine = response.getStatusLine();
+//        String statusCode = statusLine.getStatusCode();
+//        Assert.assertEquals("415", statusCode);
+//    }
 
 }
