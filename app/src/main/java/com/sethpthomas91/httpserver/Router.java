@@ -21,7 +21,9 @@ public class Router {
     }
 
     public boolean resourceExists(String uniformResourceIdentifier) {
-        return resourcesWithHandlers.containsKey(uniformResourceIdentifier);
+        String rootPath = extractRootPath(uniformResourceIdentifier);
+        String formattedRootPath = "/" + rootPath;
+        return resourcesWithHandlers.containsKey(formattedRootPath);
     }
 
     private Map<String, Handler> createResourcesWithHandlers() {
@@ -47,7 +49,9 @@ public class Router {
     }
 
     public boolean methodAllowed(String typeOfRequest, String uniformResourceIdentifier) {
-        Handler handler = resourcesWithHandlers.get(uniformResourceIdentifier);
+        String rootPath = extractRootPath(uniformResourceIdentifier);
+        String formattedRootPath = "/" + rootPath;
+        Handler handler = resourcesWithHandlers.get(formattedRootPath);
         String[] resourceMethods = handler.getAllowedMethods();
         return Arrays.asList(resourceMethods).contains(typeOfRequest);
     }
@@ -67,7 +71,9 @@ public class Router {
 
     public HttpResponseWrapper route(HttpRequestInterface httpRequest) throws IOException, URISyntaxException, InterruptedException {
         if (methodAllowed(httpRequest.getRequestLine().getTypeOfRequest(), httpRequest.getRequestLine().getUniformResourceIdentifier())) {
-            Handler handler = resourcesWithHandlers.get(httpRequest.getRequestLine().getUniformResourceIdentifier());
+            String rootPath = extractRootPath(httpRequest.getRequestLine().getUniformResourceIdentifier());
+            String formattedRootPath = "/" + rootPath;
+            Handler handler = resourcesWithHandlers.get(formattedRootPath);
             return handler.handle(httpRequest);
         } else {
             Handler handler = new MethodNotAllowedHandler();
@@ -81,6 +87,11 @@ public class Router {
     }
 
     public boolean availableRoute(String uri) {
-        return resourcesWithHandlers.containsKey(uri);
+        String rootPath = extractRootPath(uri);
+        return resourcesWithHandlers.containsKey("/" + rootPath);
+    }
+
+    private String extractRootPath(String uri) {
+        return uri.split("/")[1];
     }
 }
